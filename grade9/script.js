@@ -10,8 +10,7 @@ const subjectsData = [
       { title: "Unit 7: Statistics and Probability", note: "Data collection, scales of measurement (Nominal, Ordinal, Interval, Ratio), and probability." }
     ],
     quiz: [
-      { q: "1. Which scale of measurement has a true absolute zero?", options: ["Nominal", "Ordinal", "Ratio"], answer: 2 },
-      { q: "2. If Set A = {1, 2, 3} and Set B = {3, 4}, what is A ∩ B?", options: ["{3}", "{1, 2, 3, 4}", "{1, 2}"], answer: 0 }
+      
     ]
   },
   {
@@ -227,30 +226,41 @@ box.appendChild(h4);
 box.appendChild(p);
 chaptersDiv.appendChild(box);
 });
-const quizDiv = document.getElementById("quiz-questions");
-quizDiv.innerHTML = "";
-currentSubject.quiz.forEach(function (item, qIdx) {
-const qBox = document.createElement("div");
-qBox.className = "quiz-question";
-const qP = document.createElement("p");
-qP.textContent = item.q;
-qBox.appendChild(qP);
-item.options.forEach(function (opt, oIdx) {
-const label = document.createElement("label");
-label.className = "quiz-option";
-const radio = document.createElement("input");
-radio.type = "radio";
-radio.name = "q_" + qIdx;
-radio.value = oIdx;
-label.appendChild(radio);
-label.appendChild(document.createTextNode(" " + opt));
-qBox.appendChild(label);
-});
-quizDiv.appendChild(qBox);
-});
-document.getElementById("quiz-result").textContent = "";
-switchTab("study");
-document.getElementById("lesson-modal").classList.add("active");
+  const quizDiv = document.getElementById("quiz-questions");
+  quizDiv.innerHTML = "";
+  
+  // የ 60 ደቂቃ ሰዓት ማሳያ ሳጥን
+  const timerBanner = document.createElement("div");
+  timerBanner.id = "quiz-timer-box";
+  timerBanner.style.cssText = "background:#ffe6e6; color:#d9534f; padding:10px 15px; border-radius:8px; font-weight:bold; margin-bottom:15px; display:flex; justify-content:space-between; align-items:center;";
+  timerBanner.innerHTML = '<span>⏱️ Exam Time Remaining:</span> <span id="subject-timer" style="font-size:18px;">60:00</span>';
+  quizDiv.appendChild(timerBanner);
+
+  currentSubject.quiz.forEach(function (item, qIdx) {
+    const qBox = document.createElement("div");
+    qBox.className = "quiz-question";
+    const qP = document.createElement("p");
+    qP.textContent = item.q;
+    qBox.appendChild(qP);
+    item.options.forEach(function (opt, oIdx) {
+      const label = document.createElement("label");
+      label.className = "quiz-option";
+      const radio = document.createElement("input");
+      radio.type = "radio";
+      radio.name = "q_" + qIdx;
+      radio.value = oIdx;
+      label.appendChild(radio);
+      label.appendChild(document.createTextNode(" " + opt));
+      qBox.appendChild(label);
+    });
+    quizDiv.appendChild(qBox);
+  });
+
+  document.getElementById("quiz-result").textContent = "";
+  switchTab("study");
+  document.getElementById("lesson-modal").classList.add("active");
+  startSubjectTimer();
+
 }
 function loadLocalPdf(event) {
 const file = event.target.files[0];
@@ -261,35 +271,64 @@ document.getElementById("full-pdf-frame").src = fileUrl;
 document.getElementById("pdf-open-tab").href = fileUrl;
 }
 }
+let subjectTimerInterval;
+let subjectTimeLeft = 3600; // 60 minutes
+
+function startSubjectTimer() {
+  clearInterval(subjectTimerInterval);
+  subjectTimeLeft = 3600;
+  subjectTimerInterval = setInterval(function () {
+    let mins = Math.floor(subjectTimeLeft / 60);
+    let secs = subjectTimeLeft % 60;
+    const timerEl = document.getElementById("subject-timer");
+    if (timerEl) {
+      timerEl.textContent = mins + ":" + (secs < 10 ? "0" : "") + secs;
+    }
+    if (subjectTimeLeft <= 0) {
+      clearInterval(subjectTimerInterval);
+      alert("Time is up! Submitting your quiz automatically.");
+      submitQuiz();
+    }
+    subjectTimeLeft--;
+  }, 1000);
+}
+
 function closeModal() {
-document.getElementById("lesson-modal").classList.remove("active");
-document.getElementById("live-class-frame").src = "";
+  clearInterval(subjectTimerInterval);
+  document.getElementById("lesson-modal").classList.remove("active");
+  document.getElementById("live-class-frame").src = "";
 }
+
 function closeModalOnOutside(event) {
-if (event.target.id === "lesson-modal") closeModal();
+  if (event.target.id === "lesson-modal") closeModal();
 }
+
 function switchTab(tab) {
-["study", "pdf", "notes", "quiz"].forEach(function (t) {
-document.getElementById("tab-" + t).classList.toggle("active", tab === t);
-document.getElementById(t + "-content").classList.toggle("hidden", tab !== t);
-});
+  ["study", "pdf", "notes", "quiz"].forEach(function (t) {
+    document.getElementById("tab-" + t).classList.toggle("active", tab === t);
+    document.getElementById(t + "-content").classList.toggle("hidden", tab !== t);
+  });
 }
+
 function submitQuiz() {
-if (!currentSubject) return;
-let score = 0;
-const total = currentSubject.quiz.length;
-currentSubject.quiz.forEach(function (item, idx) {
-const selected = document.querySelector('input[name="q_' + idx + '"]:checked');
-if (selected && parseInt(selected.value) === item.answer) score++;
-});
-const resultEl = document.getElementById("quiz-result");
-resultEl.textContent = "You scored " + score + " out of " + total + "! (" + Math.round((score / total) * 100) + "%)";
-if (score === total && !completedSubjects.includes(currentSubject.id)) {
-completedSubjects.push(currentSubject.id);
-localStorage.setItem("grade9_completed", JSON.stringify(completedSubjects));
-renderSubjects();
+  clearInterval(subjectTimerInterval);
+  if (!currentSubject) return;
+  let score = 0;
+  const total = currentSubject.quiz.length;
+  currentSubject.quiz.forEach(function (item, idx) {
+    const selected = document.querySelector('input[name="q_' + idx + '"]:checked');
+    if (selected && parseInt(selected.value) === item.answer) score++;
+  });
+  const resultEl = document.getElementById("quiz-result");
+  const percent = Math.round((score / total) * 100);
+  resultEl.textContent = "You scored " + score + " out of " + total + "! (" + percent + "%)";
+  if (percent >= 50 && !completedSubjects.includes(currentSubject.id)) {
+    completedSubjects.push(currentSubject.id);
+    localStorage.setItem("grade9_completed", JSON.stringify(completedSubjects));
+    renderSubjects();
+  }
 }
-}
+
 function sendContactMessage(event) {
 event.preventDefault();
 const name = document.getElementById("sender-name").value;
