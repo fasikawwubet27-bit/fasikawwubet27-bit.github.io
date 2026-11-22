@@ -10,7 +10,37 @@ const subjectsData = [
       { title: "Unit 7: Statistics and Probability", note: "Data collection, scales of measurement (Nominal, Ordinal, Interval, Ratio), and probability." }
     ],
     quiz: [
-      
+            { q: "1. Which of the following is an irrational number?", options: ["√16", "22/7", "0.333...", "√7"], answer: 3 },
+      { q: "2. What is the Greatest Common Factor (GCF) of 24 and 36?", options: ["6", "12", "72", "4"], answer: 1 },
+      { q: "3. Simplify: (2³ × 2⁻⁵) ÷ 2⁻⁴", options: ["2", "4", "8", "1/4"], answer: 1 },
+      { q: "4. If A = {1, 2, 3, 4} and B = {3, 4, 5, 6}, what is A ∩ B?", options: ["{1, 2, 3, 4, 5, 6}", "{1, 2}", "{3, 4}", "{5, 6}"], answer: 2 },
+      { q: "5. Which of the following sets is an empty set?", options: ["{0}", "{∅}", "{x ∈ ℕ : 1 < x < 2}", "{x ∈ ℤ : -1 < x < 1}"], answer: 2 },
+      { q: "6. If n(A) = 15, n(B) = 20, and n(A ∩ B) = 5, what is n(A ∪ B)?", options: ["35", "30", "40", "25"], answer: 1 },
+      { q: "7. Solve for x: 3(x - 4) + 2 = 2x + 5", options: ["15", "-5", "5", "11"], answer: 0 },
+      { q: "8. What is the solution set of |2x - 3| = 7?", options: ["{5}", "{-2, 5}", "{2, -5}", "{-2}"], answer: 1 },
+      { q: "9. Solve the inequality: -3x + 5 ≤ 14", options: ["x ≤ -3", "x ≥ -3", "x ≤ 3", "x ≥ 3"], answer: 1 },
+      { q: "10. What is the solution set of x² - 5x + 6 = 0?", options: ["{2, 3}", "{-2, -3}", "{1, 6}", "{-1, -6}"], answer: 0 },
+      { q: "11. Which of the following represents a function?", options: ["{(1, 2), (1, 3), (2, 4)}", "{(2, 5), (3, 5), (4, 5)}", "{(0, 1), (0, -1)}", "{(3, 2), (3, 4)}"], answer: 1 },
+      { q: "12. If f(x) = 2x² - 3x + 1, what is f(-2)?", options: ["3", "15", "-1", "11"], answer: 1 },
+      { q: "13. What is the domain of the function f(x) = 1 / (x - 4)?", options: ["ℝ", "ℝ \\ {0}", "ℝ \\ {4}", "{x ∈ ℝ : x > 4}"], answer: 2 },
+      { q: "14. What is the slope of the line passing through (2, 3) and (4, 7)?", options: ["2", "1/2", "-2", "4"], answer: 0 },
+      { q: "15. What is the y-intercept of the linear equation 2x + 3y = 12?", options: ["6", "4", "3", "12"], answer: 1 },
+      { q: "16. Which equation represents a line parallel to y = 3x - 5?", options: ["y = -1/3x + 2", "y = -3x + 5", "y = 3x + 7", "y = 1/3x - 5"], answer: 2 },
+      { q: "17. Rationalize the denominator of 6 / √3:", options: ["6√3", "2√3", "3√2", "√3"], answer: 1 },
+      { q: "18. Express 0.00045 in scientific notation:", options: ["4.5 × 10⁴", "4.5 × 10⁻⁴", "45 × 10⁻⁵", "0.45 × 10⁻³"], answer: 1 },
+      { q: "19. If two similar triangles have sides in ratio 2:3, what is the ratio of their areas?", options: ["2:3", "4:9", "8:27", "√2:√3"], answer: 1 },
+      { q: "20. In a right triangle, if the legs are 6 cm and 8 cm, what is the hypotenuse?", options: ["10 cm", "14 cm", "12 cm", "48 cm"], answer: 0 },
+      { q: "21. What is the sum of the interior angles of a regular hexagon?", options: ["360°", "540°", "720°", "1080°"], answer: 2 },
+      { q: "22. Find the area of a circle whose diameter is 14 cm (π ≈ 22/7):", options: ["44 cm²", "154 cm²", "616 cm²", "88 cm²"], answer: 1 },
+      { q: "23. What is the value of sin(30°) + cos(60°)?", options: ["0", "1/2", "1", "√3"], answer: 2 },
+      { q: "24. If u = (3, -2) and v = (-1, 5), what is u + v?", options: ["(2, 3)", "(4, -7)", "(-3, -10)", "(2, -7)"], answer: 0 },
+      { q: "25. What is the magnitude of the vector a = (3, 4)?", options: ["7", "1", "5", "25"], answer: 2 },
+      { q: "26. Find the mean of the data set: 4, 8, 6, 10, 12", options: ["6", "8", "10", "40"], answer: 1 },
+      { q: "27. What is the median of the numbers: 12, 5, 8, 19, 3, 10?", options: ["8", "9", "10", "13.5"], answer: 1 },
+      { q: "28. A fair six-sided die is rolled once. Probability of getting a prime number?", options: ["1/6", "1/3", "1/2", "2/3"], answer: 2 },
+      { q: "29. A bag has 3 red and 5 blue balls. Probability of drawing a red ball?", options: ["3/5", "5/8", "3/8", "1/3"], answer: 2 },
+      { q: "30. Solve the system of equations: x + y = 10 and x - y = 4", options: ["(7, 3)", "(3, 7)", "(6, 4)", "(8, 2)"], answer: 0 }
+
     ]
   },
   {
