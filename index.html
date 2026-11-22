@@ -364,9 +364,10 @@ int main() {
     }
   }
 
-  function runLocalJavaFallback(allCode, out) {
+   function runLocalJavaFallback(allCode, out) {
     try {
       var js = allCode;
+      js = js.replace(/package\s+[\w.]+\s*;/g, "");
       js = js.replace(/import\s+[\w.*]+\s*;/g, "");
       js = js.replace(/@Override/g, "");
       js = js.replace(/\b(public|private|protected|final)\s+/g, "");
@@ -374,15 +375,14 @@ int main() {
       var classNames = [];
       var m;
       var rx = /class\s+([A-Za-z_]\w*)/g;
-     while ((m = rx.exec(allCode)) !== null) classNames.push(m[1]);
+      while ((m = rx.exec(allCode)) !== null) {
+        classNames.push(m[1]);
+      }
 
+      // Remove ALL field declarations inside classes (String name; int id; double gpa; etc.)
+      js = js.replace(/(?:^|\n|\{)\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+[a-zA-Z_][\w,\s]*;/g, "\n");
 
-      var fieldNames = [];
-      js = js.replace(/^\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)(?:\s*=\s*[^;]+)?\s*;/gm, function(_, fName) {
-        fieldNames.push(fName);
-        return "";
-      });
-
+      // Convert constructors and class variables
       for (var k = 0; k < classNames.length; k++) {
         var cn = classNames[k];
         var cRx = new RegExp("\\b" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
@@ -394,13 +394,15 @@ int main() {
         js = js.replace(vRx, "var $1");
       }
 
+      // Convert main and other methods
       js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
-      js = js.replace(/^\s*(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function(_, st, fn, p) {
-        if (fn === "main") return "static main(args) {";
+      js = js.replace(/(?:^|\n|\{)\s*(static\s+)?(?:void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, p) {
+        if (fn === "main") return "\nstatic main(args) {";
         var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
-        return (st ? "static " : "") + fn + "(" + args + ") {";
+        return "\n" + (st ? "static " : "") + fn + "(" + args + ") {";
       });
 
+      // Convert local primitive variables inside methods
       js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
       js = js.replace(/System\.out\.println/g, "printLine");
       js = js.replace(/System\.out\.print/g, "printLine");
@@ -417,9 +419,6 @@ int main() {
       out.textContent = "Compilation/Runtime Error: " + e.message;
     }
   }
-document.getElementById("java-editor").value = javaFiles[0].code;
-  renderClassTabs();
-</script>
 
 
 
