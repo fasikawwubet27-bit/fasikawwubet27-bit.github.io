@@ -69,8 +69,50 @@ const subjectsData = [
       { title: "Unit 2: Physical Quantities", note: "Scalar vs. Vector quantities, SI units, and measurement accuracy." }
     ],
     quiz: [
-      { q: "1. Which of the following is a vector quantity?", options: ["Mass", "Temperature", "Velocity"], answer: 2 },
-      { q: "2. What is the SI unit of Force?", options: ["Joule", "Newton", "Watt"], answer: 1 }
+            // Unit 1: Physics and Human Society
+      { q: "1. Which branch of physics deals with the behavior and properties of light, including its interactions with matter?", options: ["Acoustics", "Optics", "Thermodynamics", "Mechanics"], answer: 1 },
+      { q: "2. Who formulated the laws of electromagnetic induction that led to the invention of electric generators?", options: ["Isaac Newton", "Michael Faraday", "James Prescott Joule", "Albert Einstein"], answer: 1 },
+      { q: "3. Which interdisciplinary field applies physics principles and methods to study biological systems and medical imaging like MRI?", options: ["Geophysics", "Astrophysics", "Biophysics", "Chemical Physics"], answer: 2 },
+
+      // Unit 2: Physical Quantities
+      { q: "4. How many significant figures are present in the measurement 0.004050 kg?", options: ["3", "4", "6", "7"], answer: 1 },
+      { q: "5. Which of the following prefixes represents a factor of 10⁻⁹?", options: ["Micro (μ)", "Nano (n)", "Pico (p)", "Mega (M)"], answer: 1 },
+      { q: "6. Which of the following pairs consists ONLY of derived vector quantities?", options: ["Force and Momentum", "Speed and Acceleration", "Mass and Displacement", "Work and Power"], answer: 0 },
+      { q: "7. Express a distance of 4.5 × 10⁶ micrometers (μm) in meters (m):", options: ["0.45 m", "4.5 m", "45 m", "450 m"], answer: 1 },
+      { q: "8. What is the result of adding a displacement of 6 m East and 8 m North?", options: ["14 m", "2 m", "10 m", "48 m"], answer: 2 },
+
+      // Unit 3: Motion in a Straight Line
+      { q: "9. A student walks 40 m East and then 30 m West in 35 seconds. What is the student's average velocity?", options: ["2 m/s East", "0.29 m/s East", "2 m/s West", "1.14 m/s East"], answer: 1 },
+      { q: "10. What does the area under a velocity-time graph represent?", options: ["Acceleration", "Instantaneous speed", "Displacement", "Net force"], answer: 2 },
+      { q: "11. A bus accelerates uniformly from 10 m/s to 25 m/s in 5 seconds. What distance does it cover during this time?", options: ["75 m", "87.5 m", "125 m", "175 m"], answer: 1 },
+      { q: "12. A stone is dropped freely from a cliff and hits the ground after 3 seconds. What is the height of the cliff? (Use g = 10 m/s²)", options: ["15 m", "30 m", "45 m", "90 m"], answer: 2 },
+      { q: "13. On a position-time (s-t) graph, a horizontal straight line parallel to the time axis indicates that the object is:", options: ["Moving with constant velocity", "Accelerating uniformly", "At rest (stationary)", "Moving backward"], answer: 2 },
+
+      // Unit 4: Force, Work, Energy, and Power
+      { q: "14. A 15 kg wooden box rests on a horizontal floor where the coefficient of static friction is 0.4. What minimum horizontal force is needed to start moving the box? (g = 10 m/s²)", options: ["6 N", "37.5 N", "60 N", "150 N"], answer: 2 },
+      { q: "15. Why does a passenger lurch forward when a fast-moving bus suddenly stops?", options: ["Newton's Third Law", "Inertia of motion", "Gravitational pull", "Centripetal force"], answer: 1 },
+      { q: "16. A force of 50 N pulls a cart at an angle of 60° above the horizontal over a distance of 10 m. How much work is done by the force? (cos 60° = 0.5)", options: ["500 J", "250 J", "433 J", "50 J"], answer: 1 },
+      { q: "17. A 4 kg object is lifted vertically to a height of 5 m above the ground. If it falls freely, what is its kinetic energy just before hitting the ground? (g = 10 m/s²)", options: ["20 J", "100 J", "200 J", "400 J"], answer: 2 },
+      { q: "18. A water pump lifts 120 kg of water to a tank 15 m high in 1 minute. What is the power output of the pump? (g = 10 m/s²)", options: ["30 W", "300 W", "1800 W", "18,000 W"], answer: 1 },
+
+      // Unit 5: Simple Machines
+      { q: "19. A machine uses an effort of 100 N to lift a load of 450 N. If the Velocity Ratio (VR) of the machine is 5, what is its efficiency?", options: ["45%", "80%", "90%", "111%"], answer: 2 },
+      { q: "20. In which class of lever is the load located between the fulcrum and the effort (such as in a wheelbarrow)?", options: ["First-class lever", "Second-class lever", "Third-class lever", "Compound lever"], answer: 1 },
+      { q: "21. A block and tackle pulley system has 4 supporting ropes. If its efficiency is 75%, what is its Actual Mechanical Advantage (AMA)?", options: ["3", "4", "5.3", "12"], answer: 0 },
+      { q: "22. An inclined plane is 6 m long and 1.5 m high. What is its Ideal Mechanical Advantage (Velocity Ratio)?", options: ["0.25", "4", "7.5", "9"], answer: 1 },
+
+      // Unit 6: Mechanical Oscillation and Sound Wave
+      { q: "23. A simple pendulum completes 40 oscillations in 20 seconds. What are its frequency and period respectively?", options: ["0.5 Hz and 2 s", "2 Hz and 0.5 s", "20 Hz and 40 s", "40 Hz and 20 s"], answer: 1 },
+      { q: "24. Which of the following best describes a sound wave traveling through air?", options: ["Transverse electromagnetic wave", "Longitudinal mechanical wave", "Transverse mechanical wave", "Longitudinal electromagnetic wave"], answer: 1 },
+      { q: "25. A girl claps her hands near a cliff and hears the echo 1.6 seconds later. If the speed of sound in air is 340 m/s, how far away is the cliff?", options: ["136 m", "212.5 m", "272 m", "544 m"], answer: 2 },
+      { q: "26. Which characteristic of a sound wave determines its loudness?", options: ["Frequency", "Wavelength", "Amplitude", "Speed"], answer: 2 },
+
+      // Unit 7: Temperature and Thermometry
+      { q: "27. Which thermometric property is utilized in a clinical mercury-in-glass thermometer?", options: ["Change in electrical resistance", "Thermal expansion of a liquid", "Change in gas pressure at constant volume", "Thermoelectric voltage"], answer: 1 },
+      { q: "28. At what temperature do the Celsius and Fahrenheit scales read the exact same numerical value?", options: ["0°", "-40°", "32°", "100°"], answer: 1 },
+      { q: "29. Normal human body temperature is 37°C. What is this temperature on the Fahrenheit scale?", options: ["66.6°F", "98.6°F", "100.4°F", "310°F"], answer: 1 },
+      { q: "30. Why is a small gap left between consecutive steel rails when constructing a railway track?", options: ["To reduce friction with train wheels", "To allow for thermal expansion during hot weather", "To make the track lighter", "To prevent rusting"], answer: 1 }
+
     ]
   },
   {
