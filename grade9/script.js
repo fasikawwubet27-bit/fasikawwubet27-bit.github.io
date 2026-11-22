@@ -312,3 +312,105 @@ localStorage.removeItem("grade9_completed");
 renderSubjects();
 }
 renderSubjects();
+const questions = [
+  {
+    q: "1. Which of the following is an irrational number?",
+    options: ["√16", "22/7", "0.333...", "√7"],
+    answer: 3 // Index of correct answer (0=A, 1=B, 2=C, 3=D)
+  },
+  {
+    q: "2. What is the Greatest Common Factor (GCF) of 24 and 36?",
+    options: ["6", "12", "72", "4"],
+    answer: 1
+  },
+  {
+    q: "3. Simplify: (2³ × 2⁻⁵) ÷ 2⁻⁴",
+    options: ["2", "4", "8", "1/4"],
+    answer: 1
+  }
+  // እዚህ ጋር የቀሩትን ጥያቄዎች በተመሳሳይ መልኩ መጨመር ይችላሉ
+];
+
+let currentIndex = 0;
+let score = 0;
+let selectedOption = null;
+let timeLeft = 60 * 60; // 60 minutes in seconds
+let timerInterval;
+
+function startTimer() {
+  timerInterval = setInterval(() => {
+    let minutes = Math.floor(timeLeft / 60);
+    let seconds = timeLeft % 60;
+    document.getElementById("time-left").innerText = 
+      `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      showResult();
+    }
+    timeLeft--;
+  }, 1000);
+}
+
+function loadQuestion() {
+  selectedOption = null;
+  const currentQ = questions[currentIndex];
+  document.getElementById("question-number").innerText = `Question ${currentIndex + 1} of ${questions.length}`;
+  document.getElementById("question-text").innerText = currentQ.q;
+  
+  const optionsContainer = document.getElementById("options-container");
+  optionsContainer.innerHTML = "";
+  
+  currentQ.options.forEach((opt, index) => {
+    const btn = document.createElement("button");
+    btn.classList.add("option-btn");
+    btn.innerText = opt;
+    btn.onclick = () => selectOption(btn, index);
+    optionsContainer.appendChild(btn);
+  });
+}
+
+function selectOption(button, index) {
+  document.querySelectorAll(".option-btn").forEach(b => b.classList.remove("selected"));
+  button.classList.add("selected");
+  selectedOption = index;
+}
+
+function nextQuestion() {
+  if (selectedOption === null) {
+    alert("Please select an answer first!");
+    return;
+  }
+  if (selectedOption === questions[currentIndex].answer) {
+    score++;
+  }
+  currentIndex++;
+  if (currentIndex < questions.length) {
+    loadQuestion();
+  } else {
+    clearInterval(timerInterval);
+    showResult();
+  }
+}
+
+function showResult() {
+  document.getElementById("quiz-body").style.display = "none";
+  document.getElementById("result-box").style.display = "block";
+  const percentage = Math.round((score / questions.length) * 100);
+  document.getElementById("final-score").innerText = percentage;
+  document.getElementById("score-details").innerText = `You answered ${score} out of ${questions.length} questions correctly.`;
+}
+
+function restartQuiz() {
+  currentIndex = 0;
+  score = 0;
+  timeLeft = 60 * 60;
+  document.getElementById("quiz-body").style.display = "block";
+  document.getElementById("result-box").style.display = "none";
+  loadQuestion();
+  startTimer();
+}
+
+// Start the quiz when page loads
+loadQuestion();
+startTimer();
