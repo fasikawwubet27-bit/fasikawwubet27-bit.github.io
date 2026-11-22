@@ -310,7 +310,8 @@ int main() {
 
       // Convert main and other methods
       js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
-      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, params) {
+      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, ret, fn, p) {
+
         if (fn === "main") return "static main(args) {";
         var args = params.split(",").map(function(p) { return p.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
         return (st ? "static " : "") + fn + "(" + args + ") {";
