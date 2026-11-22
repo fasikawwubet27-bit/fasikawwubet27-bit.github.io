@@ -395,12 +395,12 @@ int main() {
       }
 
       // Convert main and other methods
-      js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
-      js = js.replace(/(?:^|\n|\{)\s*(static\s+)?(?:void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, p) {
-        if (fn === "main") return "\nstatic main(args) {";
+         js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, p) {
+        if (fn === "main") return "static main(args) {";
         var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
-        return "\n" + (st ? "static " : "") + fn + "(" + args + ") {";
+        return (st ? "static " : "") + fn + "(" + args + ") {";
       });
+
 
       // Convert local primitive variables inside methods
       js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
