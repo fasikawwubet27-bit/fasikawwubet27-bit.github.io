@@ -206,55 +206,167 @@ int main() {
     out.textContent = 'Click "▶ Run Code" to see the output or any syntax errors...';
   }
 
-  async function runJavaCode() {
-    const rawCode = document.getElementById("java-editor").value;
+  function runJavaCode() {
+    const code = document.getElementById("java-editor").value.trim();
     const outputEl = document.getElementById("java-output");
-    const runBtn = document.getElementById("run-java-btn");
 
-    runBtn.disabled = true;
-    runBtn.textContent = "Running...";
-    outputEl.style.color = "#facc15";
-    outputEl.textContent = "Compiling and running Java code...";
+    if (!code) {
+      outputEl.style.color = "#f87171";
+      outputEl.textContent = "❌ Error: Editor is empty. Please write some Java code first.";
+      return;
+    }
 
-    // Wandbox compiles as prog.java, so remove 'public' before class to prevent filename mismatch error
-    const preparedCode = rawCode.replace(/\bpublic\s+class\b/g, "class");
+    // 1. Check balanced curly braces { } and parentheses ( )
+    let braceCount = 0, parenCount = 0;
+    const lines = code.split("\n");
+    for (let i = 0; i < lines.length; i++) {
+      const cleanLine = lines[i].replace(/\/\/.*$/, "").replace(/"[^"]*"/g, '""');
+      for (const ch of cleanLine) {
+        if (ch === "{") braceCount++;
+        if (ch === "}") braceCount--;
+        if (ch === "(") parenCount++;
+        if (ch === ")") parenCount--;
+      }
+      if (braceCount < 0) {
+        outputEl.style.color = "#f87171";
+        outputEl.textContent = `❌ Compilation Error (Line ${i + 1}): Unexpected closing brace '}'`;
+        return;
+      }
+      if (parenCount < 0) {
+        outputEl.style.color = "#f87171";
+        outputEl.textContent = `❌ Compilation Error (Line ${i + 1}): Unexpected closing parenthesis ')'`;
+        return;
+      }
 
+      // Check missing semicolons on statements
+      const trimmed = cleanLine.trim();
+      if (
+        trimmed &&
+        !trimmed.startsWith("//") &&
+        !trimmed.startsWith("/*") &&
+        !trimmed.startsWith("*") &&
+        !trimmed.startsWith("@") &&
+        !trimmed.endsWith("{") &&
+        !trimmed.endsWith("}") &&
+        !trimmed.endsWith(";") &&
+        !trimmed.endsWith(":") &&
+        !/^(if|else|for|while|switch|try|catch|finally|class|public|private|protected)\b/.test(trimmed)
+      ) {
+        outputEl.style.color = "#f87171";
+        outputEl.textContent = `❌ Compilation Error (Line ${i + 1}): ';' expected\n  → ${lines[i].trim()}`;
+        return;
+      }
+    }
+
+    if (braceCount !== 0) {
+      outputEl.style.color = "#f87171";
+      outputEl.textContent = "❌ Compilation Error: Reached end of file while parsing (missing '}' closing brace).";
+      return;
+    }
+    if (parenCount !== 0) {
+      outputEl.style.color = "#f87171";
+      outputEl.textContent = "❌ Compilation Error: Unclosed parenthesis '(' detected.";
+      return;
+    }
+
+    // 2. Check for main method
+    if (!/public\s+static\s+void\s+main\s*\(/.test(code)) {
+      outputEl.style.color = "#f87171";
+      outputEl.textContent = "❌ Runtime Error: Main method not found. Please define:\n  public static void main(String[] args)";
+      return;
+    }
+
+    // 3. Transpile & Execute Java OOP/Core Code cleanly in browser
     try {
-      // Fetch latest available OpenJDK compiler from Wandbox
-      const listRes = await fetch("https://wandbox.org");
-      const compilers = await listRes.json();
-      const javaCompiler = compilers.find(c => c.language === "Java")?.name || "openjdk-jdk-21+35";
+      let logs = [];
+      let jsCode = code;
 
-      const response = await fetch("https://wandbox.org", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          compiler: javaCompiler,
-          code: preparedCode
-        })
+      // Remove @Override and access modifiers
+      jsCode = jsCode.replace(/@Override\s*/g, "");
+      jsCode = jsCode.replace(/\b(public|private|protected)\s+(?=class|static|void|int|double|float|String|boolean|char|long|final)/g, "");
+      jsCode = jsCode.replace(/\bfinal\s+/g, "");
+
+      // Transform Java classes & constructors into JS classes
+      jsCode = jsCode.replace(/class\s+([A-Za-z_]\w*)(\s+extends\s+[A-Za-z_]\w*)?\s*\{/g, function (_, className, extPart) {
+        return `class ${className}${extPart || ""} {`;
       });
 
-      const data = await response.json();
-
-      if (data.compiler_error) {
-        outputEl.style.color = "#f87171"; // Red for compiler errors
-        outputEl.textContent = "❌ Compilation Error:\n" + data.compiler_error;
-      } else if (data.program_error) {
-        outputEl.style.color = "#f87171"; // Red for runtime errors
-        outputEl.textContent = "❌ Runtime Error:\n" + data.program_error;
-      } else {
-        outputEl.style.color = "#4ade80"; // Green for success output
-        outputEl.textContent = data.program_output || "✅ Program compiled and ran successfully (no output).";
+      // Convert ClassName(...) constructors to constructor(...)
+      const classNames = [...code.matchAll(/\bclass\s+([A-Za-z_]\w*)/g)].map(m => m[1]);
+      for (const cName of classNames) {
+        const ctorRegex = new RegExp(`\\b${cName}\\s*\\(([^)]*)\\)\\s*\\{`, "g");
+        jsCode = jsCode.replace(ctorRegex, function (_, params) {
+          const cleanParams = params
+            .split(",")
+            .map(p => p.trim().split(/\s+/).pop())
+            .filter(Boolean)
+            .join(", ");
+          return `constructor(${cleanParams}) {`;
+        });
       }
+
+      // Remove field declarations inside classes (e.g., String name; int age;)
+      jsCode = jsCode.replace(/^\s*(?:static\s+)?(?:int|double|float|long|boolean|char|String|[A-Z]\w*)\s+([a-zA-Z_]\w*)\s*;/gm, "");
+
+      // Convert methods inside classes: void sound() or int add(int a, int b)
+      jsCode = jsCode.replace(/^\s*(static\s+)?(?:void|int|double|float|long|boolean|char|String)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function (_, isStatic, mName, params) {
+        if (mName === "main") return "static main(args) {";
+        const cleanParams = params
+          .split(",")
+          .map(p => p.trim().split(/\s+/).pop())
+          .filter(Boolean)
+          .join(", ");
+        return `${isStatic ? "static " : ""}${mName}(${cleanParams}) {`;
+      });
+
+      // Convert local variable types: int x = 5; String s = "hi"; Dog d = new Dog();
+      jsCode = jsCode.replace(/\b(?:int|double|float|long|boolean|char|String)\s+([a-zA-Z_]\w*\s*=)/g, "let $1");
+      for (const cName of classNames) {
+        const varRegex = new RegExp(`\\b${cName}\\s+([a-zA-Z_]\\w*\\s*=)`, "g");
+        jsCode = jsCode.replace(varRegex, "let $1");
+      }
+
+      // Convert System.out.println and System.out.print
+      jsCode = jsCode.replace(/System\.out\.println\s*\(/g, "__println(");
+      jsCode = jsCode.replace(/System\.out\.print\s*\(/g, "__print(");
+
+      // Find which class contains main(args)
+      let mainClass = "Main";
+      for (const cName of classNames) {
+        const classBlockRegex = new RegExp(`class\\s+${cName}[^{]*\\{[\\s\\S]*?static\\s+main\\s*\\(`);
+        if (classBlockRegex.test(jsCode)) {
+          mainClass = cName;
+          break;
+        }
+      }
+
+      const runner = new Function(
+        "__println",
+        "__print",
+        `${jsCode}\n${mainClass}.main([]);`
+      );
+
+      let currentLine = "";
+      runner(
+        (val = "") => {
+          logs.push(currentLine + String(val));
+          currentLine = "";
+        },
+        (val = "") => {
+          currentLine += String(val);
+        }
+      );
+      if (currentLine) logs.push(currentLine);
+
+      outputEl.style.color = "#4ade80";
+      outputEl.textContent = logs.length > 0 ? logs.join("\n") : "✅ Program ran successfully (no output).";
     } catch (err) {
       outputEl.style.color = "#f87171";
-      outputEl.textContent = "Connection Error: Unable to reach compiler server. Please check your internet and try again.";
-    } finally {
-      runBtn.disabled = false;
-      runBtn.textContent = "▶ Run Code";
+      outputEl.textContent = "❌ Error: " + err.message;
     }
   }
 </script>
+
 
 
 </body>
