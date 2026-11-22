@@ -54,8 +54,50 @@ const subjectsData = [
       { title: "Unit 2: Study Skills & Reading", note: "Skimming, scanning, note-taking strategies, and conditional sentences." }
     ],
     quiz: [
-      { q: "1. Reading a text quickly to get the main idea is called:", options: ["Scanning", "Skimming", "Proofreading"], answer: 1 },
-      { q: "2. Choose the correct verb: She ____ to school every morning.", options: ["go", "goes", "going"], answer: 1 }
+           // Part 1: Tenses and Verb Forms
+      { q: "1. By the time the teacher arrived at the classroom, the students ______ the assignment.", options: ["finish", "have finished", "had finished", "are finishing"], answer: 2 },
+      { q: "2. She ______ in Bishoftu since she was five years old.", options: ["lives", "has lived", "is living", "lived"], answer: 1 },
+      { q: "3. Look at those dark clouds! It ______ soon.", options: ["is going to rain", "rains", "rained", "was raining"], answer: 0 },
+      { q: "4. While I ______ my homework last night, the electricity suddenly went out.", options: ["did", "have done", "was doing", "am doing"], answer: 2 },
+      { q: "5. Water ______ at 100 degrees Celsius at standard atmospheric pressure.", options: ["is boiling", "boils", "boiled", "has boiled"], answer: 1 },
+
+      // Part 2: Conditional Sentences
+      { q: "6. If you study hard for your Grade 9 exams, you ______ high grades.", options: ["would score", "will score", "scored", "would have scored"], answer: 1 },
+      { q: "7. If I ______ a bird, I would fly across the Rift Valley lakes.", options: ["am", "was", "were", "have been"], answer: 2 },
+      { q: "8. She would have caught the early bus if she ______ up on time.", options: ["woke", "had woken", "wakes", "would wake"], answer: 1 },
+      { q: "9. Unless it ______ tomorrow, we will go on our school field trip.", options: ["rains", "doesn't rain", "will rain", "rained"], answer: 0 },
+
+      // Part 3: Active and Passive Voice
+      { q: "10. The new Grade 9 textbooks ______ by the Ministry of Education last year.", options: ["published", "were published", "are publishing", "have published"], answer: 1 },
+      { q: "11. Coffee ______ in many parts of southern and western Ethiopia.", options: ["grows", "is grown", "grew", "is growing"], answer: 1 },
+      { q: "12. Which sentence is the correct passive form of: 'The students are cleaning the compound'?", options: ["The compound is cleaned by the students.", "The compound was cleaned by the students.", "The compound is being cleaned by the students.", "The compound has been cleaned by the students."], answer: 2 },
+
+      // Part 4: Reported (Indirect) Speech
+      { q: "13. Abebe said, 'I am preparing for the physics quiz.' Reported speech: Abebe said that he ______ for the physics quiz.", options: ["is preparing", "was preparing", "prepared", "has prepared"], answer: 1 },
+      { q: "14. The teacher asked us, 'Where did you put the laboratory equipment?' Reported speech: The teacher asked us where we ______ the laboratory equipment.", options: ["put", "had put", "have put", "were putting"], answer: 1 },
+      { q: "15. Marta said, 'I will visit my grandmother next week.' Reported speech: Marta said that she ______ her grandmother the following week.", options: ["will visit", "would visit", "visited", "visits"], answer: 1 },
+
+      // Part 5: Relative Clauses, Prepositions & Modals
+      { q: "16. The scientist ______ discovered the Endod treatment for bilharzia was Dr. Aklilu Lemma.", options: ["which", "whom", "who", "whose"], answer: 2 },
+      { q: "17. This is the library ______ we usually borrow reference books.", options: ["which", "where", "who", "whose"], answer: 1 },
+      { q: "18. You ______ wear your school uniform during regular school days; it is mandatory.", options: ["might", "must", "could", "would"], answer: 1 },
+      { q: "19. Despite ______ very tired, the athlete finished the marathon.", options: ["he was", "of being", "being", "to be"], answer: 2 },
+      { q: "20. Neither the teacher nor the students ______ aware of the schedule change.", options: ["was", "were", "is", "has been"], answer: 1 },
+
+      // Part 6: Vocabulary and Word Meaning
+      { q: "21. Soil erosion is a major environmental problem. The word 'erosion' means:", options: ["Fertilization of land", "Gradual wearing away of topsoil", "Planting new trees", "Irrigation of crops"], answer: 1 },
+      { q: "22. Choose the word that is closest in meaning (synonym) to 'ancient':", options: ["Modern", "Very old", "Temporary", "Recent"], answer: 1 },
+      { q: "23. Choose the word that is opposite in meaning (antonym) to 'generous':", options: ["Kind", "Stingy", "Helpful", "Wealthy"], answer: 1 },
+      { q: "24. Regular physical exercise has many ______ effects on human health.", options: ["harmful", "beneficial", "dangerous", "careless"], answer: 1 },
+      { q: "25. When people cut down forests without replanting, it leads to severe ______.", options: ["afforestation", "deforestation", "conservation", "cultivation"], answer: 1 },
+
+      // Part 7: Reading & Writing Skills
+      { q: "26. Reading a passage quickly to get the general idea or main gist is known as:", options: ["Scanning", "Skimming", "Proofreading", "Summarizing"], answer: 1 },
+      { q: "27. Looking through a text rapidly to find a specific date, name, or number is called:", options: ["Skimming", "Scanning", "Inferring", "Paraphrasing"], answer: 1 },
+      { q: "28. Which sentence in a paragraph usually states the main idea of that paragraph?", options: ["Concluding sentence", "Supporting detail", "Topic sentence", "Transitional phrase"], answer: 2 },
+      { q: "29. Which linking word is used to show contrast between two ideas?", options: ["Furthermore", "Therefore", "However", "In addition"], answer: 2 },
+      { q: "30. Choose the correctly punctuated sentence:", options: ["My favorite subjects are Mathematics Physics and English.", "My favorite subjects are Mathematics, Physics, and English.", "My favorite subjects are, Mathematics, Physics and English.", "My favorite subjects are Mathematics; Physics; and English."], answer: 1 }
+
     ]
   },
   {
