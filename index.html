@@ -312,6 +312,8 @@ int main() {
       }
 
       js = js.replace(/^\s*(static\s+)?(int|double|float|String|boolean|char|long)\s+[a-zA-Z_]\w*\s*;/gm, "");
+         js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
+
       js = js.replace(/^\s*(static\s+)?(void|int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function(_, st, fn, p) {
         if (fn === "main") return "static main(args) {";
         var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
