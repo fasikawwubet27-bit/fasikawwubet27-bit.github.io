@@ -126,8 +126,46 @@ const subjectsData = [
       { title: "Unit 3: Structure of the Atom", note: "Protons, neutrons, electrons, atomic number, mass number, and isotopes." }
     ],
     quiz: [
-      { q: "1. Which subatomic particle has a negative charge?", options: ["Proton", "Neutron", "Electron"], answer: 2 },
-      { q: "2. Atoms of the same element with different numbers of neutrons are:", options: ["Isotopes", "Ions", "Molecules"], answer: 0 }
+          // Unit 1: Chemistry and Its Importance
+      { q: "1. Which branch of chemistry focuses on the study of carbon-containing compounds and their reactions?", options: ["Inorganic Chemistry", "Organic Chemistry", "Analytical Chemistry", "Physical Chemistry"], answer: 1 },
+      { q: "2. What is the correct sequence of steps in the scientific method?", options: ["Hypothesis → Observation → Experiment → Conclusion", "Observation → Hypothesis → Experiment → Conclusion", "Experiment → Hypothesis → Observation → Conclusion", "Observation → Experiment → Conclusion → Hypothesis"], answer: 1 },
+      { q: "3. Which major Ethiopian chemical industry located in Muger and Derba produces Portland cement?", options: ["Pharmaceutical industry", "Cement manufacturing industry", "Tannery industry", "Sugar industry"], answer: 1 },
+      { q: "4. Which of the following is an example of a chemical change?", options: ["Melting of butter", "Dissolving sugar in water", "Rusting of an iron nail", "Boiling of ethanol"], answer: 2 },
+
+      // Unit 2: Measurements and Scientific Methods
+      { q: "5. Which laboratory apparatus is most accurate for measuring a fixed, exact volume of a liquid during titration?", options: ["Beaker", "Graduated cylinder", "Pipette", "Erlenmeyer flask"], answer: 2 },
+      { q: "6. A student measures the density of aluminum three times and gets 2.31 g/cm³, 2.32 g/cm³, and 2.30 g/cm³. If the true value is 2.70 g/cm³, these measurements are:", options: ["Both accurate and precise", "Accurate but not precise", "Precise but not accurate", "Neither accurate nor precise"], answer: 2 },
+      { q: "7. Calculate the result of (4.20 cm × 2.1 cm) rounded to the correct number of significant figures:", options: ["8.82 cm²", "8.8 cm²", "9 cm²", "8.820 cm²"], answer: 1 },
+      { q: "8. What does a skull and crossbones hazard symbol on a chemical reagent bottle indicate?", options: ["Flammable substance", "Corrosive acid", "Toxic or poisonous substance", "Radioactive material"], answer: 2 },
+
+      // Unit 3: Structure of the Atom
+      { q: "9. Which scientist discovered the nucleus of an atom using the gold foil alpha-scattering experiment?", options: ["J.J. Thomson", "John Dalton", "Ernest Rutherford", "Niels Bohr"], answer: 2 },
+      { q: "10. An atom has an atomic number of 17 and a mass number of 35. How many protons, neutrons, and electrons does its neutral atom have?", options: ["17 protons, 35 neutrons, 17 electrons", "17 protons, 18 neutrons, 17 electrons", "18 protons, 17 neutrons, 18 electrons", "17 protons, 18 neutrons, 18 electrons"], answer: 1 },
+      { q: "11. Isotopes of the same element always have the same number of:", options: ["Neutrons", "Mass number", "Protons", "Nucleons"], answer: 2 },
+      { q: "12. Naturally occurring chlorine consists of 75% Cl-35 and 25% Cl-37. What is the average atomic mass of chlorine?", options: ["35.0 amu", "35.5 amu", "36.0 amu", "36.5 amu"], answer: 1 },
+      { q: "13. According to Bohr's atomic model, what is the maximum number of electrons that can occupy the third main energy level (M-shell, n = 3)?", options: ["2", "8", "18", "32"], answer: 2 },
+      { q: "14. What is the main shell electron configuration of an aluminum atom (Atomic Number = 13)?", options: ["2, 8, 3", "2, 3, 8", "2, 8, 2, 1", "2, 10, 1"], answer: 0 },
+
+      // Unit 4: Periodic Classification of Elements
+      { q: "15. According to the Modern Periodic Law, the physical and chemical properties of elements are periodic functions of their:", options: ["Atomic masses", "Atomic numbers", "Number of neutrons", "Atomic radii"], answer: 1 },
+      { q: "16. An element has the electron configuration 2, 8, 6. To which period and group of the periodic table does it belong?", options: ["Period 6, Group IIIA", "Period 3, Group VIA", "Period 3, Group VIIIA", "Period 2, Group VIA"], answer: 1 },
+      { q: "17. Which of the following elements belongs to the Alkaline Earth Metals (Group IIA)?", options: ["Sodium (Na)", "Magnesium (Mg)", "Aluminum (Al)", "Potassium (K)"], answer: 1 },
+      { q: "18. How does atomic radius generally change as you move from left to right across a period in the periodic table?", options: ["It increases due to added shells", "It decreases due to increasing effective nuclear charge", "It remains constant", "It first decreases and then increases sharply"], answer: 1 },
+      { q: "19. Which element in Period 3 has the highest first ionization energy?", options: ["Sodium (Na)", "Magnesium (Mg)", "Chlorine (Cl)", "Argon (Ar)"], answer: 3 },
+      { q: "20. Which element is the most electronegative element in the periodic table?", options: ["Oxygen (O)", "Chlorine (Cl)", "Fluorine (F)", "Nitrogen (N)"], answer: 2 },
+      { q: "21. Elements in Group VIIA (Halogens) are highly reactive non-metals because they:", options: ["Have a completely filled outer shell", "Need to gain only one electron to achieve an octet", "Easily lose seven valence electrons", "Have very large atomic radii"], answer: 1 },
+
+      // Unit 5: Chemical Bonding
+      { q: "22. Which type of chemical bond is formed by the complete transfer of valence electrons from a metal atom to a non-metal atom?", options: ["Covalent bond", "Ionic (electrovalent) bond", "Metallic bond", "Hydrogen bond"], answer: 1 },
+      { q: "23. What is the correct chemical formula of the ionic compound formed between Calcium (Ca²⁺) and Nitride (N³⁻) ions?", options: ["CaN", "Ca₂N₃", "Ca₃N₂", "Ca₃N"], answer: 2 },
+      { q: "24. Which of the following compounds is held together primarily by covalent bonds?", options: ["Sodium chloride (NaCl)", "Magnesium oxide (MgO)", "Carbon dioxide (CO₂)", "Potassium bromide (KBr)"], answer: 2 },
+      { q: "25. How many pairs of electrons are shared between the two nitrogen atoms in a nitrogen molecule (N₂)?", options: ["1 pair (single bond)", "2 pairs (double bond)", "3 pairs (triple bond)", "4 pairs"], answer: 2 },
+      { q: "26. Which of the following molecules contains a polar covalent bond?", options: ["H₂", "Cl₂", "HCl", "O₂"], answer: 2 },
+      { q: "27. Why do ionic compounds conduct electricity when melted or dissolved in water, but NOT in the solid state?", options: ["They contain free-moving electrons in water", "Their ions are fixed in a crystal lattice when solid, but become mobile when molten or aqueous", "Water breaks them into neutral atoms", "They have low melting points"], answer: 1 },
+      { q: "28. Which property of metals is explained by the 'sea of delocalized electrons' in metallic bonding?", options: ["Brittleness when hammered", "High electrical and thermal conductivity", "Low boiling points", "Inability to reflect light"], answer: 1 },
+      { q: "29. Which of the following substances has a giant covalent network structure and is extremely hard?", options: ["Dry ice (CO₂)", "Diamond", "Sodium metal", "Table salt (NaCl)"], answer: 1 },
+      { q: "30. In the Lewis dot structure of a water molecule (H₂O), how many lone pairs of electrons are on the central oxygen atom?", options: ["0", "1", "2", "4"], answer: 2 }
+
     ]
   },
   {
@@ -141,8 +179,48 @@ const subjectsData = [
       { title: "Unit 3: Cells", note: "Prokaryotic vs. Eukaryotic cells, plant vs. animal cell organelles." }
     ],
     quiz: [
-      { q: "1. Which organelle is known as the powerhouse of the cell?", options: ["Ribosome", "Mitochondria", "Nucleus"], answer: 1 },
-      { q: "2. Which structure is found in plant cells but NOT in animal cells?", options: ["Cell wall", "Cell membrane", "Cytoplasm"], answer: 0 }
+           // Unit 1: Introduction to Biology
+      { q: "1. Which branch of biology deals with the study of fungi?", options: ["Botany", "Zoology", "Mycology", "Microbiology"], answer: 2 },
+      { q: "2. Renowned Ethiopian biologist Dr. Tewolde Berhan Gebre Egziabher was internationally recognized for his work in:", options: ["Developing vaccines for schistosomiasis", "Environmental protection and biodiversity conservation", "Discovering new malaria treatments", "Mapping human genetics"], answer: 1 },
+      { q: "3. Which Ethiopian scientist discovered the molluscicidal properties of the Endod (Phytolacca dodecandra) plant to control bilharzia?", options: ["Prof. Tilahun Yilma", "Dr. Aklilu Lemma", "Prof. Gebissa Ejeta", "Dr. Melaku Worede"], answer: 1 },
+      { q: "4. Which part of a compound light microscope regulates the amount of light passing through the specimen?", options: ["Objective lens", "Coarse adjustment knob", "Iris diaphragm", "Ocular lens"], answer: 2 },
+      { q: "5. If a microscope has an ocular lens magnification of 10x and an objective lens magnification of 40x, what is the total magnification?", options: ["50x", "400x", "4000x", "4x"], answer: 1 },
+
+      // Unit 2: Characteristics and Classification of Organisms
+      { q: "6. Which characteristic of living organisms refers to the sum of all chemical reactions occurring inside cells?", options: ["Homeostasis", "Metabolism", "Irritability", "Excretion"], answer: 1 },
+      { q: "7. In the binomial nomenclature system, how is the scientific name of human beings correctly written?", options: ["homo sapiens", "Homo Sapiens", "Homo sapiens (italicized)", "HOMO SAPIENS"], answer: 2 },
+      { q: "8. Which taxonomic rank comes immediately below Phylum and immediately above Order?", options: ["Family", "Genus", "Class", "Kingdom"], answer: 2 },
+      { q: "9. Organisms in Kingdom Monera differ from those in Kingdoms Protista, Fungi, Plantae, and Animalia because Monerans are:", options: ["Multicellular heterotrophs", "Prokaryotic (lack a membrane-bound nucleus)", "Eukaryotic autotrophs", "Strictly parasitic"], answer: 1 },
+      { q: "10. Which of the following endemic mammals is found exclusively in the Afroalpine highlands of Ethiopia, such as the Bale Mountains?", options: ["African Elephant", "Ethiopian Wolf (Canis simensis)", "Cheetah", "Reticulated Giraffe"], answer: 1 },
+
+      // Unit 3: Cells
+      { q: "11. Which organelle is responsible for cellular respiration and ATP energy production in eukaryotic cells?", options: ["Ribosome", "Golgi apparatus", "Mitochondrion", "Lysosome"], answer: 2 },
+      { q: "12. Which two structures are present in plant cells but absent in animal cells?", options: ["Cell membrane and cytoplasm", "Cell wall and chloroplasts", "Nucleus and mitochondria", "Ribosomes and endoplasmic reticulum"], answer: 1 },
+      { q: "13. According to the fluid mosaic model, the plasma membrane is primarily composed of a:", options: ["Cellulose layer with embedded sugars", "Phospholipid bilayer with embedded proteins", "Single layer of triglycerides", "Rigid network of keratin fibers"], answer: 1 },
+      { q: "14. What happens to an animal cell (such as a red blood cell) when placed in a hypotonic (pure water) solution?", options: ["It shrinks (crenates)", "It swells and may burst (lysis)", "It becomes plasmolyzed", "It remains completely unchanged"], answer: 1 },
+      { q: "15. Active transport differs from simple diffusion because active transport:", options: ["Moves molecules down a concentration gradient", "Requires cellular energy (ATP) and carrier proteins", "Occurs only in dead cells", "Does not involve the cell membrane"], answer: 1 },
+
+      // Unit 4: Reproduction
+      { q: "16. Which type of asexual reproduction occurs in yeast when a small outgrowth forms on the parent cell and detaches?", options: ["Binary fission", "Budding", "Spore formation", "Fragmentation"], answer: 1 },
+      { q: "17. In flowering plants, where are pollen grains produced?", options: ["Stigma", "Ovary", "Anther", "Sepal"], answer: 2 },
+      { q: "18. Which structure in the human male reproductive system stores sperm while they mature and gain motility?", options: ["Seminal vesicle", "Epididymis", "Prostate gland", "Urethra"], answer: 1 },
+      { q: "19. Where does fertilization normally take place in the human female reproductive system?", options: ["Ovary", "Uterus", "Fallopian tube (oviduct)", "Cervix"], answer: 2 },
+      { q: "20. Which hormone surges around day 14 of a 28-day menstrual cycle to trigger ovulation?", options: ["Progesterone", "Luteinizing Hormone (LH)", "Testosterone", "Oxytocin"], answer: 1 },
+
+      // Unit 5: Human Health, Nutrition, and Disease
+      { q: "21. Which class of nutrients serves as the primary and immediate source of energy for the human body?", options: ["Proteins", "Carbohydrates", "Vitamins", "Minerals"], answer: 1 },
+      { q: "22. Deficiency of Vitamin C (ascorbic acid) in the diet leads to which deficiency disease?", options: ["Rickets", "Scurvy", "Beriberi", "Goiter"], answer: 1 },
+      { q: "23. Kwashiorkor in young children is primarily caused by a severe dietary deficiency of:", options: ["Iron", "Protein", "Vitamin D", "Dietary fiber"], answer: 1 },
+      { q: "24. Which vector transmits the protozoan parasite Plasmodium that causes malaria?", options: ["Tsetse fly", "Female Anopheles mosquito", "Housefly", "Sandfly"], answer: 1 },
+      { q: "25. How does HIV primarily weaken the human immune system?", options: ["By destroying red blood cells", "By attacking and destroying CD4+ T-helper lymphocytes", "By blocking blood vessels in the heart", "By paralyzing skeletal muscles"], answer: 1 },
+
+      // Unit 6: Ecology and Conservation of Natural Resources
+      { q: "26. Which of the following represents an abiotic factor in an ecosystem?", options: ["Decomposers", "Soil pH and temperature", "Primary consumers", "Parasitic bacteria"], answer: 1 },
+      { q: "27. In a food chain (Grass → Grasshopper → Frog → Snake), which organism occupies the third trophic level?", options: ["Grass", "Grasshopper", "Frog", "Snake"], answer: 2 },
+      { q: "28. Approximately what percentage of energy is transferred from one trophic level to the next in an ecological energy pyramid?", options: ["1%", "10%", "50%", "90%"], answer: 1 },
+      { q: "29. Which bacteria convert atmospheric nitrogen (N₂) into ammonia usable by leguminous plants?", options: ["Denitrifying bacteria", "Nitrogen-fixing bacteria (e.g., Rhizobium)", "Putrefying fungi", "Photosynthetic algae"], answer: 1 },
+      { q: "30. Which conservation strategy protects endangered species within their natural habitats, such as Simien Mountains National Park?", options: ["Ex-situ conservation", "In-situ conservation", "Captive breeding in zoos", "Seed banking"], answer: 1 }
+
     ]
   },
   {
