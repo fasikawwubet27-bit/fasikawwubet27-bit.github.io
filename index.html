@@ -278,6 +278,7 @@ int main() {
       var rx = /class\s+([A-Za-z_]\w*)/g;
       while ((m = rx.exec(allCode)) !== null) {
         classNames.push(m[1]);
+
       }
 
       js = js.replace(/(?:^|\n|\{)\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+[a-zA-Z_][\w,\s]*;/g, "\n");
