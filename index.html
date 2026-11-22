@@ -242,23 +242,18 @@ int main() {
   }
 
   function resetJavaProject() {
-    var sample = "package com.fasikawtech;\n\nclass Person {\n    String name;\n    int id;\n    public Person(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n    public void display() {\n        System.out.println(\"Name : \" + this.name);\n        System.out.println(\"ID : \" + this.id);\n    }\n}\n\npublic class Student {\n    public static void main(String[] args) {\n        Person p = new Person(\"Abebe\", 1234);\n        p.display();\n    }\n}";
+    var sample = "package com.fasikawtech;\n\nclass Person {\n    String name;\n    int id;\n    public Person(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n    public void display() {\n        System.out.println(\"Name : \" + name);\n        System.out.println(\"ID : \" + id);\n    }\n}\n\npublic class Student {\n    public static void main(String[] args) {\n        Person p = new Person(\"Abebe\", 1234);\n        p.display();\n    }\n}";
     javaFiles = [{ name: "Student.java", code: sample }];
     activeFileIndex = 0;
     document.getElementById("java-editor").value = sample;
     renderClassTabs();
   }
 
-  function runJavaCode() {
+  async function runJavaCode() {
     saveCurrentTabCode();
     var out = document.getElementById("java-output");
+    var runBtn = document.getElementById("run-java-btn");
     var active = javaFiles[activeFileIndex];
-    var ordered = [];
-    for (var i = 0; i < javaFiles.length; i++) {
-      if (i !== activeFileIndex) ordered.push(javaFiles[i].code);
-    }
-    ordered.push(active.code);
-    var allCode = ordered.join("\n\n");
 
     if (!active.code.trim()) {
       out.style.color = "#f87171";
@@ -266,62 +261,62 @@ int main() {
       return;
     }
 
+    // Combine all tabs into a valid single compilation unit for real javac
+    var ordered = [];
+    for (var i = 0; i < javaFiles.length; i++) {
+      if (i !== activeFileIndex) ordered.push(javaFiles[i].code);
+    }
+    ordered.push(active.code);
+
+    var combined = ordered.join("\n\n").replace(/^\s*package\s+[\w.]+\s*;/gm, "");
+    var blocks = combined.split(/(?=\b(?:public\s+)?class\s+[A-Za-z_]\w*)/);
+    var finalSource = blocks.map(function(blk) {
+      if (/\bstatic\s+void\s+main\s*\(/.test(blk)) {
+        return blk.replace(/^\s*(?:public\s+)?class\b/, "public class");
+      }
+      return blk.replace(/^\s*public\s+class\b/, "class");
+    }).join("\n");
+
+    runBtn.disabled = true;
+    runBtn.textContent = "Compiling...";
+    out.style.color = "#facc15";
+    out.textContent = "Compiling & running with real Java Compiler (javac)...";
+
     try {
-      var js = allCode;
-      js = js.replace(/package\s+[\w.]+\s*;/g, "");
-      js = js.replace(/import\s+[\w.*]+\s*;/g, "");
-      js = js.replace(/@Override/g, "");
-      js = js.replace(/\b(public|private|protected|final)\s+/g, "");
-
-      var classNames = [];
-      var m;
-      var rx = /class\s+([A-Za-z_]\w*)/g;
-      while ((m = rx.exec(allCode)) !== null) {
-        classNames.push(m[1]);
-
-      }
-
-      js = js.replace(/(?:^|\n|\{)\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+[a-zA-Z_][\w,\s]*;/g, "\n");
-
-      for (var k = 0; k < classNames.length; k++) {
-        var cn = classNames[k];
-        var cRx = new RegExp("\\b" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
-        js = js.replace(cRx, function(_, p) {
-          var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
-          return "constructor(" + args + ") {";
-        });
-        var vRx = new RegExp("\\b" + cn + "\\s+([a-zA-Z_]\\w*\\s*=)", "g");
-        js = js.replace(vRx, "var $1");
-      }
-
-      js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
-      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, p) {
-        if (fn === "main") return "static main(args) {";
-        var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
-        return (st ? "static " : "") + fn + "(" + args + ") {";
+      // Uses Codiva / Judge0 public CE endpoint (supports CORS from GitHub Pages)
+      var res = await fetch("https://judge0.com", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          source_code: finalSource,
+          language_id: 91 // Java (JDK 17.0.6)
+        })
       });
 
-      js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
-      js = js.replace(/System\.out\.println/g, "printLine");
-      js = js.replace(/System\.out\.print/g, "printLine");
+      var data = await res.json();
 
-      var targetClass = classNames[classNames.length - 1];
-      var logs = [];
-      var fn = new Function("printLine", js + "\n" + targetClass + ".main([]);");
-      fn(function(msg) { logs.push(String(msg)); });
-
-      out.style.color = "#4ade80";
-      out.textContent = logs.length ? logs.join("\n") : "Program ran successfully.";
-    } catch (e) {
+      if (data.compile_output) {
+        out.style.color = "#f87171";
+        out.textContent = "❌ Compilation Error (javac):\n" + data.compile_output;
+      } else if (data.stderr) {
+        out.style.color = "#f87171";
+        out.textContent = "❌ Runtime Error:\n" + data.stderr;
+      } else {
+        out.style.color = "#4ade80";
+        out.textContent = data.stdout || "✅ Program compiled and ran successfully (no output).";
+      }
+    } catch (err) {
       out.style.color = "#f87171";
-      out.textContent = "Error: " + e.message;
+      out.textContent = "Network Error: Unable to reach Java Compiler server. Please check your internet connection.";
+    } finally {
+      runBtn.disabled = false;
+      runBtn.textContent = "▶ Run Code";
     }
   }
 
-  document.getElementById("java-editor").value = javaFiles[0].code;
+  document.getElementById("java-editor").value = javaFiles.code;
   renderClassTabs();
 </script>
-
 
 </body>
 </html>
