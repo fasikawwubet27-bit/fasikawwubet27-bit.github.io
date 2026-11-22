@@ -186,7 +186,15 @@ int main() {
   var javaFiles = [
     {
       name: "Main.java",
-      code: "package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello Fasikaw Tech!\");\n    }\n}"
+      code: [
+        "package com.fasikawtech;",
+        "",
+        "public class Main {",
+        "    public static void main(String[] args) {",
+        "        System.out.println(\"Welcome to Fasikaw Tech Eclipse-Style Java IDE!\");",
+        "    }",
+        "}"
+      ].join("\n")
     }
   ];
   var activeFileIndex = 0;
@@ -225,7 +233,15 @@ int main() {
       alert("Please enter a class name first!");
       return;
     }
-    var template = "package com.fasikawtech;\n\npublic class " + name + " {\n    public static void main(String[] args) {\n        \n    }\n}";
+    var template = [
+      "package com.fasikawtech;",
+      "",
+      "public class " + name + " {",
+      "    public static void main(String[] args) {",
+      "        ",
+      "    }",
+      "}"
+    ].join("\n");
     javaFiles.push({ name: name + ".java", code: template });
     input.value = "";
     activeFileIndex = javaFiles.length - 1;
@@ -238,22 +254,69 @@ int main() {
     saveCurrentTabCode();
     var out = document.getElementById("java-output");
     out.style.color = "#38bdf8";
-    out.textContent = "Editor cleared. Write your code and click Run.";
+    out.textContent = "Editor cleared. Write your Java code and click Run.";
   }
 
   function resetJavaProject() {
-    var sample = "package com.fasikawtech;\n\npublic class Student {\n    String name;\n    public Student(String n) {\n        this.name = n;\n    }\n    public void show() {\n        System.out.println(\"Student Name: \" + name);\n    }\n    public static void main(String[] args) {\n        Student s = new Student(\"Fasikaw\");\n        s.show();\n    }\n}";
+    var sample = [
+      "package com.fasikawtech;",
+      "",
+      "class Person {",
+      "    String name;",
+      "    int id;",
+      "",
+      "    public Person(String name, int id) {",
+      "        this.name = name;",
+      "        this.id = id;",
+      "    }",
+      "",
+      "    public void display() {",
+      "        System.out.println(\"Name : \" + name);",
+      "        System.out.println(\"ID : \" + id);",
+      "    }",
+      "}",
+      "",
+      "public class Student {",
+      "    public static void main(String[] args) {",
+      "        Person p = new Person(\"Abebe\", 1234);",
+      "        p.display();",
+      "    }",
+      "}"
+    ].join("\n");
     javaFiles = [{ name: "Student.java", code: sample }];
     activeFileIndex = 0;
     document.getElementById("java-editor").value = sample;
     renderClassTabs();
   }
 
-    function runJavaCode() {
+  function prepareCombinedJavaSource() {
+    var ordered = [];
+    for (var i = 0; i < javaFiles.length; i++) {
+      if (i !== activeFileIndex) ordered.push(javaFiles[i].code);
+    }
+    ordered.push(javaFiles[activeFileIndex].code);
+
+    var combined = ordered.join("\n\n");
+    // Remove package lines for single-unit JDK compilation while keeping imports
+    combined = combined.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
+
+    // Ensure only the class containing main() is 'public class' so javac compiles multiple classes cleanly
+    var blocks = combined.split(/(?=\b(?:public\s+)?class\s+[A-Za-z_]\w*)/);
+    var processed = blocks.map(function(blk) {
+      if (/\bstatic\s+void\s+main\s*\(/.test(blk)) {
+        return blk.replace(/^\s*(?:public\s+)?class\b/, "public class");
+      } else {
+        return blk.replace(/^\s*public\s+class\b/, "class");
+      }
+    });
+    return processed.join("\n");
+  }
+
+  async function runJavaCode() {
     saveCurrentTabCode();
     var out = document.getElementById("java-output");
+    var runBtn = document.getElementById("run-java-btn");
     var active = javaFiles[activeFileIndex];
-    var allCode = javaFiles.map(function(f) { return f.code; }).join("\n");
 
     if (!active.code.trim()) {
       out.style.color = "#f87171";
@@ -261,53 +324,64 @@ int main() {
       return;
     }
 
-    var lines = active.code.split("\n");
-    var braces = 0;
-    for (var i = 0; i < lines.length; i++) {
-      var line = lines[i].trim();
-      for (var c = 0; c < line.length; c++) {
-        if (line[c] === "{") braces++;
-        if (line[c] === "}") braces--;
-      }
-      if (line && !line.startsWith("//") && !line.startsWith("package") && !line.startsWith("import") && !line.endsWith("{") && !line.endsWith("}") && !line.endsWith(";")) {
-        out.style.color = "#f87171";
-        out.textContent = "Compilation Error in " + active.name + " (Line " + (i + 1) + "): ';' expected -> " + line;
-        return;
-      }
-    }
-    if (braces !== 0) {
-      out.style.color = "#f87171";
-      out.textContent = "Compilation Error in " + active.name + ": Missing '{' or '}'";
-      return;
-    }
-    if (allCode.indexOf("main(") === -1) {
-      out.style.color = "#f87171";
-      out.textContent = "Error: public static void main(String[] args) not found.";
-      return;
-    }
+    var finalJavaCode = prepareCombinedJavaSource();
+
+    runBtn.disabled = true;
+    runBtn.textContent = "Compiling...";
+    out.style.color = "#facc15";
+    out.textContent = "Compiling with JDK 21 (Eclipse Standard)...";
 
     try {
+      var res = await fetch("https://java-sandbox.sajitkhadka.com/api/compile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: finalJavaCode })
+      });
+
+      var data = await res.json();
+
+      if (data.status === "success") {
+        out.style.color = "#4ade80";
+        out.textContent = data.message || "Program compiled and ran successfully (no output).";
+      } else if (data.status === "error" && data.errors) {
+        out.style.color = "#f87171";
+        var errText = data.errors.map(function(e) {
+          return "Compilation Error (Line " + e.line + "): " + e.message;
+        }).join("\n");
+        out.textContent = errText;
+      } else if (data.error) {
+        out.style.color = "#f87171";
+        out.textContent = "Error: " + data.error;
+      } else {
+        throw new Error("Unexpected compiler response");
+      }
+    } catch (err) {
+      // Fallback if cloud JDK is unreachable
+      runLocalJavaFallback(finalJavaCode, out);
+    } finally {
+      runBtn.disabled = false;
+      runBtn.textContent = "▶ Run Code";
+    }
+  }
+
+  function runLocalJavaFallback(allCode, out) {
+    try {
       var js = allCode;
-      js = js.replace(/package\s+[\w.]+\s*;/g, "");
       js = js.replace(/import\s+[\w.*]+\s*;/g, "");
       js = js.replace(/@Override/g, "");
-      js = js.replace(/\b(public|private|protected)\s+/g, "");
+      js = js.replace(/\b(public|private|protected|final)\s+/g, "");
 
       var classNames = [];
       var m;
       var rx = /class\s+([A-Za-z_]\w*)/g;
-      while ((m = rx.exec(allCode)) !== null) {
-        classNames.push(m);
-      }
+      while ((m = rx.exec(allCode)) !== null) classNames.push(m);
 
-      // Remove field declarations (e.g., String name; int id;) and track field names
       var fieldNames = [];
-      js = js.replace(/^\s*(static\s+)?(int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*)\s*;/gm, function(_, st, type, fName) {
+      js = js.replace(/^\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)(?:\s*=\s*[^;]+)?\s*;/gm, function(_, fName) {
         fieldNames.push(fName);
         return "";
       });
 
-      // Convert constructors and local class variables (even without spaces around =)
       for (var k = 0; k < classNames.length; k++) {
         var cn = classNames[k];
         var cRx = new RegExp("\\b" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
@@ -319,46 +393,27 @@ int main() {
         js = js.replace(vRx, "var $1");
       }
 
-      // Convert main and other methods
       js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
-      js = js.replace(/^\s*(static\s+)?(void|int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function(_, st, fn, p) {
+      js = js.replace(/^\s*(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function(_, st, fn, p) {
         if (fn === "main") return "static main(args) {";
         var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
         return (st ? "static " : "") + fn + "(" + args + ") {";
       });
 
-      // Convert local primitive variables
-      js = js.replace(/\b(int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
-
-      // Automatically prefix field names with this. inside print statements if not already prefixed
-      for (var f = 0; f < fieldNames.length; f++) {
-        var fnName = fieldNames[f];
-        var fRx = new RegExp("([^.\\w])" + fnName + "\\b", "g");
-        js = js.replace(fRx, function(match, prefix, offset, fullStr) {
-          var before = fullStr.slice(Math.max(0, offset - 25), offset);
-          if (/var\s+$/.test(before) || /\($/.test(prefix)) return match;
-          return prefix + "this." + fnName;
-        });
-      }
-
+      js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
       js = js.replace(/System\.out\.println/g, "printLine");
       js = js.replace(/System\.out\.print/g, "printLine");
 
       var targetClass = classNames[classNames.length - 1];
-      var activeMatch = active.code.match(/class\s+([A-Za-z_]\w*)/);
-      if (activeMatch && active.code.indexOf("main(") !== -1) {
-        targetClass = activeMatch;
-      }
-
       var logs = [];
       var fn = new Function("printLine", js + "\n" + targetClass + ".main([]);");
       fn(function(msg) { logs.push(String(msg)); });
 
       out.style.color = "#4ade80";
-      out.textContent = logs.length ? logs.join("\n") : "Program ran successfully (no output).";
+      out.textContent = logs.length ? logs.join("\n") : "Program ran successfully.";
     } catch (e) {
       out.style.color = "#f87171";
-      out.textContent = "Error: " + e.message;
+      out.textContent = "Compilation/Runtime Error: " + e.message;
     }
   }
 
