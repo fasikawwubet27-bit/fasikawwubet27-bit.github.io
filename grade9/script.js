@@ -361,8 +361,48 @@ const subjectsData = [
       { title: "Unit 2: Computer Networks", note: "LAN, MAN, WAN, network topologies, and internet security." }
     ],
     quiz: [
-      { q: "1. Which signal represents continuous values over time?", options: ["Digital signal", "Analog signal", "Binary code"], answer: 1 },
-      { q: "2. A network covering a single school building is called:", options: ["WAN", "LAN", "MAN"], answer: 1 }
+           // Unit 1: Organization of Files
+      { q: "1. Which of the following best defines a computer file?", options: ["A physical storage drive inside the CPU", "A collection of related data or information stored under a single name on a storage device", "An operating system utility program", "A hardware cable connecting the monitor"], answer: 1 },
+      { q: "2. What is the main purpose of file extensions such as .docx, .xlsx, and .mp4?", options: ["To encrypt the file with a password", "To identify the file format and associate it with the appropriate application software", "To compress the file size automatically", "To show the date the file was deleted"], answer: 1 },
+      { q: "3. Which file management operation moves a file from its original folder to a new folder without leaving a duplicate in the original location?", options: ["Copy and Paste", "Cut and Paste", "Save As", "Rename"], answer: 1 },
+      { q: "4. Which file system is standard for modern Windows operating systems and supports large file sizes and file-level security permissions?", options: ["FAT16", "NTFS", "ISO 9660", "CDFS"], answer: 1 },
+      { q: "5. What happens to a file when you delete it using 'Shift + Delete' in Windows?", options: ["It is moved to the Recycle Bin", "It is permanently deleted without going to the Recycle Bin", "It is hidden from view", "It is compressed into a ZIP archive"], answer: 1 },
+
+      // Unit 2: Computer Network
+      { q: "6. Which type of computer network connects devices within a single building, school, or office?", options: ["WAN (Wide Area Network)", "MAN (Metropolitan Area Network)", "LAN (Local Area Network)", "PAN (Personal Area Network)"], answer: 2 },
+      { q: "7. Which networking device forwards data packets between different computer networks (such as connecting a home LAN to the Internet)?", options: ["Hub", "Repeater", "Router", "Modem"], answer: 2 },
+      { q: "8. Which guided transmission medium uses pulses of light to transmit data at very high speeds over long distances with minimal interference?", options: ["Twisted-pair cable", "Coaxial cable", "Fiber-optic cable", "Bluetooth"], answer: 2 },
+      { q: "9. In which network topology are all devices connected to a single central switch or hub?", options: ["Bus topology", "Ring topology", "Star topology", "Mesh topology"], answer: 2 },
+      { q: "10. What does the acronym 'IP' stand for in IP address?", options: ["Internal Program", "Internet Protocol", "Interface Port", "Information Packet"], answer: 1 },
+
+      // Unit 3: Application Software
+      { q: "11. Which feature in a Word Processor allows you to automatically generate personalized letters or labels for a list of recipients?", options: ["Track Changes", "Mail Merge", "Word Count", "Page Break"], answer: 1 },
+      { q: "12. In a Spreadsheet (such as Microsoft Excel), every formula must begin with which symbol?", options: ["#", "@", "=", "&"], answer: 2 },
+      { q: "13. Which spreadsheet function calculates the arithmetic mean of numbers in cells A1 through A10?", options: ["=SUM(A1:A10)", "=AVERAGE(A1:A10)", "=COUNT(A1:A10)", "=MEAN(A1:A10)"], answer: 1 },
+      { q: "14. In a Spreadsheet, what does the cell reference '$B$2' represent?", options: ["Relative cell reference", "Absolute cell reference", "Mixed cell reference", "External worksheet link"], answer: 1 },
+      { q: "15. Which feature in Presentation software (such as PowerPoint) controls the visual effect when moving from one slide to the next?", options: ["Slide Animation", "Slide Transition", "Slide Master", "Notes Pane"], answer: 1 },
+
+      // Unit 4: Image Processing and Multimedia
+      { q: "16. What is the smallest single point or picture element that makes up a digital raster image?", options: ["Vector", "Pixel", "Frame", "Byte"], answer: 1 },
+      { q: "17. How do vector graphics differ from raster (bitmap) graphics?", options: ["Vector graphics use pixels and lose quality when zoomed in", "Vector graphics use mathematical paths and can be scaled infinitely without losing sharpness", "Vector graphics are only used for photographs", "Vector graphics cannot store color information"], answer: 1 },
+      { q: "18. Which image file format supports transparent backgrounds and lossless compression?", options: ["JPEG (.jpg)", "PNG (.png)", "BMP (.bmp)", "RAW (.raw)"], answer: 1 },
+      { q: "19. What does 'Multimedia' refer to in Information Technology?", options: ["Using multiple computer monitors at once", "The integration of text, audio, images, animation, and video into a single digital presentation", "Connecting multiple printers to one network", "Running multiple operating systems"], answer: 1 },
+      { q: "20. In digital video, what does 'FPS' stand for?", options: ["Files Per Second", "Frames Per Second", "Formats Per Screen", "Frequency Per Signal"], answer: 1 },
+
+      // Unit 5: Information and Computer Security
+      { q: "21. Which of the following is NOT one of the three core principles of the CIA Triad in information security?", options: ["Confidentiality", "Integrity", "Availability", "Accessibility"], answer: 3 },
+      { q: "22. What type of malicious software disguises itself as a legitimate, useful program to trick users into installing it?", options: ["Worm", "Trojan Horse", "Spyware", "Adware"], answer: 1 },
+      { q: "23. What is 'Phishing' in cybersecurity?", options: ["Scanning a network for open ports", "Sending fraudulent emails or messages pretending to be from reputable sources to steal sensitive data", "Encrypting a user's files and demanding payment", "Overloading a server with traffic"], answer: 1 },
+      { q: "24. Which security practice requires a user to provide two or more verification factors (such as a password plus an SMS code) to access an account?", options: ["Data Encryption", "Two-Factor Authentication (2FA)", "Disk Defragmentation", "Firewall Filtering"], answer: 1 },
+      { q: "25. What is the primary role of a Firewall in a computer network?", options: ["To cool down the processor", "To monitor and control incoming and outgoing network traffic based on predetermined security rules", "To speed up internet download rates", "To remove duplicate files from the hard drive"], answer: 1 },
+
+      // Unit 6: Fundamentals of Programming
+      { q: "26. What is an 'Algorithm' in computer programming?", options: ["A programming language like Python", "A step-by-step finite set of instructions designed to solve a specific problem", "A syntax error in source code", "A computer hardware component"], answer: 1 },
+      { q: "27. In a flowchart, which geometric symbol is used to represent a decision (Yes/No or True/False condition)?", options: ["Oval (Terminal)", "Rectangle (Process)", "Diamond", "Parallelogram (Input/Output)"], answer: 2 },
+      { q: "28. What is 'Pseudocode'?", options: ["Machine code written in binary (0s and 1s)", "An informal, plain-language description of the steps in an algorithm that resembles programming logic", "A virus disguised as code", "Compiled executable software"], answer: 1 },
+      { q: "29. Which program translator converts the entire high-level source code into machine code at once before execution?", options: ["Interpreter", "Compiler", "Assembler", "Debugger"], answer: 1 },
+      { q: "30. In programming, which control structure repeats a block of code multiple times as long as a specified condition remains true?", options: ["Sequence structure", "Selection (If-Else) structure", "Iteration (Loop) structure", "Variable declaration"], answer: 2 }
+
     ]
   },
   {
