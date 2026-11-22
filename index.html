@@ -183,7 +183,9 @@ int main() {
   &copy; 2026 Fasikaw Tech. All Rights Reserved. | Hosted Free Forever on GitHub Pages.
 </footer>
 <script>
-  var files = { "Main.java": "package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello Fasikaw!\");\n    }\n}" };
+  var files = {
+    "Main.java": "package com.fasikawtech;\n\nclass Student {\n    String name;\n    int age;\n\n    Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    void display() {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student s1 = new Student(\"Fasikaw\", 20);\n        s1.display();\n    }\n}"
+  };
   var current = "Main.java";
   var ed = document.getElementById("java-editor");
   var out = document.getElementById("java-output");
@@ -195,16 +197,21 @@ int main() {
       var b = document.createElement("button");
       b.type = "button";
       b.textContent = name;
-      b.style.cssText = "padding:6px 12px;border-radius:6px;border:1px solid #334155;cursor:pointer;color:#fff;background:" + (name === current ? "#0ea5e9" : "#0f172a");
-      b.onclick = function() { files[current] = ed.value; current = name; ed.value = files[name]; drawTabs(); };
+      b.style.cssText = "padding:6px 12px;border-radius:6px;border:1px solid #334155;cursor:pointer;font-weight:bold;color:#fff;background:" + (name === current ? "#0ea5e9" : "#0f172a");
+      b.onclick = function() {
+        files[current] = ed.value;
+        current = name;
+        ed.value = files[name];
+        drawTabs();
+      };
       box.appendChild(b);
     });
   }
 
   function createClassFromInput() {
     var inp = document.getElementById("new-class-input");
-    var name = inp.value.trim().replace(".java", "");
-    if (!name) return;
+    var name = inp.value.trim().replace(/\.java$/i, "");
+    if (!name) { alert("Please enter a class name first!"); return; }
     files[current] = ed.value;
     current = name + ".java";
     files[current] = "package com.fasikawtech;\n\npublic class " + name + " {\n    public static void main(String[] args) {\n        \n    }\n}";
@@ -213,37 +220,139 @@ int main() {
     drawTabs();
   }
 
-  function clearJavaEditor() { ed.value = ""; files[current] = ""; out.textContent = "Cleared."; }
+  function clearJavaEditor() {
+    ed.value = "";
+    files[current] = "";
+    out.style.color = "#38bdf8";
+    out.textContent = "Editor cleared.";
+  }
 
   function resetJavaProject() {
-    files = { "Student.java": "package com.fasikawtech;\n\nclass Person {\n    String name;\n    int id;\n    Person(String n, int i) { name = n; id = i; }\n    void show() { System.out.println(name + \" - \" + id); }\n}\n\npublic class Student {\n    public static void main(String[] args) {\n        new Person(\"Abebe\", 1234).show();\n    }\n}" };
-    current = "Student.java";
+    files = {
+      "Main.java": "package com.fasikawtech;\n\nclass Student {\n    String name;\n    int age;\n\n    Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    void display() {\n        System.out.println(\"Name: \" + name);\n        System.out.println(\"Age: \" + age);\n    }\n}\n\npublic class Main {\n    public static void main(String[] args) {\n        Student s1 = new Student(\"Fasikaw\", 20);\n        s1.display();\n    }\n}"
+    };
+    current = "Main.java";
     ed.value = files[current];
     drawTabs();
   }
 
-  async function runJavaCode() {
+  function runJavaCode() {
     files[current] = ed.value;
-    out.style.color = "#facc15";
-    out.textContent = "Running...";
+    var activeCode = files[current].trim();
+    if (!activeCode) {
+      out.style.color = "#f87171";
+      out.textContent = "Error: Editor is empty.";
+      return;
+    }
 
-    var all = Object.keys(files).filter(k => k !== current).map(k => files[k]).concat(files[current]).join("\n\n");
-    all = all.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
-    all = all.replace(/\bpublic\s+class\b/g, "class");
-    all = all.replace(/class\s+(\w+)([\s\S]*?static\s+void\s+main)/, "public class $1$2");
+    // 1. Check syntax errors (semicolons and braces)
+    var lines = activeCode.split("\n");
+    var braces = 0;
+    for (var i = 0; i < lines.length; i++) {
+      var clean = lines[i].replace(/\/\/.*$/, "").replace(/"[^"]*"/g, '""').trim();
+      for (var c = 0; c < clean.length; c++) {
+        if (clean[c] === "{") braces++;
+        if (clean[c] === "}") braces--;
+      }
+      if (clean && !clean.startsWith("@") && !clean.endsWith("{") && !clean.endsWith("}") && !clean.endsWith(";") && !/^(if|else|for|while|switch|try|catch|finally|class|public|private|protected)\b/.test(clean)) {
+        out.style.color = "#f87171";
+        out.textContent = "Compilation Error in " + current + " (Line " + (i + 1) + "): ';' expected -> " + lines[i].trim();
+        return;
+      }
+    }
+    if (braces !== 0) {
+      out.style.color = "#f87171";
+      out.textContent = "Compilation Error in " + current + ": Missing '{' or '}'";
+      return;
+    }
+
+    // Combine all tabs (put active tab last so its main() runs)
+    var allCode = Object.keys(files).filter(function(k) { return k !== current; }).map(function(k) { return files[k]; }).concat(files[current]).join("\n\n");
+
+    if (!/public\s+static\s+void\s+main\s*\(/.test(allCode)) {
+      out.style.color = "#f87171";
+      out.textContent = "Runtime Error: public static void main(String[] args) not found.";
+      return;
+    }
 
     try {
-      var res = await fetch("https://judge0.com", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ source_code: all, language_id: 91 })
+      var js = allCode;
+      js = js.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
+      js = js.replace(/^\s*import\s+[\w.*]+\s*;/gm, "");
+      js = js.replace(/@Override\s*/g, "");
+      js = js.replace(/\b(public|private|protected|final)\s+/g, "");
+
+      var classNames = [];
+      var rx = /\bclass\s+([A-Za-z_]\w*)/g;
+      var match;
+      while ((match = rx.exec(js)) !== null) {
+        var [, cname] = match;
+        classNames.push(cname);
+      }
+
+      // Collect class field names & remove field declarations
+      var fields = [];
+      js = js.replace(/^\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*(?:=[^;]*)?;/gm, function(_, fname) {
+        fields.push(fname);
+        return "";
       });
-      var d = await res.json();
-      out.style.color = (d.compile_output || d.stderr) ? "#f87171" : "#4ade80";
-      out.textContent = d.compile_output || d.stderr || d.stdout || "Done (no output).";
+
+      // Convert constructors ONLY when NOT preceded by 'new '
+      classNames.forEach(function(cn) {
+        var ctorRx = new RegExp("(^|\\n|\\s)" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
+        js = js.replace(ctorRx, function(full, prefix, params) {
+          var args = params.split(",").map(function(p) { return p.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
+          return prefix + "constructor(" + args + ") {";
+        });
+        var objRx = new RegExp("\\b" + cn + "\\s+([a-zA-Z_]\\w*\\s*=)", "g");
+        js = js.replace(objRx, "let $1");
+      });
+
+      // Convert main and other methods
+      js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
+      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, params) {
+        if (fn === "main") return "static main(args) {";
+        var args = params.split(",").map(function(p) { return p.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
+        return (st ? "static " : "") + fn + "(" + args + ") {";
+      });
+
+      // Convert local variables
+      js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "let $1");
+
+      // Automatically resolve class fields (like 'name' or 'age') inside methods
+      fields.forEach(function(f) {
+        var fRx = new RegExp("([^.\\w\"'])" + f + "\\b", "g");
+        js = js.replace(fRx, function(m, pre, offset, str) {
+          var before = str.slice(Math.max(0, offset - 20), offset);
+          var after = str.slice(offset + m.length, offset + m.length + 10);
+          if (/let\s+$/.test(before) || /^\s*[,)=]/.test(after) || /\($/.test(pre)) return m;
+          return pre + "this." + f;
+        });
+      });
+
+      js = js.replace(/System\.out\.println/g, "printLine");
+      js = js.replace(/System\.out\.print/g, "printLine");
+
+      // Find the class that owns main()
+      var targetClass = classNames.at(-1);
+      var blocks = js.split(/(?=\bclass\s+)/);
+      blocks.forEach(function(b) {
+        var m = b.match(/\bclass\s+([A-Za-z_]\w*)/);
+        if (m && /\bstatic\s+main\s*\(/.test(b)) {
+          var [, found] = m;
+          targetClass = found;
+        }
+      });
+
+      var logs = [];
+      var runner = new Function("printLine", js + "\n" + targetClass + ".main([]);");
+      runner(function(msg) { logs.push(String(msg)); });
+
+      out.style.color = "#4ade80";
+      out.textContent = logs.length ? logs.join("\n") : "Program ran successfully (no output).";
     } catch (e) {
       out.style.color = "#f87171";
-      out.textContent = "Network Error: Check internet connection.";
+      out.textContent = "Error: " + e.message;
     }
   }
 
