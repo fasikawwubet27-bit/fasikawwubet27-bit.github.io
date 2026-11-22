@@ -229,10 +229,11 @@ int main() {
   }
 
  <script>
+ <script>
   let javaFiles = [
     {
       name: "Main.java",
-      code: `public class Main {\n    public static void main(String[] args) {\n        System.out.println("Hello! Create a new class or write your Java code.");\n    }\n}`
+      code: `package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println("Welcome to Fasikaw Tech Java IDE!");\n    }\n}`
     }
   ];
   let activeFileIndex = 0;
@@ -249,10 +250,10 @@ int main() {
       nameSpan.onclick = () => switchJavaTab(index);
       tabWrap.appendChild(nameSpan);
 
-      if (file.name !== "Main.java") {
+      if (javaFiles.length > 1) {
         const delBtn = document.createElement("span");
         delBtn.textContent = "×";
-        delBtn.title = "Delete class";
+        delBtn.title = "Close class";
         delBtn.style.cssText = "margin-left:4px; color:#fca5a5; font-size:15px;";
         delBtn.onclick = (e) => {
           e.stopPropagation();
@@ -275,27 +276,40 @@ int main() {
   }
 
   function saveCurrentTabCode() {
-    javaFiles[activeFileIndex].code = document.getElementById("java-editor").value;
+    if (javaFiles[activeFileIndex]) {
+      javaFiles[activeFileIndex].code = document.getElementById("java-editor").value;
+    }
   }
 
-  function addNewJavaClass() {
+  // Eclipse-style Create Class from Input Box
+  function createClassFromInput() {
     saveCurrentTabCode();
-    let className = prompt("Enter new Java Class name (e.g., Student, BankAccount, Employee):");
-    if (!className) return;
-    className = className.trim().replace(/\.java$/i, "");
+    const inputEl = document.getElementById("new-class-input");
+    let className = inputEl.value.trim().replace(/\.java$/i, "");
+    if (!className) {
+      alert("Please enter a Class name first (e.g., Student)!");
+      return;
+    }
     if (!/^[A-Za-z_][A-Za-z0-9_]*$/.test(className)) {
-      alert("Invalid class name! Use letters and numbers only without spaces (e.g., Student).");
+      alert("Invalid class name! Use letters and numbers only without spaces.");
       return;
     }
     const fileName = className + ".java";
-    if (javaFiles.some(f => f.name.toLowerCase() === fileName.toLowerCase())) {
-      alert(fileName + " already exists!");
+    const existingIdx = javaFiles.findIndex(f => f.name.toLowerCase() === fileName.toLowerCase());
+    if (existingIdx !== -1) {
+      switchJavaTab(existingIdx);
+      inputEl.value = "";
       return;
     }
+
+    // Eclipse-style default template with package and main method
+    const eclipseTemplate = `package com.fasikawtech;\n\npublic class ${className} {\n    public static void main(String[] args) {\n        \n    }\n}`;
+
     javaFiles.push({
       name: fileName,
-      code: `public class ${className} {\n    // Write fields, constructors, and methods here\n    \n}`
+      code: eclipseTemplate
     });
+    inputEl.value = "";
     activeFileIndex = javaFiles.length - 1;
     document.getElementById("java-editor").value = javaFiles[activeFileIndex].code;
     renderClassTabs();
@@ -306,18 +320,14 @@ int main() {
     saveCurrentTabCode();
     const out = document.getElementById("java-output");
     out.style.color = "#38bdf8";
-    out.textContent = "Editor cleared. Write your new code and click Run.";
+    out.textContent = "Editor cleared. Write your code and click Run.";
   }
 
   function resetJavaProject() {
     javaFiles = [
       {
         name: "Student.java",
-        code: `public class Student {\n    String name;\n    int id;\n\n    public Student(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n\n    public void displayInfo() {\n        System.out.println("Student: " + name + " | ID: " + id);\n    }\n}`
-      },
-      {
-        name: "Main.java",
-        code: `public class Main {\n    public static void main(String[] args) {\n        Student s1 = new Student("Fasikaw", 101);\n        s1.displayInfo();\n    }\n}`
+        code: `package com.fasikawtech;\n\npublic class Student {\n    String name;\n    int age;\n\n    public Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    public void display() {\n        System.out.println("Name: " + name + ", Age: " + age);\n    }\n\n    public static void main(String[] args) {\n        Student s1 = new Student("Fasikaw", 20);\n        s1.display();\n    }\n}`
       }
     ];
     activeFileIndex = 0;
@@ -325,24 +335,25 @@ int main() {
     renderClassTabs();
     const out = document.getElementById("java-output");
     out.style.color = "#38bdf8";
-    out.textContent = 'Sample multi-class project loaded. Click "▶ Run Code" to test.';
+    out.textContent = 'Sample Eclipse-style class loaded. Click "▶ Run Code" to test.';
   }
 
   function runJavaCode() {
     saveCurrentTabCode();
     const outputEl = document.getElementById("java-output");
+    const activeFile = javaFiles[activeFileIndex];
 
-    // Combine all classes (non-Main classes first so inheritance/dependencies work)
+    // Put non-active classes first so helper classes are defined, and active class last
     const orderedFiles = [
-      ...javaFiles.filter(f => f.name !== "Main.java"),
-      ...javaFiles.filter(f => f.name === "Main.java")
+      ...javaFiles.filter((_, idx) => idx !== activeFileIndex),
+      activeFile
     ];
 
     for (const file of orderedFiles) {
       const fCode = file.code.trim();
       if (!fCode) {
         outputEl.style.color = "#f87171";
-        outputEl.textContent = `❌ Error in ${file.name}: File is empty. Write code or delete the empty tab.`;
+        outputEl.textContent = `❌ Error in ${file.name}: File is empty.`;
         return;
       }
 
@@ -373,6 +384,8 @@ int main() {
           !trimmed.startsWith("/*") &&
           !trimmed.startsWith("*") &&
           !trimmed.startsWith("@") &&
+          !trimmed.startsWith("package ") &&
+          !trimmed.startsWith("import ") &&
           !trimmed.endsWith("{") &&
           !trimmed.endsWith("}") &&
           !trimmed.endsWith(";") &&
@@ -400,13 +413,17 @@ int main() {
 
     if (!/public\s+static\s+void\s+main\s*\(/.test(fullCode)) {
       outputEl.style.color = "#f87171";
-      outputEl.textContent = "❌ Runtime Error: No 'public static void main(String[] args)' found in Main.java.";
+      outputEl.textContent = "❌ Runtime Error: Main method not found. Add:\n  public static void main(String[] args)";
       return;
     }
 
     try {
       let logs = [];
       let jsCode = fullCode;
+
+      // Ignore package and import statements cleanly
+      jsCode = jsCode.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
+      jsCode = jsCode.replace(/^\s*import\s+[\w.*]+\s*;/gm, "");
 
       jsCode = jsCode.replace(/@Override\s*/g, "");
       jsCode = jsCode.replace(/\b(public|private|protected)\s+(?=class|static|void|int|double|float|String|boolean|char|long|final)/g, "");
@@ -447,39 +464,48 @@ int main() {
       jsCode = jsCode.replace(/System\.out\.println\s*\(/g, "__println(");
       jsCode = jsCode.replace(/System\.out\.print\s*\(/g, "__print(");
 
-      let mainClass = "Main";
-      let currentClass = null;
-      let depth = 0;
-      for (const line of jsCode.split("\n")) {
-        const classMatch = line.match(/\bclass\s+([A-Za-z_]\w*)/);
-        if (classMatch && depth === 0) currentClass = classMatch[1];
-        if (currentClass && /\bstatic\s+main\s*\(/.test(line)) {
-          mainClass = currentClass;
-          break;
-        }
-        for (const ch of line) {
-          if (ch === "{") depth++;
-          if (ch === "}") {
-            depth--;
-            if (depth <= 0) { depth = 0; currentClass = null; }
-          }
-        }
-      }
+      // Run the main() of the currently active tab if it has one, otherwise any class with main()
+      let targetMainClass = null;
+      const activeClassMatch = activeFile.code.match(/\bclass\s+([A-Za-z_]\w*)/);
+      if (activeClassMatch && /public\s+static\s+void\s+main\s*\(/.test(activeFile.code)) {
+        targetMainClass = activeClassMatch[1];
+      } else {
+        let currentClass = null;
+        let depth = 0;
+        for (const line of jsCode.split("\n")) {
+          const classMatch = line.match(/\bclass\s+([A-Za-z_]\w*)/);
 
-      const runner = new Function("__println", "__print", `${jsCode}\n${mainClass}.main([]);`);
-      let currentLine = "";
-      runner(
-        (val = "") => { logs.push(currentLine + String(val)); currentLine = ""; },
-        (val = "") => { currentLine += String(val); }
-      );
-      if (currentLine) logs.push(currentLine);
-
-      outputEl.style.color = "#4ade80";
-      outputEl.textContent = logs.length > 0 ? logs.join("\n") : "✅ Program compiled and ran successfully (no output).";
-    } catch (err) {
-      outputEl.style.color = "#f87171";
-
-
+      if (classMatch && depth === 0) currentClass = classMatch[1];
+if (currentClass && /\bstatic\s+main\s*(/.test(line)) {
+targetMainClass = currentClass;
+break;
+}
+for (const ch of line) {
+if (ch === "{") depth++;
+if (ch === "}") {
+depth--;
+if (depth <= 0) { depth = 0; currentClass = null; }
+}
+}
+}
+}
+const runner = new Function("__println", "__print", ${jsCode}\n${targetMainClass}.main([]););
+let currentLine = "";
+runner(
+(val = "") => { logs.push(currentLine + String(val)); currentLine = ""; },
+(val = "") => { currentLine += String(val); }
+);
+if (currentLine) logs.push(currentLine);
+outputEl.style.color = "#4ade80";
+outputEl.textContent = logs.length > 0 ? logs.join("\n") : "✅ Program compiled and ran successfully (no output).";
+} catch (err) {
+outputEl.style.color = "#f87171";
+outputEl.textContent = "❌ Error: " + err.message;
+}
+}
+// Initialize editor immediately on page load
+document.getElementById("java-editor").value = javaFiles[0].code;
+renderClassTabs();    
 
 </body>
 </html>
