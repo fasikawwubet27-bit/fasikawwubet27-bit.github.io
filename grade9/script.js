@@ -276,8 +276,63 @@ const subjectsData = [
       { title: "Unit 2: Ancient World Civilizations", note: "Mesopotamia, Ancient Egypt, and Aksumite Kingdom." }
     ],
     quiz: [
-      { q: "1. Eyewitness accounts and ancient inscriptions are:", options: ["Primary sources", "Secondary sources", "Fictional stories"], answer: 0 },
-      { q: "2. Which ancient Ethiopian kingdom minted its own coins?", options: ["Damot", "Aksum", "Zagwe"], answer: 1 }
+           // Unit 1: The Discipline of History and Human Evolution
+      { q: "1. Who is widely regarded as the 'Father of History' for his systematic investigation of the Greco-Persian Wars?", options: ["Thucydides", "Herodotus", "Leopold von Ranke", "Aristotle"], answer: 1 },
+      { q: "2. Which type of historical source includes artifacts, coins, monuments, and oral traditions rather than written documents?", options: ["Secondary written sources", "Primary non-written sources", "Chronicles", "Autobiographies"], answer: 1 },
+      { q: "3. Which early hominid species was the first to master the use of fire and migrate out of Africa into Asia and Europe?", options: ["Australopithecus afarensis", "Homo habilis", "Homo erectus", "Homo sapiens"], answer: 2 },
+      { q: "4. What major shift characterized the Neolithic Revolution around 10,000 years ago?", options: ["Discovery of bronze smelting", "Transition from hunting-gathering to food production (domestication of plants and animals)", "Invention of the printing press", "Construction of pyramids"], answer: 1 },
+      { q: "5. Which of the following indigenous crops were domesticated in the Ethiopian region during the Neolithic period?", options: ["Maize, potato, and cassava", "Teff, enset, dagussa, and nug", "Rice, soybean, and sugarcane", "Wheat, rye, and oats"], answer: 1 },
+
+      // Unit 2: Ancient World Civilizations up to c. 500 AD
+      { q: "6. What was the ancient Egyptian system of picture writing called?", options: ["Cuneiform", "Hieroglyphics", "Sanskrit", "Logograms"], answer: 1 },
+      { q: "7. Which ancient Mesopotamian ruler is famous for compiling one of the earliest written legal codes?", options: ["Nebuchadnezzar", "Hammurabi", "Sargon of Akkad", "Cyrus the Great"], answer: 1 },
+      { q: "8. After the Assyrian invasion of Egypt in 671 BC, the Kingdom of Kush shifted its capital southward from Napata to:", options: ["Axum", "Meroe", "Alexandria", "Thebes"], answer: 1 },
+      { q: "9. Which ancient Greek city-state is known as the birthplace of direct democracy?", options: ["Sparta", "Athens", "Corinth", "Macedonia"], answer: 1 },
+      { q: "10. Which Roman Emperor issued the Edict of Milan in 313 AD, granting religious tolerance to Christians in the Roman Empire?", options: ["Nero", "Julius Caesar", "Constantine the Great", "Augustus"], answer: 2 },
+
+      // Unit 3: Peoples and States in Ethiopia and the Horn to the End of the 13th Century
+      { q: "11. Which language family in Ethiopia and the Horn includes Afaan Oromo, Somali, Afar, and Sidama?", options: ["Semitic", "Cushitic", "Omotic", "Nilo-Saharan"], answer: 1 },
+      { q: "12. What was the major Red Sea port of the Aksumite Kingdom that connected Ethiopia to international trade?", options: ["Zeila", "Massawa", "Adulis", "Berbera"], answer: 2 },
+      { q: "13. Under which Aksumite king was Christianity officially adopted as the state religion around 330 AD?", options: ["King Kaleb", "King Ezana", "King Zoscales", "King Armah"], answer: 1 },
+      { q: "14. Who were the group of Syrian monks who came to Aksum in the late 5th century and translated the Bible into Ge'ez?", options: ["The Jesuits", "The Nine Saints", "The Coptic Patriarchs", "The Franciscans"], answer: 1 },
+      { q: "15. Which Zagwe ruler is renowned for commissioning the construction of the eleven monolithic rock-hewn churches at Roha (Lalibela)?", options: ["Mara Takla Haymanot", "King Lalibela", "Yimrehana Krestos", "Na'akueto La'ab"], answer: 1 },
+
+      // Unit 4: The Middle Ages and Early Modern World, c. 500 to 1750s
+      { q: "16. What was the capital city of the Eastern Roman (Byzantine) Empire?", options: ["Rome", "Constantinople", "Antioch", "Ravenna"], answer: 1 },
+      { q: "17. In European feudal society, what was the land granted by a lord to a vassal in exchange for military service called?", options: ["Manor", "Fief", "Guild", "Serfdom"], answer: 1 },
+      { q: "18. The Renaissance, meaning 'rebirth' of classical Greek and Roman learning, first began in which European country?", options: ["England", "France", "Italy", "Germany"], answer: 2 },
+      { q: "19. Who initiated the Protestant Reformation in 1517 by posting his Ninety-Five Theses in Wittenberg, Germany?", options: ["John Calvin", "Martin Luther", "Henry VIII", "Erasmus"], answer: 1 },
+      { q: "20. Which Portuguese navigator was the first European to reach India by sailing around the southern tip of Africa in 1498?", options: ["Christopher Columbus", "Ferdinand Magellan", "Vasco da Gama", "Bartholomeu Dias"], answer: 2 },
+
+      // Unit 5: Peoples and States of Africa to 1500
+      { q: "21. The wealth and power of the ancient West African empires of Ghana, Mali, and Songhai depended heavily on:", options: ["Trans-Atlantic slave trade", "Trans-Saharan trade in gold and salt", "Indian Ocean spice trade", "Copper mining in Katanga"], answer: 1 },
+      { q: "22. Which ruler of the Mali Empire made a famous pilgrimage to Mecca in 1324 and turned Timbuktu into a center of Islamic scholarship?", options: ["Sundiata Keita", "Mansa Musa", "Askia Muhammad", "Sonni Ali"], answer: 1 },
+      { q: "23. Along the East African coast, the blending of Bantu and Arab cultures gave rise to which distinct language and trading civilization?", options: ["Hausa", "Swahili", "Zulu", "Berber"], answer: 1 },
+      { q: "24. Great Zimbabwe, famous for its massive mortarless stone enclosures, prospered primarily through trade in gold and ivory with:", options: ["West African kingdoms", "Swahili coastal city-states like Kilwa and Sofala", "Mediterranean Europe", "Ancient Egypt"], answer: 1 },
+
+      // Unit 6: Africa and the Outside World: 1500–1880s
+      { q: "25. In the Triangular Trade across the Atlantic, what was the brutal middle leg carrying enslaved Africans to the Americas called?", options: ["The Silk Road", "The Middle Passage", "The Cape Route", "The Great Trek"], answer: 1 },
+      { q: "26. Which Dutch East India Company settlement established in 1652 became the starting point of European colonization in South Africa?", options: ["Natal", "Transvaal", "Cape Colony", "Orange Free State"], answer: 2 },
+      { q: "27. Which European country was the first to officially abolish the slave trade in 1807 and later campaigned to suppress it at sea?", options: ["Portugal", "Spain", "Great Britain", "France"], answer: 2 },
+
+      // Unit 7: States, Principalities, Population Movements in Ethiopia, 13th to Mid-16th Century
+      { q: "28. Who overthrew the Zagwe dynasty in 1270 and restored the so-called 'Solomonic' dynasty?", options: ["Amda Seyon", "Yekuno Amlak", "Zara Yaqob", "Dawit I"], answer: 1 },
+      { q: "29. What was the mobile royal court system used by medieval Ethiopian emperors instead of a permanent capital city?", options: ["Gult system", "Roving (mobile) capitals", "Zemene Mesafint", "Ketema system"], answer: 1 },
+      { q: "30. What was the primary underlying cause of the conflicts between the Christian Highland Kingdom and the Muslim Sultanates (Ifat and Adal)?", options: ["Disputes over grazing land in Tigray", "Rivalry over control of the lucrative Zeila trade routes", "Alliance with the Portuguese", "Conflicts with the Ottoman Empire"], answer: 1 },
+      { q: "31. Which leader of the Sultanate of Adal defeated Emperor Lebna Dengel at the Battle of Shimbra Kure in 1529?", options: ["Sultan Badlay", "Imam Ahmad ibn Ibrahim al-Ghazi (Ahmad Gragn)", "Emir Nur ibn Mujahid", "Mahfuz"], answer: 1 },
+      { q: "32. In the traditional Oromo Gadaa system, how many years does each generation grade (Luba) remain in power before transferring authority?", options: ["4 years", "5 years", "8 years", "12 years"], answer: 2 },
+
+      // Unit 8: Political, Social and Economic Processes in Ethiopia, Mid-16th to Mid-19th Century
+      { q: "33. Which Ethiopian emperor converted to Catholicism in 1622 under Jesuit influence, sparking a bloody civil war before abdicating in 1632?", options: ["Emperor Gelawdewos", "Emperor Susenyos", "Emperor Minas", "Emperor Iyasu I"], answer: 1 },
+      { q: "34. Emperor Fasiladas established Gondar as a permanent capital in 1636 and adopted which foreign policy toward Europeans?", options: ["Open alliance with Spain", "Closed-door policy after expelling the Jesuits", "Military pact with Portugal", "Free trade agreement with Britain"], answer: 1 },
+      { q: "35. Which period in Ethiopian history (1769–1855) was characterized by the weakening of central imperial authority and rivalry among regional warlords?", options: ["The Gondarine Golden Age", "Zemene Mesafint (Era of the Princes)", "The Zagwe Period", "The Aksumite Decline"], answer: 1 },
+      { q: "36. Which powerful southern Ethiopian kingdom was ruled by kings bearing the title 'Tato' and was protected by deep defensive trenches?", options: ["Kingdom of Wolaita", "Kingdom of Kafa", "Kingdom of Jimma", "Sultanate of Harar"], answer: 1 },
+
+      // Unit 9: The Age of Revolutions, 1750s to 1815
+      { q: "37. In which country did the Industrial Revolution begin in the mid-18th century due to abundant coal, iron, capital, and colonial markets?", options: ["France", "Germany", "Great Britain", "United States"], answer: 2 },
+      { q: "38. Who drafted the American Declaration of Independence adopted on July 4, 1776?", options: ["George Washington", "Thomas Jefferson", "Benjamin Franklin", "Abraham Lincoln"], answer: 1 },
+      { q: "39. Which event on July 14, 1789 marked the symbolic beginning of the French Revolution?", options: ["The Tennis Court Oath", "The Storming of the Bastille", "The Execution of Louis XVI", "The Battle of Waterloo"], answer: 1 },
+
     ]
   },
   {
