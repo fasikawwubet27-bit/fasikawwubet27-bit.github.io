@@ -456,8 +456,52 @@ const subjectsData = [
       { title: "Unit 2: Digital Technology Culture", note: "Digital etiquette, online privacy, and responsible social media use." }
     ],
     quiz: [
-      { q: "1. Protecting personal passwords and respecting others online is:", options: ["Digital citizenship", "Hardware maintenance", "Data mining"], answer: 0 },
-      { q: "2. Doing the right thing even when no one is watching is:", options: ["Integrity", "Negligence", "Bias"], answer: 0 }
+          // Unit 1: Ethical Values
+      { q: "1. Which of the following best defines 'ethics'?", options: ["Government laws enforced by the police", "Moral principles and standards that govern right and wrong human conduct", "Traditional dances and cultural festivals", "Economic rules for international trade"], answer: 1 },
+      { q: "2. What does the ethical value of 'integrity' require a citizen to do?", options: ["Change principles depending on who is watching", "Consistently uphold honesty and strong moral principles even when no one is watching", "Prioritize personal gain over public interest", "Follow peer pressure without questioning"], answer: 1 },
+      { q: "3. Which ethical value involves treating all individuals fairly and giving each person what they deserve without bias?", options: ["Nepotism", "Fairness (Justice)", "Selfishness", "Intolerance"], answer: 1 },
+      { q: "4. Keeping promises, arriving on time, and fulfilling assigned duties demonstrate which moral virtue?", options: ["Reliability and Responsibility", "Arrogance", "Negligence", "Complacency"], answer: 0 },
+
+      // Unit 2: The Culture of Using Digital Technology
+      { q: "5. What is 'digital citizenship'?", options: ["Buying the most expensive smartphone", "The responsible, ethical, and safe use of technology and the internet", "Creating fake social media accounts", "Using the internet only for gaming"], answer: 1 },
+      { q: "6. Which behavior is an example of cyberbullying?", options: ["Sharing verified educational articles online", "Sending repeated threatening, insulting, or humiliating messages through digital platforms", "Reporting a hacked account to administrators", "Using strong passwords for email protection"], answer: 1 },
+      { q: "7. Why is it important to verify information on social media before sharing it?", options: ["To gain more followers quickly", "To prevent the spread of misinformation, fake news, and social conflict", "Because all online posts are automatically true", "To use up mobile data faster"], answer: 1 },
+      { q: "8. Copying someone else's digital work, article, or research without giving proper credit is known as:", options: ["Encryption", "Plagiarism (Copyright infringement)", "Cybersecurity", "Digital literacy"], answer: 1 },
+
+      // Unit 3: Constitution and Constitutionalism
+      { q: "9. What is a 'constitution'?", options: ["A temporary speech given by a mayor", "The supreme fundamental law of a state that defines government powers and citizens' rights", "A list of school rules for students", "An international trade contract"], answer: 1 },
+      { q: "10. How does 'constitutionalism' differ from merely having a written constitution?", options: ["Constitutionalism means the government actually obeys and is limited by the constitution in practice", "Constitutionalism allows leaders to ignore the law during elections", "They have no connection to each other", "Constitutionalism applies only to non-democratic states"], answer: 0 },
+      { q: "11. A constitution whose provisions are compiled into a single, formal legal document is classified as:", options: ["Unwritten constitution", "Written (codified) constitution", "Flexible custom", "Oral tradition"], answer: 1 },
+      { q: "12. Which principle ensures that no single branch of government (legislative, executive, judiciary) becomes too powerful?", options: ["Absolute monarchy", "Separation of powers and checks and balances", "One-party rule", "Centralized dictatorship"], answer: 1 },
+
+      // Unit 4: Understanding Indigenous Knowledge
+      { q: "13. Which statement best describes 'indigenous knowledge'?", options: ["Knowledge imported exclusively from foreign laboratories", "Local, traditional knowledge developed by communities over generations through interaction with their environment", "Modern computer programming languages", "Rules written by international organizations"], answer: 1 },
+      { q: "14. Which indigenous Ethiopian institution among the Gurage people is widely known for resolving disputes and maintaining community order?", options: ["Iqub", "Yajoka (Gordanna)", "Iddir", "Debo"], answer: 1 },
+      { q: "15. How does the Konso people's indigenous terracing system contribute to sustainable development?", options: ["It accelerates soil erosion", "It conserves soil and water on steep slopes for sustainable agriculture", "It destroys local biodiversity", "It replaces all modern farming tools"], answer: 1 },
+      { q: "16. What is the primary role of traditional mutual-aid associations like 'Iddir' and 'Iqub' in Ethiopian society?", options: ["Political campaigning", "Social solidarity, financial support, and community welfare", "Exporting agricultural goods", "Enforcing criminal court sentences"], answer: 1 },
+
+      // Unit 5: Multiculturalism in Ethiopia
+      { q: "17. What does 'multiculturalism' promote in a diverse society like Ethiopia?", options: ["Forcing all groups to adopt a single culture and language", "Mutual respect, recognition, and peaceful coexistence among diverse cultural, linguistic, and religious groups", "Isolating different communities from one another", "Judging other cultures as inferior"], answer: 1 },
+      { q: "18. Judging another person's culture solely by the values and standards of one's own culture is called:", options: ["Cultural relativism", "Ethnocentrism", "Tolerance", "Inclusiveness"], answer: 1 },
+      { q: "19. Which attitude is essential for building 'unity in diversity'?", options: ["Prejudice and stereotyping", "Tolerance, dialogue, and mutual respect", "Discrimination based on background", "Cultural assimilation by force"], answer: 1 },
+
+      // Unit 6: National Unity through Diversity
+      { q: "20. What is the foundation of sustainable national unity in a diverse country?", options: ["Suppressing minority languages", "Equality, shared civic values, justice, and respect for diversity", "Economic dominance of one region", "Eliminating regional identities"], answer: 1 },
+      { q: "21. Which of the following is a civic duty that strengthens national unity?", options: ["Evading taxes", "Respecting the national flag, obeying constitutional laws, and participating in community development", "Spreading divisive rumors", "Damaging public infrastructure"], answer: 1 },
+
+      // Unit 7: Problem-Solving Skills
+      { q: "22. What is the very first step in effective problem-solving?", options: ["Implementing a random solution immediately", "Identifying and clearly defining the root cause of the problem", "Blaming others for the issue", "Ignoring the problem until it disappears"], answer: 1 },
+      { q: "23. Which skill involves analyzing information objectively, questioning assumptions, and evaluating evidence before making a decision?", options: ["Blind obedience", "Critical thinking", "Emotional reaction", "Guesswork"], answer: 1 },
+      { q: "24. During group problem-solving, what is the purpose of 'brainstorming'?", options: ["Criticizing every idea immediately", "Generating a wide range of possible solutions freely before evaluating them", "Allowing only one person to speak", "Avoiding any new ideas"], answer: 1 },
+      { q: "25. After implementing a chosen solution to a community problem, what should be the final step?", options: ["Forgetting about the project", "Evaluating the outcome to see if the problem was effectively resolved", "Refusing to accept feedback", "Starting a new conflict"], answer: 1 },
+
+      // Unit 8: Ethiopia's Foreign Relations in East Africa
+      { q: "26. What is the primary goal of Ethiopia's foreign policy toward neighboring East African countries?", options: ["Territorial expansion through war", "Mutual peace, regional security, economic integration, and good neighborliness", "Isolating itself from regional organizations", "Controlling all neighboring ports by force"], answer: 1 },
+      { q: "27. Which regional intergovernmental organization headquartered in Djibouti works on peace, security, and development in the Horn of Africa?", options: ["ECOWAS", "IGAD (Intergovernmental Authority on Development)", "SADC", "ASEAN"], answer: 1 },
+      { q: "28. Why is Addis Ababa often referred to as the 'Diplomatic Capital of Africa'?", options: ["Because it has the largest seaport in Africa", "Because it hosts the headquarters of the African Union (AU) and UNECA", "Because it is the oldest city in the world", "Because all African currencies are printed there"], answer: 1 },
+      { q: "29. How do cross-border infrastructure projects (such as electric power grids and railways between Ethiopia, Djibouti, and Kenya) benefit East Africa?", options: ["They increase trade barriers", "They promote regional economic integration, trade, and shared prosperity", "They weaken diplomatic ties", "They reduce energy access"], answer: 1 },
+      { q: "30. Which peaceful method of resolving international disputes involves a neutral third party helping conflicting states reach a voluntary agreement?", options: ["Economic blockade", "Mediation and diplomacy", "Armed intervention", "Propaganda campaigns"], answer: 1 }
+
     ]
   }
 ];
