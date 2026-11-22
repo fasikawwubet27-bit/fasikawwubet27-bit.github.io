@@ -186,7 +186,17 @@ int main() {
   let javaFiles = [
     {
       name: "Main.java",
-      code: "package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Welcome to Fasikaw Tech Java IDE!\");\n    }\n}"
+            code: [
+        "package com.fasikawtech;",
+        "",
+        "public class Main {",
+        "    public static void main(String[] args) {",
+        "        System.out.println(\"Welcome to Fasikaw Tech Java IDE!\");",
+        "    }",
+        "}"
+      ].join("\n")
+
+
     }
   ];
   let activeFileIndex = 0;
@@ -254,8 +264,16 @@ int main() {
       inputEl.value = "";
       return;
     }
+         const eclipseTemplate = [
+      "package com.fasikawtech;",
+      "",
+      "public class " + className + " {",
+      "    public static void main(String[] args) {",
+      "        ",
+      "    }",
+      "}"
+    ].join("\n");
 
-    const eclipseTemplate = "package com.fasikawtech;\n\npublic class " + className + " {\n    public static void main(String[] args) {\n        \n    }\n}";
 
     javaFiles.push({
       name: fileName,
@@ -279,7 +297,29 @@ int main() {
     javaFiles = [
       {
         name: "Student.java",
-        code: "package com.fasikawtech;\n\npublic class Student {\n    String name;\n    int age;\n\n    public Student(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n\n    public void display() {\n        System.out.println(\"Name: \" + name + \", Age: \" + age);\n    }\n\n    public static void main(String[] args) {\n        Student s1 = new Student(\"Fasikaw\", 20);\n        s1.display();\n    }\n}"
+            code: [
+          "package com.fasikawtech;",
+          "",
+          "public class Student {",
+          "    String name;",
+          "    int age;",
+          "",
+          "    public Student(String name, int age) {",
+          "        this.name = name;",
+          "        this.age = age;",
+          "    }",
+          "",
+          "    public void display() {",
+          "        System.out.println(\"Name: \" + name + \", Age: \" + age);",
+          "    }",
+          "",
+          "    public static void main(String[] args) {",
+          "        Student s1 = new Student(\"Fasikaw\", 20);",
+          "        s1.display();",
+          "    }",
+          "}"
+        ].join("\n")
+
       }
     ];
     activeFileIndex = 0;
