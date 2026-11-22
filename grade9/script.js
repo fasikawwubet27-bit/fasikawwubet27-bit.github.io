@@ -346,8 +346,48 @@ const subjectsData = [
       { title: "Unit 2: Climate of Ethiopia", note: "Agro-climatic zones (Dega, Woina Dega, Kolla)." }
     ],
     quiz: [
-      { q: "1. Which agro-climatic zone in Ethiopia is best for dense settlement?", options: ["Berha", "Woina Dega", "Wurch"], answer: 1 },
-      { q: "2. Lines running East-West parallel to the Equator are:", options: ["Longitudes", "Latitudes", "Meridians"], answer: 1 }
+          // Unit 1: Geological History and Topography of Ethiopia
+      { q: "1. During which geological era were the Basement Complex rocks (the oldest rocks in Ethiopia) formed?", options: ["Paleozoic Era", "Mesozoic Era", "Precambrian Era", "Cenozoic Era"], answer: 2 },
+      { q: "2. Which major geological event occurred during the Cenozoic Era and shaped the present-day topography of Ethiopia?", options: ["Marine transgression and regression", "Formation of the Great East African Rift Valley and Trappean lava series", "Denudation and peneplanation", "Formation of coal deposits"], answer: 1 },
+      { q: "3. What is the highest peak in Ethiopia, located in the Simien Mountains?", options: ["Mount Batu", "Mount Tullu Dimtu", "Mount Ras Dashen", "Mount Guna"], answer: 2 },
+      { q: "4. Which part of Ethiopia is the lowest depression, lying about 125 meters below sea level?", options: ["Ogaden Basin", "Dallol (Afar) Depression", "Gambella Lowlands", "Borena Lowlands"], answer: 1 },
+      { q: "5. Which major river drainage system in Ethiopia drains westward into the Mediterranean Sea via Sudan and Egypt?", options: ["The Rift Valley Drainage System", "The Southeastern Drainage System", "The Western (Mediterranean) Drainage System", "The Awash Inland Basin"], answer: 2 },
+
+      // Unit 2: Climate of Ethiopia
+      { q: "6. Which traditional agro-climatic zone of Ethiopia lies between 1,500 m and 2,300 m above sea level and supports the majority of the population and crop production?", options: ["Kolla", "Woina Dega", "Dega", "Wurch"], answer: 1 },
+      { q: "7. Which factor is the primary control of temperature distribution across different parts of Ethiopia?", options: ["Distance from the sea", "Altitude (elevation)", "Ocean currents", "Longitude"], answer: 1 },
+      { q: "8. Which wind system brings the main summer (Kiremt) rainfall to most parts of Ethiopia?", options: ["Northeast Trade Winds", "Equatorial Westerlies (Guinea Monsoon)", "Southeast Monsoon", "Polar Easterlies"], answer: 1 },
+      { q: "9. Which region of Ethiopia receives year-round rainfall with no distinct dry season?", options: ["The Afar Lowlands", "The Southwestern Highlands (e.g., Gore, Mizan Teferi)", "The Tigray Plateau", "The Ogaden Region"], answer: 1 },
+      { q: "10. What does the acronym 'ITCZ' stand for in climatology?", options: ["International Tropical Climate Zone", "Inter-Tropical Convergence Zone", "Internal Temperature Control Zone", "Inter-Continental Thermal Current"], answer: 1 },
+
+      // Unit 3: Natural Resource Base of Ethiopia
+      { q: "11. Which major soil type of Ethiopia is characterized by high clay content, shrinks and cracks when dry, and becomes sticky and waterlogged when wet?", options: ["Nitosols", "Vertisols", "Fluvisols", "Yermosols"], answer: 1 },
+      { q: "12. Which river is the most extensively utilized for irrigation and hydroelectric power generation within Ethiopia's Rift Valley?", options: ["Abay River", "Awash River", "Baro River", "Tekeze River"], answer: 1 },
+      { q: "13. Which Ethiopian lake is the largest in terms of surface area and serves as the source of the Blue Nile (Abay)?", options: ["Lake Ziway", "Lake Abaya", "Lake Tana", "Lake Chamo"], answer: 2 },
+      { q: "14. Which national park in Ethiopia is famous for protecting endemic Afroalpine species such as the Walia Ibex and Gelada Baboon?", options: ["Awash National Park", "Simien Mountains National Park", "Nechisar National Park", "Omo National Park"], answer: 1 },
+      { q: "15. Why are Ethiopia's rivers often referred to as the 'Water Tower of Northeast Africa'?", options: ["Because they are all navigable year-round", "Because major rivers originate in the Ethiopian highlands and flow to neighboring countries", "Because Ethiopia has the largest number of artificial reservoirs", "Because rainfall is uniform across all lowlands"], answer: 1 },
+
+      // Unit 4: Population and Demographic Characteristics of Ethiopia
+      { q: "16. What does a broad-based population pyramid for Ethiopia indicate?", options: ["A declining population with a large elderly group", "A high birth rate and a very large proportion of young dependents", "Zero population growth", "More males than females in older age groups"], answer: 1 },
+      { q: "17. How is the 'Crude Birth Rate (CBR)' defined?", options: ["Total births divided by women of childbearing age", "Number of live births per 1,000 people in a given year", "Difference between births and deaths", "Total number of children a woman bears in her lifetime"], answer: 1 },
+      { q: "18. Which region of Ethiopia has the highest population density?", options: ["Afar Region", "Somali Region", "Central and Southern Highlands (e.g., Sidama, Central Ethiopia)", "Benishangul-Gumuz Region"], answer: 2 },
+      { q: "19. What is the primary cause of rapid rural-to-urban migration in Ethiopia?", options: ["Excessive job opportunities in rural areas", "Push factors like land shortage in rural areas and pull factors like jobs and services in cities", "Government laws forcing farmers to move", "Decline in urban populations"], answer: 1 },
+      { q: "20. Which demographic measure indicates the number of non-working dependents (ages 0–14 and 65+) supported by every 100 working-age people (15–64)?", options: ["Sex ratio", "Age dependency ratio", "Fertility rate", "Life expectancy"], answer: 1 },
+
+      // Unit 5: Major Economic and Cultural Activities in Ethiopia
+      { q: "21. Which economic sector employs the largest percentage of Ethiopia's labor force and contributes significantly to export earnings?", options: ["Heavy manufacturing", "Agriculture", "Mining", "Information technology"], answer: 1 },
+      { q: "22. Which Ethiopian export commodity is the leading source of foreign exchange earnings?", options: ["Gold", "Coffee", "Textiles", "Cut flowers"], answer: 1 },
+      { q: "23. Which mode of transport is most dominant for moving passengers and freight internally across Ethiopia?", options: ["Water transport", "Road transport", "Pipeline transport", "Rail transport"], answer: 1 },
+      { q: "24. Which of the following is a UNESCO World Heritage cultural site in Ethiopia?", options: ["Bale Mountains", "Rock-Hewn Churches of Lalibela", "Lake Langano", "Sof Omar Caves"], answer: 1 },
+
+      // Unit 6 & 7: Map Reading, GIS, and Contemporary Geographic Issues
+      { q: "25. On a topographic map, what do closely spaced contour lines indicate?", options: ["A flat plain", "A steep slope", "A gentle slope", "A deep lake"], answer: 1 },
+      { q: "26. If the scale of a map is 1:50,000, what actual ground distance is represented by 4 cm on the map?", options: ["0.5 km", "2 km", "20 km", "200 km"], answer: 1 },
+      { q: "27. What does the acronym 'GIS' stand for in modern geography?", options: ["Global Internet System", "Geographic Information System", "Geological Investigation Survey", "General Index Scale"], answer: 1 },
+      { q: "28. Which major environmental issue in the Ethiopian highlands is accelerated by deforestation and overgrazing on steep slopes?", options: ["Salinization", "Severe soil erosion and land degradation", "Acid rain", "Tsunamis"], answer: 1 },
+      { q: "29. Which renewable energy source accounts for over 90% of Ethiopia's electricity generation?", options: ["Coal power", "Hydroelectric power", "Nuclear energy", "Natural gas"], answer: 1 },
+      { q: "30. Which soil conservation practice involves building stepped horizontal embankments across hilly farmland to slow down water runoff?", options: ["Monocropping", "Terracing", "Slash-and-burn farming", "Overcultivation"], answer: 1 }
+
     ]
   },
   {
