@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grade 9 Learning System | Fasikaw Tech</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="#home" class="brand">Grade 9 <span>Learning System</span></a>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#subjects">Subjects</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact Us</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="container" id="home">
+    <section class="hero-card">
+      <h1>Welcome to Grade 9 Live & Interactive Learning System</h1>
+      <p>Read Grade 9 PDF textbooks, join live face-to-face video classes with your teacher, take exams, and track your progress.</p>
+      <div class="hero-actions">
+        <a href="#subjects" class="btn btn-primary">Start Learning</a>
+        <a href="https://jit.si" target="_blank" rel="noopener noreferrer" class="btn btn-live"><a href="https://google.com" target="_blank" rel="noopener noreferrer" class="btn btn-live">
+  📹 Join Google Meet
+</a>
+<a href="https://vdo.ninja" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+  🔴 Join Direct Video Chat
+</a>
+
+        <a href="#contact" class="btn btn-outline">Contact Us</a>
+        <button onclick="resetProgress()" class="btn btn-outline">Reset Progress</button>
+      </div>
+
+      <!-- Overall Progress Tracker -->
+      <div class="progress-wrapper">
+        <div class="progress-header">
+          <span>Your Overall Study Progress</span>
+          <strong id="progress-text">0% Completed (0/9 Subjects)</strong>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Subjects & Search Bar Section -->
+    <section class="subjects-section" id="subjects">
+      <div class="section-header">
+        <h2>Our Subjects (New Curriculum)</h2>
+        <div class="search-box">
+          <input
+            type="text"
+            id="subject-search"
+            placeholder="Search subjects (e.g. Maths, Physics, IT)..."
+            onkeyup="filterSubjects()"
+          />
+        </div>
+      </div>
+
+      <div class="subjects-grid" id="subjects-grid"></div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-card" id="about">
+      <h2>About This Platform</h2>
+      <p>
+        Built by <strong>Fasikaw Tech</strong> for Ethiopian Grade 9 students. Click any subject card to open its
+        PDF textbook, join a live interactive video classroom, study chapter summaries, and take practice quizzes.
+      </p>
+    </section>
+
+    <!-- Contact Us Section -->
+    <section class="contact-card" id="contact">
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h2>Contact Us</h2>
+          <p>Have questions about Grade 9 subjects, live classes, or need tutoring support? Reach out directly!</p>
+          <ul class="contact-list">
+            <li><strong>📍 Location:</strong> Bishoftu (Debre Zeit), Ethiopia</li>
+            <li><strong>📞 Phone:</strong> <a href="tel:+251941616449">+251 941 616 449</a></li>
+            <li><strong>✉️ Email:</strong> <a href="mailto:fasikawwubet27@gmail.com">fasikawwubet27@gmail.com</a></li>
+            <li><strong>✈️ Telegram:</strong> <a href="https://t.me" target="_blank" rel="noopener noreferrer">@fasikawtech</a></li>
+            <li><strong>🌐 Website:</strong> <a href="https://github.io" target="_blank" rel="noopener noreferrer">fasikawwubet27-bit.github.io</a></li>
+          </ul>
+        </div>
+
+        <form class="contact-form" onsubmit="sendContactMessage(event)">
+          <h3>Send Us a Message</h3>
+          <input type="text" id="sender-name" placeholder="Your Full Name" required />
+          <input type="text" id="sender-phone" placeholder="Your Phone or Telegram Username" required />
+          <textarea id="sender-msg" rows="4" placeholder="Write your message or subject question here..." required></textarea>
+          <button type="submit" class="btn btn-primary">Send Message via Telegram</button>
+          <p id="contact-status" class="contact-status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Interactive PDF + Live Video Class + Quiz Modal -->
+  <div class="modal-overlay" id="lesson-modal" onclick="closeModalOnOutside(event)">
+    <div class="modal-box modal-large">
+      <div class="modal-header">
+        <div>
+          <span class="modal-badge" id="modal-badge">Grade 9 Live Classroom</span>
+          <h2 id="modal-title">Subject Title</h2>
+        </div>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+
+      <!-- 4 Tabs inside Modal -->
+      <div class="modal-tabs">
+        <button class="tab-btn active" id="tab-study" onclick="switchTab('study')">🔴 Live Class + PDF</button>
+        <button class="tab-btn" id="tab-pdf" onclick="switchTab('pdf')">📕 Full PDF Textbook</button>
+        <button class="tab-btn" id="tab-notes" onclick="switchTab('notes')">📖 Chapter Summaries</button>
+        <button class="tab-btn" id="tab-quiz" onclick="switchTab('quiz')">📝 Practice Quiz</button>
+      </div>
+
+      <!-- Tab 1: Split Screen PDF + Live Video Call -->
+      <div id="study-content" class="tab-panel">
+        <div class="study-toolbar">
+          <span><strong>Live Study:</strong> Open your PDF textbook & connect live with your teacher!</span>
+          <div style="display:flex; gap:8px; flex-wrap:wrap;">
+            <label class="btn btn-outline btn-sm" for="local-pdf-picker">📂 Open PDF from PC</label>
+            <input type="file" id="local-pdf-picker" accept="application/pdf" style="display:none" onchange="loadLocalPdf(event)" />
+
+            <a id="subject-meet-link" href="https://google.com" target="_blank" rel="noopener noreferrer" class="btn btn-live btn-sm">
+  📹 Google Meet Class
+</a>
+<a id="subject-chat-link" href="https://vdo.ninja" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">
+  🔴 Direct Video Chat
+</a>
+
+            <a href="https://vdo.ninja" target="_blank" class="btn btn-live">
+  🔴 Join Live Video Chat Now
+</a>
+
+          </div>
+        </div>
+        <div class="split-view">
+          <div class="split-pane">
+            <h4>📕 Grade 9 Textbook (PDF)</h4>
+            <iframe id="split-pdf-frame" src="" title="PDF Reader"></iframe>
+          </div>
+          <div class="split-pane">
+            <h4>🔴 Live Interactive Video Class</h4>
+            <iframe
+              id="live-class-frame"
+              src=""
+              allow="camera; microphone; fullscreen; display-capture; autoplay"
+              title="Live Video Classroom"
+            ></iframe>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Full Screen PDF Reader -->
+      <div id="pdf-content" class="tab-panel hidden">
+        <div class="study-toolbar">
+          <span>Full-Screen Grade 9 Student Textbook Reader</span>
+          <a id="pdf-open-tab" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm">Open PDF in New Tab ↗</a>
+        </div>
+        <iframe id="full-pdf-frame" class="full-pdf-viewer" src="" title="Full PDF Textbook"></iframe>
+      </div>
+
+      <!-- Tab 3: Chapter Notes -->
+      <div id="notes-content" class="tab-panel hidden">
+        <div id="chapters-list"></div>
+      </div>
+
+      <!-- Tab 4: Practice Quiz -->
+      <div id="quiz-content" class="tab-panel hidden">
+        <div id="quiz-questions"></div>
+        <div class="quiz-footer">
+          <button class="btn btn-primary" onclick="submitQuiz()">Submit Answers & Check Score</button>
+          <div id="quiz-result" class="quiz-result"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fasikaw Tech Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h3>Fasikaw <span>Tech</span></h3>
+        <p>Empowering Ethiopian students with live online classes, Grade 9 textbooks, and interactive quizzes.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#subjects">Grade 9 Subjects</a></li>
+          <li><a href="#contact">Contact Us</a></li>
+          <li><a href="https://github.io" target="_blank" rel="noopener noreferrer">Fasikaw Tech Academy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact & Support</h4>
+        <p>Location: Bishoftu (Debre Zeit), Ethiopia</p>
+        <p>Telegram: <a href="https://t.me" target="_blank" rel="noopener noreferrer">@fasikawtech</a></p>
+        <p>Phone: 0941616449</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Fasikaw Tech. All Rights Reserved. | Grade 9 Learning System</p>
+    </div>
+  </footer>
+
+  <script src="script.js?v=5"></script>
+</body>
+</html>
