@@ -378,7 +378,8 @@ int main() {
       jsCode = jsCode.replace(/\b(public|private|protected)\s+(?=class|static|void|int|double|float|String|boolean|char|long|final)/g, "");
       jsCode = jsCode.replace(/\bfinal\s+/g, "");
 
-      const classNames = [...fullCode.matchAll(/\bclass\s+([A-Za-z_]\w*)/g)].map(m => m[1]);
+      const classMatches = [...fullCode.matchAll(/\bclass\s+([A-Za-z_]\w*)/g)];
+      const classNames = classMatches.map(m => m[1]);
 
       for (const cName of classNames) {
         const ctorRegex = new RegExp("\\b" + cName + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
@@ -426,8 +427,8 @@ int main() {
           if (currentClass && /\bstatic\s+main\s*\(/.test(line)) {
             targetMainClass = currentClass;
             break;
-          }
-          for (const ch of line) {
+}
+for (const ch of line) {
 if (ch === "{") depth++;
 if (ch === "}") {
 depth--;
@@ -452,6 +453,7 @@ outputEl.textContent = "❌ Error: " + err.message;
 }
 document.getElementById("java-editor").value = javaFiles[0].code;
 renderClassTabs();
+
 
 </body>
 </html>
