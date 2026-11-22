@@ -183,139 +183,72 @@ int main() {
   &copy; 2026 Fasikaw Tech. All Rights Reserved. | Hosted Free Forever on GitHub Pages.
 </footer>
 <script>
-  var javaFiles = [
-    {
-      name: "Main.java",
-      code: "package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Welcome to Fasikaw Tech Java IDE!\");\n    }\n}"
-    }
-  ];
-  var activeFileIndex = 0;
+  var files = { "Main.java": "package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello Fasikaw!\");\n    }\n}" };
+  var current = "Main.java";
+  var ed = document.getElementById("java-editor");
+  var out = document.getElementById("java-output");
 
-  function renderClassTabs() {
-    var tabs = document.getElementById("java-class-tabs");
-    tabs.innerHTML = "";
-    for (var i = 0; i < javaFiles.length; i++) {
-      (function(idx) {
-        var btn = document.createElement("button");
-        btn.type = "button";
-        btn.textContent = javaFiles[idx].name;
-        btn.style.cssText = "padding:6px 12px; border-radius:6px; border:1px solid #334155; cursor:pointer; font-weight:bold; background:" + (idx === activeFileIndex ? "#0ea5e9" : "#0f172a") + "; color:#fff;";
-        btn.onclick = function() {
-          saveCurrentTabCode();
-          activeFileIndex = idx;
-          document.getElementById("java-editor").value = javaFiles[idx].code;
-          renderClassTabs();
-        };
-        tabs.appendChild(btn);
-      })(i);
-    }
-  }
-
-  function saveCurrentTabCode() {
-    if (javaFiles[activeFileIndex]) {
-      javaFiles[activeFileIndex].code = document.getElementById("java-editor").value;
-    }
+  function drawTabs() {
+    var box = document.getElementById("java-class-tabs");
+    box.innerHTML = "";
+    Object.keys(files).forEach(function(name) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = name;
+      b.style.cssText = "padding:6px 12px;border-radius:6px;border:1px solid #334155;cursor:pointer;color:#fff;background:" + (name === current ? "#0ea5e9" : "#0f172a");
+      b.onclick = function() { files[current] = ed.value; current = name; ed.value = files[name]; drawTabs(); };
+      box.appendChild(b);
+    });
   }
 
   function createClassFromInput() {
-    saveCurrentTabCode();
-    var input = document.getElementById("new-class-input");
-    var name = input.value.trim().replace(".java", "");
-    if (!name) {
-      alert("Please enter a class name first!");
-      return;
-    }
-    var template = "package com.fasikawtech;\n\npublic class " + name + " {\n    public static void main(String[] args) {\n        \n    }\n}";
-    javaFiles.push({ name: name + ".java", code: template });
-    input.value = "";
-    activeFileIndex = javaFiles.length - 1;
-    document.getElementById("java-editor").value = template;
-    renderClassTabs();
+    var inp = document.getElementById("new-class-input");
+    var name = inp.value.trim().replace(".java", "");
+    if (!name) return;
+    files[current] = ed.value;
+    current = name + ".java";
+    files[current] = "package com.fasikawtech;\n\npublic class " + name + " {\n    public static void main(String[] args) {\n        \n    }\n}";
+    inp.value = "";
+    ed.value = files[current];
+    drawTabs();
   }
 
-  function clearJavaEditor() {
-    document.getElementById("java-editor").value = "";
-    saveCurrentTabCode();
-    var out = document.getElementById("java-output");
-    out.style.color = "#38bdf8";
-    out.textContent = "Editor cleared. Write your code and click Run.";
-  }
+  function clearJavaEditor() { ed.value = ""; files[current] = ""; out.textContent = "Cleared."; }
 
   function resetJavaProject() {
-    var sample = "package com.fasikawtech;\n\nclass Person {\n    String name;\n    int id;\n    public Person(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n    public void display() {\n        System.out.println(\"Name : \" + name);\n        System.out.println(\"ID : \" + id);\n    }\n}\n\npublic class Student {\n    public static void main(String[] args) {\n        Person p = new Person(\"Abebe\", 1234);\n        p.display();\n    }\n}";
-    javaFiles = [{ name: "Student.java", code: sample }];
-    activeFileIndex = 0;
-    document.getElementById("java-editor").value = sample;
-    renderClassTabs();
+    files = { "Student.java": "package com.fasikawtech;\n\nclass Person {\n    String name;\n    int id;\n    Person(String n, int i) { name = n; id = i; }\n    void show() { System.out.println(name + \" - \" + id); }\n}\n\npublic class Student {\n    public static void main(String[] args) {\n        new Person(\"Abebe\", 1234).show();\n    }\n}" };
+    current = "Student.java";
+    ed.value = files[current];
+    drawTabs();
   }
 
   async function runJavaCode() {
-    saveCurrentTabCode();
-    var out = document.getElementById("java-output");
-    var runBtn = document.getElementById("run-java-btn");
-    var active = javaFiles[activeFileIndex];
-
-    if (!active.code.trim()) {
-      out.style.color = "#f87171";
-      out.textContent = "Error: Editor is empty.";
-      return;
-    }
-
-    // Combine all tabs into a valid single compilation unit for real javac
-    var ordered = [];
-    for (var i = 0; i < javaFiles.length; i++) {
-      if (i !== activeFileIndex) ordered.push(javaFiles[i].code);
-    }
-    ordered.push(active.code);
-
-    var combined = ordered.join("\n\n").replace(/^\s*package\s+[\w.]+\s*;/gm, "");
-    var blocks = combined.split(/(?=\b(?:public\s+)?class\s+[A-Za-z_]\w*)/);
-    var finalSource = blocks.map(function(blk) {
-      if (/\bstatic\s+void\s+main\s*\(/.test(blk)) {
-        return blk.replace(/^\s*(?:public\s+)?class\b/, "public class");
-      }
-      return blk.replace(/^\s*public\s+class\b/, "class");
-    }).join("\n");
-
-    runBtn.disabled = true;
-    runBtn.textContent = "Compiling...";
+    files[current] = ed.value;
     out.style.color = "#facc15";
-    out.textContent = "Compiling & running with real Java Compiler (javac)...";
+    out.textContent = "Running...";
+
+    var all = Object.keys(files).filter(k => k !== current).map(k => files[k]).concat(files[current]).join("\n\n");
+    all = all.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
+    all = all.replace(/\bpublic\s+class\b/g, "class");
+    all = all.replace(/class\s+(\w+)([\s\S]*?static\s+void\s+main)/, "public class $1$2");
 
     try {
-      // Uses Codiva / Judge0 public CE endpoint (supports CORS from GitHub Pages)
       var res = await fetch("https://judge0.com", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source_code: finalSource,
-          language_id: 91 // Java (JDK 17.0.6)
-        })
+        body: JSON.stringify({ source_code: all, language_id: 91 })
       });
-
-      var data = await res.json();
-
-      if (data.compile_output) {
-        out.style.color = "#f87171";
-        out.textContent = "❌ Compilation Error (javac):\n" + data.compile_output;
-      } else if (data.stderr) {
-        out.style.color = "#f87171";
-        out.textContent = "❌ Runtime Error:\n" + data.stderr;
-      } else {
-        out.style.color = "#4ade80";
-        out.textContent = data.stdout || "✅ Program compiled and ran successfully (no output).";
-      }
-    } catch (err) {
+      var d = await res.json();
+      out.style.color = (d.compile_output || d.stderr) ? "#f87171" : "#4ade80";
+      out.textContent = d.compile_output || d.stderr || d.stdout || "Done (no output).";
+    } catch (e) {
       out.style.color = "#f87171";
-      out.textContent = "Network Error: Unable to reach Java Compiler server. Please check your internet connection.";
-    } finally {
-      runBtn.disabled = false;
-      runBtn.textContent = "▶ Run Code";
+      out.textContent = "Network Error: Check internet connection.";
     }
   }
 
-  document.getElementById("java-editor").value = javaFiles.code;
-  renderClassTabs();
+  ed.value = files[current];
+  drawTabs();
 </script>
 
 </body>
