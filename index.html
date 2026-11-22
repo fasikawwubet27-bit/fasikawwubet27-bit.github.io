@@ -249,7 +249,7 @@ int main() {
     renderClassTabs();
   }
 
-  function runJavaCode() {
+    function runJavaCode() {
     saveCurrentTabCode();
     var out = document.getElementById("java-output");
     var active = javaFiles[activeFileIndex];
@@ -300,6 +300,14 @@ int main() {
         classNames.push(m);
       }
 
+      // Remove field declarations (e.g., String name; int id;) and track field names
+      var fieldNames = [];
+      js = js.replace(/^\s*(static\s+)?(int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*)\s*;/gm, function(_, st, type, fName) {
+        fieldNames.push(fName);
+        return "";
+      });
+
+      // Convert constructors and local class variables (even without spaces around =)
       for (var k = 0; k < classNames.length; k++) {
         var cn = classNames[k];
         var cRx = new RegExp("\\b" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
@@ -311,27 +319,35 @@ int main() {
         js = js.replace(vRx, "var $1");
       }
 
-            js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
+      // Convert main and other methods
+      js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
       js = js.replace(/^\s*(static\s+)?(void|int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function(_, st, fn, p) {
         if (fn === "main") return "static main(args) {";
         var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
         return (st ? "static " : "") + fn + "(" + args + ") {";
       });
 
-
-      js = js.replace(/^\s*(static\s+)?(void|int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/gm, function(_, st, fn, p) {
-        if (fn === "main") return "static main(args) {";
-        var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
-        return (st ? "static " : "") + fn + "(" + args + ") {";
-      });
+      // Convert local primitive variables
       js = js.replace(/\b(int|double|float|String|boolean|char|long)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
+
+      // Automatically prefix field names with this. inside print statements if not already prefixed
+      for (var f = 0; f < fieldNames.length; f++) {
+        var fnName = fieldNames[f];
+        var fRx = new RegExp("([^.\\w])" + fnName + "\\b", "g");
+        js = js.replace(fRx, function(match, prefix, offset, fullStr) {
+          var before = fullStr.slice(Math.max(0, offset - 25), offset);
+          if (/var\s+$/.test(before) || /\($/.test(prefix)) return match;
+          return prefix + "this." + fnName;
+        });
+      }
+
       js = js.replace(/System\.out\.println/g, "printLine");
       js = js.replace(/System\.out\.print/g, "printLine");
 
       var targetClass = classNames[classNames.length - 1];
       var activeMatch = active.code.match(/class\s+([A-Za-z_]\w*)/);
       if (activeMatch && active.code.indexOf("main(") !== -1) {
-       targetClass = activeMatch[1];
+        targetClass = activeMatch;
       }
 
       var logs = [];
@@ -346,7 +362,7 @@ int main() {
     }
   }
 
-  document.getElementById("java-editor").value = javaFiles[0].code;
+  document.getElementById("java-editor").value = javaFiles.code;
   renderClassTabs();
 </script>
 
