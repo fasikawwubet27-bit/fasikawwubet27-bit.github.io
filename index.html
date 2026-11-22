@@ -186,15 +186,7 @@ int main() {
   var javaFiles = [
     {
       name: "Main.java",
-      code: [
-        "package com.fasikawtech;",
-        "",
-        "public class Main {",
-        "    public static void main(String[] args) {",
-        "        System.out.println(\"Welcome to Fasikaw Tech Eclipse-Style Java IDE!\");",
-        "    }",
-        "}"
-      ].join("\n")
+      code: "package com.fasikawtech;\n\npublic class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Welcome to Fasikaw Tech Java IDE!\");\n    }\n}"
     }
   ];
   var activeFileIndex = 0;
@@ -233,15 +225,7 @@ int main() {
       alert("Please enter a class name first!");
       return;
     }
-    var template = [
-      "package com.fasikawtech;",
-      "",
-      "public class " + name + " {",
-      "    public static void main(String[] args) {",
-      "        ",
-      "    }",
-      "}"
-    ].join("\n");
+    var template = "package com.fasikawtech;\n\npublic class " + name + " {\n    public static void main(String[] args) {\n        \n    }\n}";
     javaFiles.push({ name: name + ".java", code: template });
     input.value = "";
     activeFileIndex = javaFiles.length - 1;
@@ -254,69 +238,27 @@ int main() {
     saveCurrentTabCode();
     var out = document.getElementById("java-output");
     out.style.color = "#38bdf8";
-    out.textContent = "Editor cleared. Write your Java code and click Run.";
+    out.textContent = "Editor cleared. Write your code and click Run.";
   }
 
   function resetJavaProject() {
-    var sample = [
-      "package com.fasikawtech;",
-      "",
-      "class Person {",
-      "    String name;",
-      "    int id;",
-      "",
-      "    public Person(String name, int id) {",
-      "        this.name = name;",
-      "        this.id = id;",
-      "    }",
-      "",
-      "    public void display() {",
-      "        System.out.println(\"Name : \" + name);",
-      "        System.out.println(\"ID : \" + id);",
-      "    }",
-      "}",
-      "",
-      "public class Student {",
-      "    public static void main(String[] args) {",
-      "        Person p = new Person(\"Abebe\", 1234);",
-      "        p.display();",
-      "    }",
-      "}"
-    ].join("\n");
+    var sample = "package com.fasikawtech;\n\nclass Person {\n    String name;\n    int id;\n    public Person(String name, int id) {\n        this.name = name;\n        this.id = id;\n    }\n    public void display() {\n        System.out.println(\"Name : \" + this.name);\n        System.out.println(\"ID : \" + this.id);\n    }\n}\n\npublic class Student {\n    public static void main(String[] args) {\n        Person p = new Person(\"Abebe\", 1234);\n        p.display();\n    }\n}";
     javaFiles = [{ name: "Student.java", code: sample }];
     activeFileIndex = 0;
     document.getElementById("java-editor").value = sample;
     renderClassTabs();
   }
 
-  function prepareCombinedJavaSource() {
+  function runJavaCode() {
+    saveCurrentTabCode();
+    var out = document.getElementById("java-output");
+    var active = javaFiles[activeFileIndex];
     var ordered = [];
     for (var i = 0; i < javaFiles.length; i++) {
       if (i !== activeFileIndex) ordered.push(javaFiles[i].code);
     }
-    ordered.push(javaFiles[activeFileIndex].code);
-
-    var combined = ordered.join("\n\n");
-    // Remove package lines for single-unit JDK compilation while keeping imports
-    combined = combined.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
-
-    // Ensure only the class containing main() is 'public class' so javac compiles multiple classes cleanly
-    var blocks = combined.split(/(?=\b(?:public\s+)?class\s+[A-Za-z_]\w*)/);
-    var processed = blocks.map(function(blk) {
-      if (/\bstatic\s+void\s+main\s*\(/.test(blk)) {
-        return blk.replace(/^\s*(?:public\s+)?class\b/, "public class");
-      } else {
-        return blk.replace(/^\s*public\s+class\b/, "class");
-      }
-    });
-    return processed.join("\n");
-  }
-
-  async function runJavaCode() {
-    saveCurrentTabCode();
-    var out = document.getElementById("java-output");
-    var runBtn = document.getElementById("run-java-btn");
-    var active = javaFiles[activeFileIndex];
+    ordered.push(active.code);
+    var allCode = ordered.join("\n\n");
 
     if (!active.code.trim()) {
       out.style.color = "#f87171";
@@ -324,47 +266,6 @@ int main() {
       return;
     }
 
-    var finalJavaCode = prepareCombinedJavaSource();
-
-    runBtn.disabled = true;
-    runBtn.textContent = "Compiling...";
-    out.style.color = "#facc15";
-    out.textContent = "Compiling with JDK 21 (Eclipse Standard)...";
-
-    try {
-      var res = await fetch("https://java-sandbox.sajitkhadka.com/api/compile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: finalJavaCode })
-      });
-
-      var data = await res.json();
-
-      if (data.status === "success") {
-        out.style.color = "#4ade80";
-        out.textContent = data.message || "Program compiled and ran successfully (no output).";
-      } else if (data.status === "error" && data.errors) {
-        out.style.color = "#f87171";
-        var errText = data.errors.map(function(e) {
-          return "Compilation Error (Line " + e.line + "): " + e.message;
-        }).join("\n");
-        out.textContent = errText;
-      } else if (data.error) {
-        out.style.color = "#f87171";
-        out.textContent = "Error: " + data.error;
-      } else {
-        throw new Error("Unexpected compiler response");
-      }
-    } catch (err) {
-      // Fallback if cloud JDK is unreachable
-      runLocalJavaFallback(finalJavaCode, out);
-    } finally {
-      runBtn.disabled = false;
-      runBtn.textContent = "▶ Run Code";
-    }
-  }
-
-   function runLocalJavaFallback(allCode, out) {
     try {
       var js = allCode;
       js = js.replace(/package\s+[\w.]+\s*;/g, "");
@@ -379,10 +280,8 @@ int main() {
         classNames.push(m[1]);
       }
 
-      // Remove ALL field declarations inside classes (String name; int id; double gpa; etc.)
       js = js.replace(/(?:^|\n|\{)\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+[a-zA-Z_][\w,\s]*;/g, "\n");
 
-      // Convert constructors and class variables
       for (var k = 0; k < classNames.length; k++) {
         var cn = classNames[k];
         var cRx = new RegExp("\\b" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
@@ -394,15 +293,13 @@ int main() {
         js = js.replace(vRx, "var $1");
       }
 
-      // Convert main and other methods
-         js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, p) {
+      js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
+      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, fn, p) {
         if (fn === "main") return "static main(args) {";
         var args = p.split(",").map(function(x) { return x.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
         return (st ? "static " : "") + fn + "(" + args + ") {";
       });
 
-
-      // Convert local primitive variables inside methods
       js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "var $1");
       js = js.replace(/System\.out\.println/g, "printLine");
       js = js.replace(/System\.out\.print/g, "printLine");
@@ -416,10 +313,13 @@ int main() {
       out.textContent = logs.length ? logs.join("\n") : "Program ran successfully.";
     } catch (e) {
       out.style.color = "#f87171";
-      out.textContent = "Compilation/Runtime Error: " + e.message;
+      out.textContent = "Error: " + e.message;
     }
   }
 
+  document.getElementById("java-editor").value = javaFiles[0].code;
+  renderClassTabs();
+</script>
 
 
 </body>
