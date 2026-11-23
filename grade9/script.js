@@ -597,10 +597,9 @@ const pdfLink = "https://drive." + "://google.com" + fileId + "/preview";
   document.getElementById("full-pdf-frame").src = pdfLink;
   document.getElementById("pdf-open-tab").href = pdfLink;
 
-  document.getElementById("subject-meet-link").href = meetUrl;
-  document.getElementById("subject-chat-link").href = chatUrl;
-  document.getElementById("live-class-frame").src = chatUrl;
-
+document.getElementById("split-pdf-frame").src = currentSubject.pdfUrl;
+document.getElementById("full-pdf-frame").src = currentSubject.pdfUrl;
+document.getElementById("pdf-open-tab").href = currentSubject.pdfUrl;
 
   const chaptersDiv = document.getElementById("chapters-list");
   chaptersDiv.innerHTML = "";
