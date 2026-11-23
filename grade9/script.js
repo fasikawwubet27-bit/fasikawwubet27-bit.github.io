@@ -590,7 +590,7 @@ function openSubjectModal(subjectId) {
   const fileId = pdfMap[currentSubject.id];
   const pdfLink = ["https:", "", "drive." + "google." + "com", "file", "d", fileId, "preview"].join("/");
   const meetUrl = ["https:", "", "meet." + "google." + "com", "new"].join("/");
-  const chatUrl = ["https:", "", "vdo." + "ninja", "?room=" + currentSubject.roomName].join("/");
+  const chatUrl = "https://vdo." + "ninja/?room=" + currentSubject.roomName + "&wc&autostart";
 
   const badge = document.getElementById("modal-badge");
   if (badge) badge.textContent = "Grade 9 Live Classroom";
