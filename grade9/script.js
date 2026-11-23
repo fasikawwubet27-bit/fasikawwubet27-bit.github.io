@@ -511,7 +511,7 @@ const subjectsData = [
 let currentSubject = null;
 let completedSubjects = JSON.parse(localStorage.getItem("grade9_completed")) || [];
 function copyInviteLink() {
-  const siteLink = "https://github.io";
+ const siteLink = "https://fasikawwubet27-bit." + "github.io/grade9/";
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(siteLink).then(function () {
       alert("የመማሪያ ክፍሉ ሊንክ ኮፒ ሆኗል!");
@@ -633,7 +633,6 @@ function openSubjectModal(subjectId) {
 
   const chatLink = document.getElementById("subject-chat-link");
   if (chatLink) chatLink.href = chatUrl;
-const textChat = document.getElementById("live-text-chat");
 const textChat = document.getElementById("live-text-chat");
 if (textChat) {
   textChat.src = ["https:", "", "tlk." + "io", currentSubject.roomName].join("/");
