@@ -601,7 +601,7 @@ function openSubjectModal(subjectId) {
   };
 
   const fileId = pdfMap[currentSubject.id];
-  const pdfLink = "https://drive." + "://google.com" + fileId + "/preview";
+const pdfLink = "https://drive." + "://google.com" + fileId + "/preview";
 
   document.getElementById("split-pdf-frame").src = pdfLink;
   document.getElementById("full-pdf-frame").src = pdfLink;
