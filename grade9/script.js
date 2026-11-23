@@ -510,6 +510,16 @@ const subjectsData = [
 
 let currentSubject = null;
 let completedSubjects = JSON.parse(localStorage.getItem("grade9_completed")) || [];
+function copyInviteLink() {
+  const siteLink = "https://github.io";
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(siteLink).then(function () {
+      alert("✅ የመማሪያ ክፍሉ ሊንክ ኮፒ ሆኗል!\n\nአሁን በቴሌግራም ወይም በዋትስአፕ ለተማሪዎችህ ላክላቸው።");
+    });
+  } else {
+    prompt("ይህንን ሊንክ ኮፒ አድርገህ ለተማሪዎችህ ላክላቸው፦", siteLink);
+  }
+}
 
 function renderSubjects(list) {
   if (!list) list = subjectsData;
@@ -618,6 +628,9 @@ function openSubjectModal(subjectId) {
 
   const liveFrame = document.getElementById("live-class-frame");
   if (liveFrame) liveFrame.src = chatUrl;
+  const textChat = document.getElementById("live-text-chat");
+if (textChat) textChat.src = "https://tlk.io" + currentSubject.roomName;
+
   document.getElementById("lesson-modal").classList.add("active");
   const chaptersDiv = document.getElementById("chapters-list");
 
