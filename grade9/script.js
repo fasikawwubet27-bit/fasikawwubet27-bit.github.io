@@ -581,7 +581,361 @@ function renderSubjects(list) {
     grid.appendChild(card);
   });
 
-  updateProgressBar();
+  if (typeof updateProgressBar === "function") updateProgressBar();
+}
+
+function filterSubjects() {
+  const query = document.getElementById("subject-search").value.toLowerCase();
+  const filtered = subjectsData.filter(function (s) {
+    return s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query);
+  });
+  renderSubjects(filtered);
+}
+function renderSubjects(list) {
+  if (!list) list = subjectsData;
+  const grid = document.getElementById("subjects-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  list.forEach(function (subj) {
+    const isDone = completedSubjects.includes(subj.id);
+    const card = document.createElement("div");
+    card.className = isDone ? "subject-card completed" : "subject-card";
+    card.onclick = function () { openSubjectModal(subj.id); };
+
+    const top = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.textContent = subj.title;
+    const p = document.createElement("p");
+    p.textContent = subj.desc;
+
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
+    ["📕 PDF Book", "🔴 Live Video Class", "📝 Quiz"].forEach(function (t) {
+      const span = document.createElement("span");
+      span.className = "mini-tag";
+      span.textContent = t;
+      tags.appendChild(span);
+    });
+
+    top.appendChild(h3);
+    top.appendChild(p);
+    top.appendChild(tags);
+
+    const footer = document.createElement("div");
+    footer.className = "card-footer";
+    const linkText = document.createElement("span");
+    linkText.textContent = "Join Live Class & PDF →";
+    footer.appendChild(linkText);
+
+    if (isDone) {
+      const badge = document.createElement("span");
+      badge.className = "badge-done";
+      badge.textContent = "✓ Completed";
+      footer.appendChild(badge);
+    }
+
+    card.appendChild(top);
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  if (typeof updateProgressBar === "function") updateProgressBar();
+}
+
+function filterSubjects() {
+  const query = document.getElementById("subject-search").value.toLowerCase();
+  const filtered = subjectsData.filter(function (s) {
+    return s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query);
+  });
+  renderSubjects(filtered);
+}
+function renderSubjects(list) {
+  if (!list) list = subjectsData;
+  const grid = document.getElementById("subjects-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  list.forEach(function (subj) {
+    const isDone = completedSubjects.includes(subj.id);
+    const card = document.createElement("div");
+    card.className = isDone ? "subject-card completed" : "subject-card";
+    card.onclick = function () { openSubjectModal(subj.id); };
+
+    const top = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.textContent = subj.title;
+    const p = document.createElement("p");
+    p.textContent = subj.desc;
+
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
+    ["📕 PDF Book", "🔴 Live Video Class", "📝 Quiz"].forEach(function (t) {
+      const span = document.createElement("span");
+      span.className = "mini-tag";
+      span.textContent = t;
+      tags.appendChild(span);
+    });
+
+    top.appendChild(h3);
+    top.appendChild(p);
+    top.appendChild(tags);
+
+    const footer = document.createElement("div");
+    footer.className = "card-footer";
+    const linkText = document.createElement("span");
+    linkText.textContent = "Join Live Class & PDF →";
+    footer.appendChild(linkText);
+
+    if (isDone) {
+      const badge = document.createElement("span");
+      badge.className = "badge-done";
+      badge.textContent = "✓ Completed";
+      footer.appendChild(badge);
+    }
+
+    card.appendChild(top);
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  if (typeof updateProgressBar === "function") updateProgressBar();
+}
+
+function filterSubjects() {
+  const query = document.getElementById("subject-search").value.toLowerCase();
+  const filtered = subjectsData.filter(function (s) {
+    return s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query);
+  });
+  renderSubjects(filtered);
+}
+function renderSubjects(list) {
+  if (!list) list = subjectsData;
+  const grid = document.getElementById("subjects-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  list.forEach(function (subj) {
+    const isDone = completedSubjects.includes(subj.id);
+    const card = document.createElement("div");
+    card.className = isDone ? "subject-card completed" : "subject-card";
+    card.onclick = function () { openSubjectModal(subj.id); };
+
+    const top = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.textContent = subj.title;
+    const p = document.createElement("p");
+    p.textContent = subj.desc;
+
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
+    ["📕 PDF Book", "🔴 Live Video Class", "📝 Quiz"].forEach(function (t) {
+      const span = document.createElement("span");
+      span.className = "mini-tag";
+      span.textContent = t;
+      tags.appendChild(span);
+    });
+
+    top.appendChild(h3);
+    top.appendChild(p);
+    top.appendChild(tags);
+
+    const footer = document.createElement("div");
+    footer.className = "card-footer";
+    const linkText = document.createElement("span");
+    linkText.textContent = "Join Live Class & PDF →";
+    footer.appendChild(linkText);
+
+    if (isDone) {
+      const badge = document.createElement("span");
+      badge.className = "badge-done";
+      badge.textContent = "✓ Completed";
+      footer.appendChild(badge);
+    }
+
+    card.appendChild(top);
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  if (typeof updateProgressBar === "function") updateProgressBar();
+}
+
+function filterSubjects() {
+  const query = document.getElementById("subject-search").value.toLowerCase();
+  const filtered = subjectsData.filter(function (s) {
+    return s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query);
+  });
+  renderSubjects(filtered);
+}
+function renderSubjects(list) {
+  if (!list) list = subjectsData;
+  const grid = document.getElementById("subjects-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  list.forEach(function (subj) {
+    const isDone = completedSubjects.includes(subj.id);
+    const card = document.createElement("div");
+    card.className = isDone ? "subject-card completed" : "subject-card";
+    card.onclick = function () { openSubjectModal(subj.id); };
+
+    const top = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.textContent = subj.title;
+    const p = document.createElement("p");
+    p.textContent = subj.desc;
+
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
+    ["📕 PDF Book", "🔴 Live Video Class", "📝 Quiz"].forEach(function (t) {
+      const span = document.createElement("span");
+      span.className = "mini-tag";
+      span.textContent = t;
+      tags.appendChild(span);
+    });
+
+    top.appendChild(h3);
+    top.appendChild(p);
+    top.appendChild(tags);
+
+    const footer = document.createElement("div");
+    footer.className = "card-footer";
+    const linkText = document.createElement("span");
+    linkText.textContent = "Join Live Class & PDF →";
+    footer.appendChild(linkText);
+
+    if (isDone) {
+      const badge = document.createElement("span");
+      badge.className = "badge-done";
+      badge.textContent = "✓ Completed";
+      footer.appendChild(badge);
+    }
+
+    card.appendChild(top);
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  if (typeof updateProgressBar === "function") updateProgressBar();
+}
+
+function filterSubjects() {
+  const query = document.getElementById("subject-search").value.toLowerCase();
+  const filtered = subjectsData.filter(function (s) {
+    return s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query);
+  });
+  renderSubjects(filtered);
+}
+function renderSubjects(list) {
+  if (!list) list = subjectsData;
+  const grid = document.getElementById("subjects-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  list.forEach(function (subj) {
+    const isDone = completedSubjects.includes(subj.id);
+    const card = document.createElement("div");
+    card.className = isDone ? "subject-card completed" : "subject-card";
+    card.onclick = function () { openSubjectModal(subj.id); };
+
+    const top = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.textContent = subj.title;
+    const p = document.createElement("p");
+    p.textContent = subj.desc;
+
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
+    ["📕 PDF Book", "🔴 Live Video Class", "📝 Quiz"].forEach(function (t) {
+      const span = document.createElement("span");
+      span.className = "mini-tag";
+      span.textContent = t;
+      tags.appendChild(span);
+    });
+
+    top.appendChild(h3);
+    top.appendChild(p);
+    top.appendChild(tags);
+
+    const footer = document.createElement("div");
+    footer.className = "card-footer";
+    const linkText = document.createElement("span");
+    linkText.textContent = "Join Live Class & PDF →";
+    footer.appendChild(linkText);
+
+    if (isDone) {
+      const badge = document.createElement("span");
+      badge.className = "badge-done";
+      badge.textContent = "✓ Completed";
+      footer.appendChild(badge);
+    }
+
+    card.appendChild(top);
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  if (typeof updateProgressBar === "function") updateProgressBar();
+}
+
+function filterSubjects() {
+  const query = document.getElementById("subject-search").value.toLowerCase();
+  const filtered = subjectsData.filter(function (s) {
+    return s.title.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query);
+  });
+  renderSubjects(filtered);
+}
+function renderSubjects(list) {
+  if (!list) list = subjectsData;
+  const grid = document.getElementById("subjects-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+
+  list.forEach(function (subj) {
+    const isDone = completedSubjects.includes(subj.id);
+    const card = document.createElement("div");
+    card.className = isDone ? "subject-card completed" : "subject-card";
+    card.onclick = function () { openSubjectModal(subj.id); };
+
+    const top = document.createElement("div");
+    const h3 = document.createElement("h3");
+    h3.textContent = subj.title;
+    const p = document.createElement("p");
+    p.textContent = subj.desc;
+
+    const tags = document.createElement("div");
+    tags.className = "card-tags";
+    ["📕 PDF Book", "🔴 Live Video Class", "📝 Quiz"].forEach(function (t) {
+      const span = document.createElement("span");
+      span.className = "mini-tag";
+      span.textContent = t;
+      tags.appendChild(span);
+    });
+
+    top.appendChild(h3);
+    top.appendChild(p);
+    top.appendChild(tags);
+
+    const footer = document.createElement("div");
+    footer.className = "card-footer";
+    const linkText = document.createElement("span");
+    linkText.textContent = "Join Live Class & PDF →";
+    footer.appendChild(linkText);
+
+    if (isDone) {
+      const badge = document.createElement("span");
+      badge.className = "badge-done";
+      badge.textContent = "✓ Completed";
+      footer.appendChild(badge);
+    }
+
+    card.appendChild(top);
+    card.appendChild(footer);
+    grid.appendChild(card);
+  });
+
+  if (typeof updateProgressBar === "function") updateProgressBar();
 }
 
 function filterSubjects() {
