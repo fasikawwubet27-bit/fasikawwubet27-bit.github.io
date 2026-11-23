@@ -618,6 +618,8 @@ function openSubjectModal(subjectId) {
 
   const liveFrame = document.getElementById("live-class-frame");
   if (liveFrame) liveFrame.src = chatUrl;
+  document.getElementById("lesson-modal").classList.add("active");
+  const chaptersDiv = document.getElementById("chapters-list");
 
   chaptersDiv.innerHTML = "";
   currentSubject.chapters.forEach(function (ch) {
