@@ -520,6 +520,15 @@ function copyInviteLink() {
     prompt("ይህንን ሊንክ ኮፒ አድርገህ ለተማሪዎችህ ላክላቸው፦", siteLink);
   }
 }
+function joinLiveSlot(slotNum) {
+  if (!currentSubject) return;
+  const slotEl = document.getElementById("slot-" + slotNum);
+  if (slotEl) slotEl.style.display = "none";
+  const liveFrame = document.getElementById("live-class-frame");
+  if (liveFrame) {
+    liveFrame.src = ["https:", "", "vdo." + "ninja", "?room=" + currentSubject.roomName + "&wc&grid&autostart"].join("/");
+  }
+}
 
 function renderSubjects(list) {
   if (!list) list = subjectsData;
@@ -622,6 +631,10 @@ function openSubjectModal(subjectId) {
 
   const chatLink = document.getElementById("subject-chat-link");
   if (chatLink) chatLink.href = chatUrl;
+const textChat = document.getElementById("live-text-chat");
+if (textChat) {
+  textChat.src = ["https:", "", "tlk." + "io", currentSubject.roomName].join("/");
+}
 
   const liveLink = document.getElementById("subject-live-link");
   if (liveLink) liveLink.href = chatUrl;
