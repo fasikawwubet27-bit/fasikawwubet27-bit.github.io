@@ -1,3 +1,14 @@
+const driveIds = {
+  math: "1AvFMyOefgvJiGI1Oku8-JlSOBkTrlSDh",
+  english: "1xUcLOKFcR2SWly_VpufZU6raQQ2pRPy1",
+  physics: "1c6DzqiYrjTErZvKLh3Z2X2vWyTIwAU7p",
+  chemistry: "1L0Cb36Y5jf-7KKxiv3m5pUINI0lB0dY5",
+  biology: "1Pu6QzwQGYLdMld9ZCXxxfP40FEvEJfF4",
+  history: "1Fp-eCjICHa42ucHH_7wvetv6x5fLS90S",
+  geography: "1A712d6fF8lOmaVP4NdTqDlUp2FvVGdxS",
+  it: "1lc1oJpN5o7D1SNodIn-AbY3OIE4EtBQT",
+  citizenship: "1RBDpChEa8rjcGOF_q0-UkQE4D2KcWDGZ"
+};
 const subjectsData = [
   {
     id: "math",
@@ -578,9 +589,11 @@ const chatUrl = "https://vdo.ninja" + currentSubject.roomName;
   document.getElementById("modal-badge").textContent = "Grade 9 Live Classroom";
   document.getElementById("modal-title").textContent = currentSubject.title;
 
-  document.getElementById("split-pdf-frame").src = currentSubject.pdfUrl;
-  document.getElementById("full-pdf-frame").src = currentSubject.pdfUrl;
-  document.getElementById("pdf-open-tab").href = currentSubject.pdfUrl;
+const pdfLink = "https://drive." + "://google.com" + driveIds[currentSubject.id] + "/preview";
+document.getElementById("split-pdf-frame").src = pdfLink;
+document.getElementById("full-pdf-frame").src = pdfLink;
+document.getElementById("pdf-open-tab").href = pdfLink;
+
   document.getElementById("subject-meet-link").href = meetUrl;
 document.getElementById("subject-chat-link").href = chatUrl;
 document.getElementById("live-class-frame").src = chatUrl;
