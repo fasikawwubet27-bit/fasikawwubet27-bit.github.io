@@ -589,7 +589,7 @@ const chatUrl = "https://vdo.ninja" + currentSubject.roomName;
   document.getElementById("modal-badge").textContent = "Grade 9 Live Classroom";
   document.getElementById("modal-title").textContent = currentSubject.title;
 
-const pdfLink = "https://drive." + "://google.com" + driveIds[currentSubject.id] + "/preview";
+const pdfL = "https://drive."+"google.com"+"/file/d/"+driveIds[currentSubject.id] + "/preview";
 document.getElementById("split-pdf-frame").src = pdfLink;
 document.getElementById("full-pdf-frame").src = pdfLink;
 document.getElementById("pdf-open-tab").href = pdfLink;
