@@ -3,7 +3,8 @@ const subjectsData = [
     id: "math",
     title: "Mathematics (ሒሳብ)",
     desc: "Maths - Sets, Algebra, Geometry, Statistics and Trigonometry.",
-    pdfUrl: "pdfs/math.pdf",
+   pdfUrl: "https://google.com",
+
     roomName: "FasikawTechGrade9Mathematics",
     chapters: [
       { title: "Unit 1: Further on Sets", note: "Set operations (union, intersection, difference), Venn diagrams, and number of elements." },
@@ -47,7 +48,7 @@ const subjectsData = [
     id: "english",
     title: "English (እንግሊዝኛ)",
     desc: "Reading comprehension, writing, speaking and grammar.",
-    pdfUrl: "pdfs/english.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9English",
     chapters: [
       { title: "Unit 1: Living in Urban Areas", note: "Listening skills, comparing urban and rural life, and present tenses." },
@@ -104,7 +105,7 @@ const subjectsData = [
     id: "physics",
     title: "Physics (ፊዚክስ)",
     desc: "Vectors, motion, forces, work, energy and waves.",
-    pdfUrl: "pdfs/physics.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9Physics",
     chapters: [
       { title: "Unit 1: Physics and Human Society", note: "Branches of physics, scientific method, and careers in physics." },
@@ -161,7 +162,7 @@ const subjectsData = [
     id: "chemistry",
     title: "Chemistry (ኬሚስትሪ)",
     desc: "Matter, atomic structure, periodic table and chemical bonding.",
-    pdfUrl: "pdfs/chemistry.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9Chemistry",
     chapters: [
       { title: "Unit 1: Chemistry and Its Importance", note: "Definition of chemistry, branches, and role in agriculture and medicine." },
@@ -214,7 +215,7 @@ const subjectsData = [
     id: "biology",
     title: "Biology (ባዮሎጂ)",
     desc: "Cells, classification of organisms, human health and nature.",
-    pdfUrl: "pdfs/biology.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9Biology",
     chapters: [
       { title: "Unit 1: Introduction to Biology", note: "Characteristics of living things, microscope parts, and Ethiopian biologists." },
@@ -269,7 +270,7 @@ const subjectsData = [
     id: "history",
     title: "History (ታሪክ)",
     desc: "Ethiopian and world civilizations and historical events.",
-    pdfUrl: "pdfs/history.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9History",
     chapters: [
       { title: "Unit 1: The Discipline of History", note: "Meaning of history, primary vs. secondary sources, and dating." },
@@ -339,7 +340,7 @@ const subjectsData = [
     id: "geography",
     title: "Geography (ጂኦግራፊ)",
     desc: "The Earth, climate, landforms and Ethiopia's environment.",
-    pdfUrl: "pdfs/geography.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9Geography",
     chapters: [
       { title: "Unit 1: Geological History & Topography of Ethiopia", note: "Location, size, shape, and major landforms of Ethiopia." },
@@ -394,7 +395,7 @@ const subjectsData = [
     id: "it",
     title: "Information Technology (IT)",
     desc: "Computer systems, digital logic, networking and programming.",
-    pdfUrl: "pdfs/it.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9IT",
     chapters: [
       { title: "Unit 1: Organization of Files & Computer Systems", note: "Hardware components, software types, and analog vs. digital systems." },
@@ -449,7 +450,7 @@ const subjectsData = [
     id: "citizenship",
     title: "Citizenship (የዜግነት ትምህርት)",
     desc: "Ethical values, democracy, human rights and responsibilities.",
-    pdfUrl: "pdfs/citizenship.pdf",
+    pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9Citizenship",
     chapters: [
       { title: "Unit 1: Ethical Values", note: "Honesty, integrity, fairness, empathy, and civic responsibility." },
