@@ -590,8 +590,8 @@ function openSubjectModal(subjectId) {
     citizenship: "1RBDpChEa8rjcGOF_q0-UkQE4D2KcWDGZ"
   };
 
-  const fileId = pdfMap[currentSubject.id];
-const pdfLink = "https://drive." + "://google.com" + fileId + "/preview";
+  const pdfLink = ["https:", "", "drive." + "google." + "com", "file", "d", fileId, "preview"].join("/");
+
 
   document.getElementById("split-pdf-frame").src = pdfLink;
   document.getElementById("full-pdf-frame").src = pdfLink;
