@@ -588,6 +588,8 @@ const meetUrl = "https://google.com";
 const chatUrl = "https://vdo.ninja" + currentSubject.roomName;
   document.getElementById("modal-badge").textContent = "Grade 9 Live Classroom";
   document.getElementById("modal-title").textContent = currentSubject.title;
+const folderId = "19GwVBelCr1NC3b730Uc0_soIIyb9O05J";
+const pdfLink = ["https:/", "://google.com", "embeddedfolderview?id=" + folderId + "#list"].join("/");
 
 const pdfL = "https://drive."+"google.com"+"/file/d/"+driveIds[currentSubject.id] + "/preview";
 document.getElementById("split-pdf-frame").src = pdfLink;
