@@ -3,8 +3,7 @@ const subjectsData = [
     id: "math",
     title: "Mathematics (ሒሳብ)",
     desc: "Maths - Sets, Algebra, Geometry, Statistics and Trigonometry.",
-   pdfUrl: "https://google.com",
-
+  pdfUrl: "https://google.com",
     roomName: "FasikawTechGrade9Mathematics",
     chapters: [
       { title: "Unit 1: Further on Sets", note: "Set operations (union, intersection, difference), Venn diagrams, and number of elements." },
@@ -48,7 +47,8 @@ const subjectsData = [
     id: "english",
     title: "English (እንግሊዝኛ)",
     desc: "Reading comprehension, writing, speaking and grammar.",
-    pdfUrl: "https://google.com",
+   pdfUrl: "https://google.com",
+
     roomName: "FasikawTechGrade9English",
     chapters: [
       { title: "Unit 1: Living in Urban Areas", note: "Listening skills, comparing urban and rural life, and present tenses." },
