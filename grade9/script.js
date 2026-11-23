@@ -3,7 +3,7 @@ const subjectsData = [
     id: "math",
     title: "Mathematics (ሒሳብ)",
     desc: "Maths - Sets, Algebra, Geometry, Statistics and Trigonometry.",
-  pdfUrl: "https://drive." + "://gogle.com",
+ fileId: "1AvFMyOefgvJiGI1Oku8-JlSOBkTrlSDh",
     roomName: "FasikawTechGrade9Mathematics",
     chapters: [
       { title: "Unit 1: Further on Sets", note: "Set operations (union, intersection, difference), Venn diagrams, and number of elements." },
