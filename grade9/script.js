@@ -574,6 +574,7 @@ function filterSubjects() {
 function openSubjectModal(subjectId) {
   currentSubject = subjectsData.find(function (s) { return s.id === subjectId; });
   if (!currentSubject) return;
+
   const pdfMap = {
     math: "1AvFMyOefgvJiGI1Oku8-JlSOBkTrlSDh",
     english: "1xUcLOKFcR2SWly_VpufZU6raQQ2pRPy1",
@@ -617,7 +618,6 @@ function openSubjectModal(subjectId) {
 
   const liveFrame = document.getElementById("live-class-frame");
   if (liveFrame) liveFrame.src = chatUrl;
-const chaptersDiv = document.getElementById("chapters-list");
 
   chaptersDiv.innerHTML = "";
   currentSubject.chapters.forEach(function (ch) {
