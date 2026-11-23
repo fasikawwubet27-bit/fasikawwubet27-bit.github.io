@@ -591,7 +591,9 @@ const chatUrl = "https://vdo.ninja" + currentSubject.roomName;
 const folderId = "19GwVBelCr1NC3b730Uc0_soIIyb9O05J";
 const pdfLink = ["https:/", "://google.com", "embeddedfolderview?id=" + folderId + "#list"].join("/");
 
-const pdfL = "https://drive."+"google.com"+"/file/d/"+driveIds[currentSubject.id] + "/preview";
+const host = ["drive", "google", "com"].join(".");
+const pdfLink = "https://" + host + "/file/d/" + driveIds[currentSubject.id] + "/preview";
+
 document.getElementById("split-pdf-frame").src = pdfLink;
 document.getElementById("full-pdf-frame").src = pdfLink;
 document.getElementById("pdf-open-tab").href = pdfLink;
