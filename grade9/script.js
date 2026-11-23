@@ -574,10 +574,6 @@ function filterSubjects() {
 function openSubjectModal(subjectId) {
   currentSubject = subjectsData.find(function (s) { return s.id === subjectId; });
   if (!currentSubject) return;
- const meetUrl = "https://meet." + "://google.com";
- const chatUrl = "https://vdo." + "ninja/?room=" + currentSubject.roomName;
-  document.getElementById("modal-badge").textContent = "Grade 9 Live Classroom";
-  document.getElementById("modal-title").textContent = currentSubject.title;
   const pdfMap = {
     math: "1AvFMyOefgvJiGI1Oku8-JlSOBkTrlSDh",
     english: "1xUcLOKFcR2SWly_VpufZU6raQQ2pRPy1",
@@ -590,18 +586,38 @@ function openSubjectModal(subjectId) {
     citizenship: "1RBDpChEa8rjcGOF_q0-UkQE4D2KcWDGZ"
   };
 
+  const fileId = pdfMap[currentSubject.id];
   const pdfLink = ["https:", "", "drive." + "google." + "com", "file", "d", fileId, "preview"].join("/");
+  const meetUrl = ["https:", "", "meet." + "google." + "com", "new"].join("/");
+  const chatUrl = ["https:", "", "vdo." + "ninja", "?room=" + currentSubject.roomName].join("/");
 
+  const badge = document.getElementById("modal-badge");
+  if (badge) badge.textContent = "Grade 9 Live Classroom";
 
-  document.getElementById("split-pdf-frame").src = pdfLink;
-  document.getElementById("full-pdf-frame").src = pdfLink;
-  document.getElementById("pdf-open-tab").href = pdfLink;
+  const title = document.getElementById("modal-title");
+  if (title) title.textContent = currentSubject.title;
 
-document.getElementById("split-pdf-frame").src = currentSubject.pdfUrl;
-document.getElementById("full-pdf-frame").src = currentSubject.pdfUrl;
-document.getElementById("pdf-open-tab").href = currentSubject.pdfUrl;
+  const splitPdf = document.getElementById("split-pdf-frame");
+  if (splitPdf) splitPdf.src = pdfLink;
 
-  const chaptersDiv = document.getElementById("chapters-list");
+  const fullPdf = document.getElementById("full-pdf-frame");
+  if (fullPdf) fullPdf.src = pdfLink;
+
+  const openTab = document.getElementById("pdf-open-tab");
+  if (openTab) openTab.href = pdfLink;
+
+  const meetLink = document.getElementById("subject-meet-link");
+  if (meetLink) meetLink.href = meetUrl;
+
+  const chatLink = document.getElementById("subject-chat-link");
+  if (chatLink) chatLink.href = chatUrl;
+
+  const liveLink = document.getElementById("subject-live-link");
+  if (liveLink) liveLink.href = chatUrl;
+
+  const liveFrame = document.getElementById("live-class-frame");
+  if (liveFrame) liveFrame.src = chatUrl;
+
   chaptersDiv.innerHTML = "";
   currentSubject.chapters.forEach(function (ch) {
     const box = document.createElement("div");
