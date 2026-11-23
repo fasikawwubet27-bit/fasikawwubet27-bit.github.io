@@ -641,8 +641,6 @@ if (textChat) {
 
   const liveFrame = document.getElementById("live-class-frame");
   if (liveFrame) liveFrame.src = chatUrl;
-  const textChat = document.getElementById("live-text-chat");
-if (textChat) textChat.src = "https://tlk.io" + currentSubject.roomName;
 
   document.getElementById("lesson-modal").classList.add("active");
   const chaptersDiv = document.getElementById("chapters-list");
