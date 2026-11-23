@@ -514,12 +514,13 @@ function copyInviteLink() {
   const siteLink = "https://github.io";
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(siteLink).then(function () {
-      alert("✅ የመማሪያ ክፍሉ ሊንክ ኮፒ ሆኗል!\n\nአሁን በቴሌግራም ወይም በዋትስአፕ ለተማሪዎችህ ላክላቸው።");
+      alert("የመማሪያ ክፍሉ ሊንክ ኮፒ ሆኗል!");
     });
   } else {
-    prompt("ይህንን ሊንክ ኮፒ አድርገህ ለተማሪዎችህ ላክላቸው፦", siteLink);
+    prompt("ይህንን ሊንክ ኮፒ አድርገህ ላክላቸው፦", siteLink);
   }
 }
+
 function joinLiveSlot(slotNum) {
   if (!currentSubject) return;
   const slotEl = document.getElementById("slot-" + slotNum);
@@ -529,6 +530,7 @@ function joinLiveSlot(slotNum) {
     liveFrame.src = ["https:", "", "vdo." + "ninja", "?room=" + currentSubject.roomName + "&wc&grid&autostart"].join("/");
   }
 }
+
 
 function renderSubjects(list) {
   if (!list) list = subjectsData;
@@ -631,6 +633,7 @@ function openSubjectModal(subjectId) {
 
   const chatLink = document.getElementById("subject-chat-link");
   if (chatLink) chatLink.href = chatUrl;
+const textChat = document.getElementById("live-text-chat");
 const textChat = document.getElementById("live-text-chat");
 if (textChat) {
   textChat.src = ["https:", "", "tlk." + "io", currentSubject.roomName].join("/");
