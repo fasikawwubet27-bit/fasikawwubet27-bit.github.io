@@ -117,126 +117,101 @@
 <!-- REAL ECLIPSE IDE WORKBENCH -->
 <section id="java-workbench" style="max-width: 1150px; margin: 110px auto 40px auto; font-family: 'Segoe UI', Tahoma, sans-serif; position: relative; z-index: 50;">
   <style>
-    .ec-ide { background: #2b2b2b; color: #d4d4d4; border: 1px solid #454545; border-radius: 5px; box-shadow: 0 12px 35px rgba(0,0,0,0.5); overflow: visible; }
+    .ec-ide { background: #2b2b2b; color: #d4d4d4; border: 1px solid #454545; border-radius: 5px; box-shadow: 0 12px 35px rgba(0,0,0,0.5); }
     .ec-titlebar { background: #1f1f1f; padding: 6px 12px; font-size: 12px; color: #aaa; display: flex; justify-content: space-between; border-bottom: 1px solid #141414; border-radius: 5px 5px 0 0; }
-    .ec-menubar { background: #3c3f41; padding: 3px 6px; font-size: 12px; display: flex; gap: 2px; border-bottom: 1px solid #232323; position: relative; flex-wrap: wrap; }
+    .ec-menubar { background: #3c3f41; padding: 3px 6px; font-size: 12px; display: flex; gap: 4px; border-bottom: 1px solid #232323; }
     .ec-m-item { position: relative; padding: 5px 10px; cursor: pointer; border-radius: 3px; user-select: none; color: #e0e0e0; }
     .ec-m-item:hover, .ec-m-item.open { background: #4c5052; color: #fff; }
-    .ec-drop { display: none; position: absolute; top: 100%; left: 0; background: #3c3f41; border: 1px solid #555; min-width: 215px; z-index: 99999; box-shadow: 0 8px 20px rgba(0,0,0,0.7); padding: 4px 0; }
-    .ec-m-item.open > .ec-drop { display: block; }
-    .ec-d-btn { display: flex; justify-content: space-between; align-items: center; width: 100%; background: none; border: none; color: #e0e0e0; padding: 7px 14px; font-size: 12px; cursor: pointer; text-align: left; }
+    .ec-drop { display: none; position: absolute; top: 100%; left: 0; background: #3c3f41; border: 1px solid #555; min-width: 210px; z-index: 99999; box-shadow: 0 8px 20px rgba(0,0,0,0.7); padding: 4px 0; }
+    .ec-m-item.open .ec-drop { display: block; }
+    .ec-d-btn { display: block; width: 100%; background: none; border: none; color: #e0e0e0; padding: 7px 14px; font-size: 12px; cursor: pointer; text-align: left; }
     .ec-d-btn:hover { background: #2f65ca; color: #fff; }
-    .ec-sep { height: 1px; background: #525557; margin: 4px 0; }
-    .ec-sub-wrap { position: relative; }
-    .ec-sub-menu { display: none; position: absolute; top: -4px; left: 100%; background: #3c3f41; border: 1px solid #555; min-width: 195px; z-index: 99999; box-shadow: 0 8px 20px rgba(0,0,0,0.7); padding: 4px 0; }
-    .ec-sub-wrap:hover > .ec-sub-menu { display: block; }
     .ec-toolbar { background: #3c3f41; padding: 6px 10px; display: flex; align-items: center; gap: 8px; border-bottom: 1px solid #1e1e1e; flex-wrap: wrap; }
-    .ec-tbtn { background: #45494a; color: #e0e0e0; border: 1px solid #595b5d; padding: 5px 10px; font-size: 12px; border-radius: 3px; cursor: pointer; display: flex; align-items: center; gap: 5px; }
+    .ec-tbtn { background: #45494a; color: #e0e0e0; border: 1px solid #595b5d; padding: 5px 10px; font-size: 12px; border-radius: 3px; cursor: pointer; }
     .ec-tbtn:hover { background: #54585a; }
     .ec-run-btn { background: #2b6e32; border-color: #3c8c44; color: #fff; font-weight: 600; }
-    .ec-run-btn:hover { background: #36873e; }
     .ec-body { display: grid; grid-template-columns: 240px 1fr; height: 390px; }
     .ec-left { background: #2b2b2b; border-right: 1px solid #1e1e1e; display: flex; flex-direction: column; user-select: none; }
     .ec-pane-tab { background: #3c3f41; padding: 5px 10px; font-size: 12px; font-weight: 600; border-bottom: 1px solid #1e1e1e; color: #ccc; }
     .ec-tree { list-style: none; padding: 6px; margin: 0; font-size: 13px; overflow-y: auto; flex: 1; }
-    .ec-node { padding: 5px 6px; cursor: pointer; border-radius: 3px; display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+    .ec-node { padding: 5px 6px; cursor: pointer; border-radius: 3px; display: flex; align-items: center; gap: 6px; }
     .ec-node:hover { background: #383a3c; }
     .ec-node.active { background: #2f65ca; color: #fff; }
-    .ec-del { margin-left: auto; color: #aaa; font-size: 12px; padding: 0 4px; }
-    .ec-del:hover { color: #ff6b6b; }
     .ec-center { display: flex; flex-direction: column; background: #1e1e1e; overflow: hidden; }
     .ec-tabs { background: #313335; display: flex; border-bottom: 1px solid #1e1e1e; overflow-x: auto; min-height: 31px; }
-    .ec-tab { padding: 6px 12px; font-size: 12px; background: #2b2b2b; color: #bbb; border-right: 1px solid #1e1e1e; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+    .ec-tab { padding: 6px 12px; font-size: 12px; background: #2b2b2b; color: #bbb; border-right: 1px solid #1e1e1e; cursor: pointer; display: flex; align-items: center; gap: 7px; }
     .ec-tab.active { background: #1e1e1e; color: #fff; font-weight: 600; border-top: 2px solid #2f65ca; }
-    .ec-tab-close { font-size: 12px; color: #888; border-radius: 50%; padding: 0 4px; }
-    .ec-tab-close:hover { background: #555; color: #fff; }
-    .ec-editor-box { display: flex; flex: 1; overflow: hidden; position: relative; }
-    #ec-linenums { width: 45px; background: #252526; color: #858585; text-align: right; padding: 12px 8px; font-family: 'Consolas', monospace; font-size: 14px; line-height: 1.5; border-right: 1px solid #333; user-select: none; overflow: hidden; }
-    #java-editor { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; padding: 12px; font-family: 'Consolas', monospace; font-size: 14px; line-height: 1.5; resize: none; outline: none; tab-size: 4; white-space: pre; overflow: auto; }
+    .ec-editor-box { display: flex; flex: 1; overflow: hidden; }
+    #ec-linenums { width: 45px; background: #252526; color: #858585; text-align: right; padding: 12px 8px; font-family: Consolas, monospace; font-size: 14px; line-height: 1.5; border-right: 1px solid #333; user-select: none; overflow: hidden; }
+    #java-editor { flex: 1; background: #1e1e1e; color: #d4d4d4; border: none; padding: 12px; font-family: Consolas, monospace; font-size: 14px; line-height: 1.5; resize: none; outline: none; tab-size: 4; white-space: pre; overflow: auto; }
     .ec-bottom { background: #252526; border-top: 1px solid #1e1e1e; border-radius: 0 0 5px 5px; }
     .ec-console-bar { background: #3c3f41; padding: 5px 12px; font-size: 12px; border-bottom: 1px solid #1e1e1e; display: flex; justify-content: space-between; color: #ddd; }
-    #java-output { margin: 0; padding: 10px 14px; font-family: 'Consolas', monospace; font-size: 13px; min-height: 100px; max-height: 160px; overflow-y: auto; white-space: pre-wrap; color: #e0e0e0; }
+    #java-output { margin: 0; padding: 10px 14px; font-family: Consolas, monospace; font-size: 13px; min-height: 100px; max-height: 160px; overflow-y: auto; white-space: pre-wrap; color: #e0e0e0; }
   </style>
 
   <div class="ec-ide">
     <div class="ec-titlebar">
       <span>eclipse-workspace - Java - Eclipse IDE</span>
-      <span id="ec-active-path" style="color:#888;">src/Main.java</span>
+      <span id="ec-active-path">src/Main.java</span>
     </div>
 
     <div class="ec-menubar">
-      <div class="ec-m-item" onclick="ecToggleMenu(event, this)">File
+      <div class="ec-m-item">File
         <div class="ec-drop">
-          <div class="ec-sub-wrap">
-            <button type="button" class="ec-d-btn" onclick="ecCreateUnit('class')"><span>New</span><span>▶</span></button>
-            <div class="ec-sub-menu">
-              <button type="button" class="ec-d-btn" onclick="ecNewProject()">📁 Java Project</button>
-              <button type="button" class="ec-d-btn" onclick="ecNewPackage()">📦 Package</button>
-              <div class="ec-sep"></div>
-              <button type="button" class="ec-d-btn" onclick="ecCreateUnit('class')">🟢 Class</button>
-              <button type="button" class="ec-d-btn" onclick="ecCreateUnit('interface')">🟣 Interface</button>
-              <button type="button" class="ec-d-btn" onclick="ecCreateUnit('enum')">🟠 Enum</button>
-            </div>
-          </div>
-          <div class="ec-sep"></div>
-          <button type="button" class="ec-d-btn" onclick="ecClearAll()">🗑️ Clear All Files</button>
+          <button type="button" class="ec-d-btn" data-act="new-class">🟢 New -> Class...</button>
+          <button type="button" class="ec-d-btn" data-act="new-interface">🟣 New -> Interface...</button>
+          <button type="button" class="ec-d-btn" data-act="new-enum">🟠 New -> Enum...</button>
+          <button type="button" class="ec-d-btn" data-act="new-proj">📁 New -> Java Project...</button>
+          <button type="button" class="ec-d-btn" data-act="new-pkg">📦 New -> Package...</button>
+          <button type="button" class="ec-d-btn" data-act="reset">🗑️ Reset Workspace</button>
         </div>
       </div>
-
-      <div class="ec-m-item" onclick="ecToggleMenu(event, this)">Edit
+      <div class="ec-m-item">Edit
         <div class="ec-drop">
-          <button type="button" class="ec-d-btn" onclick="ecCopyCode()">📋 Copy</button>
-          <button type="button" class="ec-d-btn" onclick="ecSelectAll()">🔲 Select All</button>
-          <button type="button" class="ec-d-btn" onclick="ecClearFile()">🧹 Clear Current File</button>
+          <button type="button" class="ec-d-btn" data-act="copy">📋 Copy Code</button>
+          <button type="button" class="ec-d-btn" data-act="select">🔲 Select All</button>
+          <button type="button" class="ec-d-btn" data-act="clear-file">🧹 Clear File</button>
         </div>
       </div>
-
-      <div class="ec-m-item" onclick="ecToggleMenu(event, this)">Source
+      <div class="ec-m-item">Source
         <div class="ec-drop">
-          <button type="button" class="ec-d-btn" onclick="ecSnippet('main')">⚡ Generate main() Method</button>
-          <button type="button" class="ec-d-btn" onclick="ecSnippet('sysout')">🖨️ Insert System.out.println()</button>
-          <button type="button" class="ec-d-btn" onclick="ecSnippet('ctor')">🔧 Generate Constructor</button>
+          <button type="button" class="ec-d-btn" data-act="snip-main">⚡ Generate main()</button>
+          <button type="button" class="ec-d-btn" data-act="snip-sysout">🖨️ Insert System.out.println()</button>
+          <button type="button" class="ec-d-btn" data-act="snip-ctor">🔧 Generate Constructor</button>
         </div>
       </div>
-
-      <div class="ec-m-item" onclick="ecToggleMenu(event, this)">Refactor
+      <div class="ec-m-item">Refactor
         <div class="ec-drop">
-          <button type="button" class="ec-d-btn" onclick="ecRenameUnit()">✏️ Rename File / Class...</button>
+          <button type="button" class="ec-d-btn" data-act="rename">✏️ Rename Class/File...</button>
         </div>
       </div>
-
-      <div class="ec-m-item" onclick="ecToggleMenu(event, this)">Run
+      <div class="ec-m-item">Run
         <div class="ec-drop">
-          <button type="button" class="ec-d-btn" onclick="ecRunJava()">▶ Run Java Application</button>
+          <button type="button" class="ec-d-btn" data-act="run">▶ Run Java Application</button>
         </div>
       </div>
-
-      <div class="ec-m-item" onclick="ecToggleMenu(event, this)">Window
+      <div class="ec-m-item">Window
         <div class="ec-drop">
-          <button type="button" class="ec-d-btn" onclick="ecToggleTheme()">🌓 Switch Dark / Light Editor</button>
+          <button type="button" class="ec-d-btn" data-act="theme">🌓 Toggle Dark/Light Theme</button>
         </div>
       </div>
     </div>
 
     <div class="ec-toolbar">
-      <button type="button" class="ec-tbtn" onclick="ecCreateUnit('class')">🟢+ New Class</button>
-      <button type="button" class="ec-tbtn" onclick="ecCreateUnit('interface')">🟣+ New Interface</button>
-      <button type="button" class="ec-tbtn" onclick="ecCreateUnit('enum')">🟠+ New Enum</button>
-      <button type="button" class="ec-tbtn ec-run-btn" id="run-java-btn" onclick="ecRunJava()">▶ Run</button>
-      <button type="button" class="ec-tbtn" onclick="ecClearConsole()">🧹 Clear Console</button>
+      <button type="button" class="ec-tbtn" data-act="new-class">🟢+ New Class</button>
+      <button type="button" class="ec-tbtn" data-act="new-interface">🟣+ New Interface</button>
+      <button type="button" class="ec-tbtn" data-act="new-enum">🟠+ New Enum</button>
+      <button type="button" class="ec-tbtn ec-run-btn" id="run-java-btn" data-act="run">▶ Run</button>
+      <button type="button" class="ec-tbtn" data-act="clear-con">🧹 Clear Console</button>
     </div>
 
     <div class="ec-body">
       <div class="ec-left">
         <div class="ec-pane-tab">Package Explorer</div>
         <ul class="ec-tree">
-          <li class="ec-node" onclick="ecToggleTree('ec-src-wrap', 'arr1')">
-            <span id="arr1">▼</span> 📁 <span id="proj-name-lbl">JavaProject</span>
-          </li>
+          <li class="ec-node" id="ec-proj-node">▼ 📁 <span id="proj-name-lbl">JavaProject</span></li>
           <div id="ec-src-wrap">
-            <li class="ec-node" style="padding-left: 18px;" onclick="ecToggleTree('ec-file-list', 'arr2')">
-              <span id="arr2">▼</span> 📦 <span id="pkg-name-lbl">src</span>
-            </li>
+            <li class="ec-node" id="ec-pkg-node" style="padding-left: 18px;">▼ 📦 <span id="pkg-name-lbl">src</span></li>
             <div id="ec-file-list"></div>
           </div>
         </ul>
@@ -246,7 +221,7 @@
         <div class="ec-tabs" id="java-class-tabs"></div>
         <div class="ec-editor-box">
           <div id="ec-linenums">1</div>
-          <textarea id="java-editor" spellcheck="false" oninput="ecSave(); ecUpdateLines();" onscroll="ecSyncScroll()" onkeydown="ecTabKey(event)"></textarea>
+          <textarea id="java-editor" spellcheck="false"></textarea>
         </div>
       </div>
     </div>
@@ -254,215 +229,97 @@
     <div class="ec-bottom">
       <div class="ec-console-bar">
         <span>Console — &lt;terminated&gt; Java Application</span>
-        <span style="cursor:pointer; color:#aaa;" onclick="ecClearConsole()">✖ Clear</span>
+        <span style="cursor:pointer;" data-act="clear-con">✖ Clear</span>
       </div>
-      <pre id="java-output">Ready. Create your Classes/Interfaces and click ▶ Run.</pre>
+      <pre id="java-output">Ready. Click ▶ Run to execute your Java code.</pre>
     </div>
   </div>
 </section>
 
 <script>
-(function() {
+document.addEventListener("DOMContentLoaded", function() {
+  const wb = document.getElementById("java-workbench");
   const ed = document.getElementById("java-editor");
   const out = document.getElementById("java-output");
   const lineBox = document.getElementById("ec-linenums");
+  if (!wb || !ed) return;
 
   let files = {
-"Main.java": "public class Main {\n    public static void main(String[] args) {\n        // Write your Java code here\n        \n    }\n}"
-};
-let current = "Main.java";
-let darkMode = true;
-function render() {
-const tabBar = document.getElementById("java-class-tabs");
-const treeList = document.getElementById("ec-file-list");
-tabBar.innerHTML = "";
-treeList.innerHTML = "";
-Object.keys(files).forEach(fname => {
-const code = files[fname];
-const icon = /\binterface\s+/.test(code) ? "🟣" : (/\benum\s+/.test(code) ? "🟠" : "🟢");
-const tab = document.createElement("div");
-tab.className = "ec-tab" + (fname === current ? " active" : "");
-tab.innerHTML = <span>${icon} ${fname}</span> + (fname !== "Main.java" ? <span class="ec-tab-close" data-del="${fname}">×</span> : "");
-tab.onclick = (e) => {
-if (e.target.dataset.del) { ecDeleteFile(e.target.dataset.del); return; }
-ecSwitchTo(fname);
-};
-tabBar.appendChild(tab);
-const item = document.createElement("li");
-item.className = "ec-node" + (fname === current ? " active" : "");
-item.style.paddingLeft = "34px";
-item.innerHTML = <span>${icon} ${fname}</span> + (fname !== "Main.java" ? <span class="ec-del" data-del="${fname}">🗑</span> : "");
-item.onclick = (e) => {
-if (e.target.dataset.del) { ecDeleteFile(e.target.dataset.del); return; }
-ecSwitchTo(fname);
-};
-treeList.appendChild(item);
-});
-document.getElementById("ec-active-path").textContent = "src/" + current;
-ecUpdateLines();
-}
-window.ecSwitchTo = function(fname) {
-files[current] = ed.value;
-current = fname;
-ed.value = files[current];
-render();
-};
-window.ecSave = function() {
-files[current] = ed.value;
-};
-window.ecUpdateLines = function() {
-const count = ed.value.split("\n").length;
-let nums = "";
-for (let i = 1; i <= count; i++) nums += i + "\n";
-lineBox.textContent = nums;
-};
-window.ecSyncScroll = function() {
-lineBox.scrollTop = ed.scrollTop;
-};
-window.ecTabKey = function(e) {
-if (e.key === "Tab") {
-e.preventDefault();
-const s = ed.selectionStart;
-ed.value = ed.value.substring(0, s) + "    " + ed.value.substring(ed.selectionEnd);
-ed.selectionStart = ed.selectionEnd = s + 4;
-ecSave();
-}
-};
-window.ecCreateUnit = function(type) {
-closeMenus();
-const label = type.charAt(0).toUpperCase() + type.slice(1);
-let name = prompt(New Java ${label}\nEnter Name:);
-if (!name) return;
-name = name.trim().replace(/.java$/i, "").replace(/[^A-Za-z0-9_]/g, "");
+    "Main.java": "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello Eclipse!\");\n    }\n}"
+  };
+  let current = "Main.java";
+  let darkMode = true;
+
+  function updateLines() {
+    const count = ed.value.split("\n").length;
+    lineBox.textContent = Array.from({length: count}, (_, i) => i + 1).join("\n");
+  }
+
+  function render() {
+    const tabBar = document.getElementById("java-class-tabs");
+    const treeList = document.getElementById("ec-file-list");
+    tabBar.innerHTML = "";
+    treeList.innerHTML = "";
+
+    Object.keys(files).forEach(fname => {
+      const code = files[fname];
+      const icon = /\binterface\s+/.test(code) ? "🟣" : (/\benum\s+/.test(code) ? "🟠" : "🟢");
+
+      const tab = document.createElement("div");
+      tab.className = "ec-tab" + (fname === current ? " active" : "");
+      tab.textContent = icon + " " + fname;
+      tab.onclick = () => switchTo(fname);
+      tabBar.appendChild(tab);
+
+      const item = document.createElement("li");
+      item.className = "ec-node" + (fname === current ? " active" : "");
+      item.style.paddingLeft = "34px";
+      item.textContent = icon + " " + fname;
+      item.onclick = () => switchTo(fname);
+      treeList.appendChild(item);
+    });
+
+    document.getElementById("ec-active-path").textContent = "src/" + current;
+    updateLines();
+  }
+
+  function switchTo(fname) {
+    files[current] = ed.value;
+    current = fname;
+    ed.value = files[current];
+    render();
+  }
+
+  function createUnit(type) {
+    const label = type.charAt(0).toUpperCase() + type.slice(1);
+    let name = prompt("New Java " + label + " Name:");
+    if (!name) return;
+    name = name.trim().replace(/\.java$/i, "").replace(/[^A-Za-z0-9_]/g, "");
 if (!name) return;
 name = name.charAt(0).toUpperCase() + name.slice(1);
 const fname = name + ".java";
-if (files[fname]) {
-ecSwitchTo(fname);
-return;
+if (!files[fname]) {
+files[fname] = "public " + type + " " + name + " {\n    \n}";
 }
-if (type === "interface") {
-files[fname] = public interface ${name} {\n    \n};
-} else if (type === "enum") {
-files[fname] = public enum ${name} {\n    \n};
-} else {
-files[fname] = public class ${name} {\n    \n};
+switchTo(fname);
 }
-current = fname;
-ed.value = files[current];
-render();
-};
-function ecDeleteFile(fname) {
-if (!confirm(Delete ${fname}?)) return;
-delete files[fname];
-if (current === fname) {
-current = Object.keys(files);
-ed.value = files[current];
-}
-render();
-}
-window.ecNewProject = function() {
-closeMenus();
-const p = prompt("Java Project Name:", document.getElementById("proj-name-lbl").textContent);
-if (p && p.trim()) document.getElementById("proj-name-lbl").textContent = p.trim();
-};
-window.ecNewPackage = function() {
-closeMenus();
-const pkg = prompt("Java Package Name:", "com.fasikawtech");
-if (pkg && pkg.trim()) document.getElementById("pkg-name-lbl").textContent = pkg.trim();
-};
-window.ecClearAll = function() {
-closeMenus();
-if (!confirm("Reset workspace to empty Main.java?")) return;
-files = {
-"Main.java": "public class Main {\n    public static void main(String[] args) {\n        \n    }\n}"
-};
-current = "Main.java";
-ed.value = files[current];
-render();
-ecClearConsole();
-};
-window.ecCopyCode = function() {
-closeMenus();
-navigator.clipboard.writeText(ed.value);
-};
-window.ecSelectAll = function() {
-closeMenus();
-ed.select();
-};
-window.ecClearFile = function() {
-closeMenus();
-ed.value = "";
-ecSave();
-ecUpdateLines();
-};
-window.ecRenameUnit = function() {
-closeMenus();
-const oldName = current.replace(".java", "");
-let newName = prompt("Rename " + oldName + " to:", oldName);
-if (!newName) return;
-newName = newName.trim().replace(/.java$/i, "");
-const newFile = newName + ".java";
-files[newFile] = ed.value.replace(new RegExp("\b(class|interface|enum)\s+" + oldName + "\b"), "$1 " + newName);
-delete files[current];
-current = newFile;
-ed.value = files[current];
-render();
-};
-window.ecSnippet = function(type) {
-closeMenus();
-const cname = current.replace(".java", "");
-if (type === "main") ed.value += "\n    public static void main(String[] args) {\n        \n    }\n";
-if (type === "sysout") ed.value += '\n        System.out.println("");';
-if (type === "ctor") ed.value += \n    public ${cname}() {\n        \n    }\n;
-ecSave();
-ecUpdateLines();
-};
-window.ecClearConsole = function() {
-out.style.color = "#e0e0e0";
-out.textContent = "";
-};
-window.ecToggleTheme = function() {
-closeMenus();
-darkMode = !darkMode;
-ed.style.background = darkMode ? "#1e1e1e" : "#ffffff";
-ed.style.color = darkMode ? "#d4d4d4" : "#1e1e1e";
-lineBox.style.background = darkMode ? "#252526" : "#f3f3f3";
-};
-function closeMenus() {
-document.querySelectorAll(".ec-m-item").forEach(m => m.classList.remove("open"));
-}
-window.ecToggleMenu = function(e, el) {
-e.stopPropagation();
-const wasOpen = el.classList.contains("open");
-closeMenus();
-if (!wasOpen) el.classList.add("open");
-};
-document.addEventListener("click", closeMenus);
-window.ecToggleTree = function(id, arrId) {
-const el = document.getElementById(id);
-const arr = document.getElementById(arrId);
-const hide = el.style.display !== "none";
-el.style.display = hide ? "none" : "block";
-arr.textContent = hide ? "▶" : "▼";
-};
-window.ecRunJava = async function() {
-ecSave();
-const runBtn = document.getElementById("run-java-btn");
-runBtn.disabled = true;
-runBtn.textContent = "⏳ Compiling...";
+async function runJava() {
+files[current] = ed.value;
+const btn = document.getElementById("run-java-btn");
+btn.disabled = true;
+btn.textContent = "⏳ Running...";
 out.style.color = "#fbbf24";
 out.textContent = "Compiling & running Java Application...\n";
-const fileKeys = Object.keys(files);
-const mainKey = fileKeys.find(k => /\bpublic\s+static\s+void\s+main\s*(/.test(files[k])) || current;
-const ordered = [mainKey].concat(fileKeys.filter(k => k !== mainKey));
-const combinedCode = ordered.map((fname, idx) => {
-let c = files[fname].replace(/^\spackage\s+[\w.]+\s;/gm, "");
-if (idx > 0) c = c.replace(/\bpublic\s+(class|interface|enum|abstract)\b/g, "$1");
+const keys = Object.keys(files);
+const mainKey = keys.find(k => /\bpublic\s+static\s+void\s+main\s*(/.test(files[k])) || current;
+const ordered = [mainKey].concat(keys.filter(k => k !== mainKey));
+const combined = ordered.map((f, i) => {
+let c = files[f].replace(/^\spackage\s+[\w.]+\s;/gm, "");
+if (i > 0) c = c.replace(/\bpublic\s+(class|interface|enum|abstract)\b/g, "$1");
 return c;
 }).join("\n\n");
 try {
-const res = await fetch("emkc.org", {
+const r = await fetch("emkc.org", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
 body: JSON.stringify({
@@ -471,49 +328,90 @@ version: "15.0.2",
 files: ordered.map(f => ({ name: f, content: files[f].replace(/^\spackage\s+[\w.]+\s;/gm, "") }))
 })
 });
-const data = await res.json();
-if (data.compile && data.compile.code !== 0) {
+const d = await r.json();
+if (d.compile && d.compile.code !== 0) {
 out.style.color = "#f87171";
-out.textContent = "Compilation Error:\n" + (data.compile.stderr || data.compile.output);
-} else if (data.run) {
-if (data.run.stderr) {
-out.style.color = "#f87171";
-out.textContent = (data.run.stdout ? data.run.stdout + "\n" : "") + data.run.stderr;
-} else {
-out.style.color = "#4ade80";
-out.textContent = data.run.stdout || " Program finished with exit code 0.";
-}
+out.textContent = d.compile.stderr || d.compile.output;
+} else if (d.run) {
+out.style.color = d.run.stderr ? "#f87171" : "#4ade80";
+out.textContent = (d.run.stdout || "") + (d.run.stderr || "") || "Finished (exit code 0).";
 } else {
 throw new Error("Fallback");
 }
-} catch (e1) {
+} catch (e) {
 try {
-const res2 = await fetch("wandbox.org", {
+const r2 = await fetch("wandbox.org", {
 method: "POST",
 headers: { "Content-Type": "application/json" },
-body: JSON.stringify({ compiler: "openjdk-jdk-21+35", code: combinedCode })
+body: JSON.stringify({ compiler: "openjdk-jdk-21+35", code: combined })
 });
-const d2 = await res2.json();
-if (d2.compiler_error) {
-out.style.color = "#f87171";
-out.textContent = "Compilation Error:\n" + d2.compiler_error;
-} else {
-out.style.color = "#4ade80";
-out.textContent = d2.program_output || " Program finished with exit code 0.";
-}
+const d2 = await r2.json();
+out.style.color = d2.compiler_error ? "#f87171" : "#4ade80";
+out.textContent = d2.compiler_error || d2.program_output || "Finished (exit code 0).";
 } catch (e2) {
 out.style.color = "#f87171";
-out.textContent = "Network Error: Check your internet connection.";
+out.textContent = "Network Error: Check internet connection.";
 }
 } finally {
-runBtn.disabled = false;
-runBtn.textContent = "▶ Run";
+btn.disabled = false;
+btn.textContent = "▶ Run";
 }
+}
+// ሁሉንም ቁልፎች እና ሜኑዎች በአንድ ቦታ ማገናኘት
+wb.addEventListener("click", function(e) {
+const menu = e.target.closest(".ec-m-item");
+if (menu && !e.target.closest(".ec-drop")) {
+const wasOpen = menu.classList.contains("open");
+wb.querySelectorAll(".ec-m-item").forEach(m => m.classList.remove("open"));
+if (!wasOpen) menu.classList.add("open");
+return;
+}
+wb.querySelectorAll(".ec-m-item").forEach(m => m.classList.remove("open"));
+const actBtn = e.target.closest("[data-act]");
+if (!actBtn) return;
+const act = actBtn.dataset.act;
+const cname = current.replace(".java", "");
+if (act === "new-class") createUnit("class");
+if (act === "new-interface") createUnit("interface");
+if (act === "new-enum") createUnit("enum");
+if (act === "new-proj") { const p = prompt("Project Name:"); if (p) document.getElementById("proj-name-lbl").textContent = p; }
+if (act === "new-pkg") { const p = prompt("Package Name:"); if (p) document.getElementById("pkg-name-lbl").textContent = p; }
+if (act === "reset") { files = {"Main.java": "public class Main {\n    public static void main(String[] args) {\n        \n    }\n}"}; current = "Main.java"; ed.value = files[current]; render(); }
+if (act === "copy") navigator.clipboard.writeText(ed.value);
+if (act === "select") ed.select();
+if (act === "clear-file") { ed.value = ""; files[current] = ""; updateLines(); }
+if (act === "snip-main") { ed.value += "\n    public static void main(String[] args) {\n        \n    }\n"; files[current] = ed.value; updateLines(); }
+if (act === "snip-sysout") { ed.value += '\n        System.out.println("");'; files[current] = ed.value; updateLines(); }
+if (act === "snip-ctor") { ed.value += "\n    public " + cname + "() {\n        \n    }\n"; files[current] = ed.value; updateLines(); }
+if (act === "rename") {
+const nn = prompt("New Name:", cname);
+if (nn) {
+const nf = nn.trim().replace(/.java$/i, "") + ".java";
+files[nf] = ed.value.replace(new RegExp("\b(class|interface|enum)\s+" + cname + "\b"), "$1 " + nn.trim());
+delete files[current]; current = nf; ed.value = files[current]; render();
+}
+}
+if (act === "run") runJava();
+if (act === "clear-con") out.textContent = "";
+if (act === "theme") {
+darkMode = !darkMode;
+ed.style.background = darkMode ? "#1e1e1e" : "#ffffff";
+ed.style.color = darkMode ? "#d4d4d4" : "#1e1e1e";
+}
+});
+document.getElementById("ec-proj-node").onclick = () => {
+const w = document.getElementById("ec-src-wrap");
+w.style.display = w.style.display === "none" ? "block" : "none";
 };
+document.getElementById("ec-pkg-node").onclick = () => {
+const l = document.getElementById("ec-file-list");
+l.style.display = l.style.display === "none" ? "block" : "none";
+};
+ed.addEventListener("input", () => { files[current] = ed.value; updateLines(); });
+ed.addEventListener("scroll", () => { lineBox.scrollTop = ed.scrollTop; });
 ed.value = files[current];
 render();
-})();
-
+});
 <section id="cpp">
   <h2>C++ Programming Tutorials</h2>
   <div class="grid">
