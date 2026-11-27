@@ -115,21 +115,29 @@
   </div>
 </section>
 <!-- Eclipse IDE Style Java Workbench -->
-<section style="max-width: 1050px; margin: 40px auto; font-family: 'Segoe UI', Tahoma, sans-serif;">
+<section id="java-workbench" style="max-width: 1050px; margin: 70px auto 40px auto; font-family: 'Segoe UI', Tahoma, sans-serif; position: relative; z-index: 10;">
   <style>
-    .eclipse-box { background: #2b2b2b; color: #d4d4d4; border: 1px solid #454545; border-radius: 6px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
-    .eclipse-menu { background: #3c3f41; padding: 5px 12px; font-size: 12px; display: flex; gap: 16px; border-bottom: 1px solid #232323; color: #ccc; }
+    .eclipse-box { background: #2b2b2b; color: #d4d4d4; border: 1px solid #454545; border-radius: 6px; overflow: visible; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+    .eclipse-menu { background: #3c3f41; padding: 2px 8px; font-size: 12px; display: flex; gap: 4px; border-bottom: 1px solid #232323; color: #ccc; border-radius: 6px 6px 0 0; position: relative; }
+    .ec-menu-item { position: relative; padding: 4px 10px; cursor: pointer; border-radius: 3px; user-select: none; }
+    .ec-menu-item:hover { background: #4c5052; color: #fff; }
+    .ec-dropdown { display: none; position: absolute; top: 100%; left: 0; background: #3c3f41; border: 1px solid #555; min-width: 180px; z-index: 999; box-shadow: 0 6px 16px rgba(0,0,0,0.5); padding: 4px 0; }
+    .ec-menu-item.open .ec-dropdown { display: block; }
+    .ec-drop-btn { display: block; width: 100%; text-align: left; background: none; border: none; color: #e0e0e0; padding: 6px 14px; font-size: 12px; cursor: pointer; }
+    .ec-drop-btn:hover { background: #2f65ca; color: #fff; }
     .eclipse-bar { background: #3c3f41; padding: 6px 12px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; border-bottom: 1px solid #1e1e1e; }
     .ec-btn { background: #4c5052; color: #fff; border: 1px solid #5e6060; padding: 5px 10px; font-size: 12px; border-radius: 3px; cursor: pointer; }
     .ec-btn:hover { background: #5c6164; }
     .ec-run { background: #2e7d32; border-color: #388e3c; font-weight: bold; }
     .ec-run:hover { background: #388e3c; }
     .ec-input { background: #2b2b2b; color: #fff; border: 1px solid #5e6060; padding: 4px 8px; font-size: 12px; border-radius: 3px; }
-    .eclipse-grid { display: grid; grid-template-columns: 220px 1fr; height: 340px; }
-    .ec-explorer { background: #313335; border-right: 1px solid #1e1e1e; overflow-y: auto; }
+    .eclipse-grid { display: grid; grid-template-columns: 230px 1fr; height: 340px; }
+    .ec-explorer { background: #313335; border-right: 1px solid #1e1e1e; overflow-y: auto; user-select: none; }
     .ec-header { background: #3c3f41; padding: 5px 10px; font-size: 12px; font-weight: bold; border-bottom: 1px solid #232323; color: #bbb; }
-    .ec-tree { list-style: none; padding: 8px; margin: 0; font-size: 13px; }
-    .ec-file { padding: 4px 8px 4px 24px; cursor: pointer; border-radius: 3px; }
+    .ec-tree { list-style: none; padding: 6px; margin: 0; font-size: 13px; }
+    .ec-folder { padding: 4px 6px; cursor: pointer; border-radius: 3px; display: flex; align-items: center; gap: 5px; }
+    .ec-folder:hover { background: #3d4144; }
+    .ec-file { padding: 4px 8px 4px 32px; cursor: pointer; border-radius: 3px; }
     .ec-file:hover { background: #3d4144; }
     .ec-file.active { background: #2f65ca; color: #fff; }
     .ec-editor-wrap { display: flex; flex-direction: column; background: #ffffff; }
@@ -137,44 +145,93 @@
     .ec-tab { padding: 6px 14px; font-size: 12px; background: #313335; color: #bbb; border-right: 1px solid #232323; cursor: pointer; }
     .ec-tab.active { background: #ffffff; color: #000; font-weight: bold; border-top: 2px solid #2f65ca; }
     #java-editor { flex: 1; width: 100%; border: none; padding: 12px; font-family: 'Consolas', monospace; font-size: 14px; color: #1e1e1e; background: #ffffff; resize: none; outline: none; box-sizing: border-box; line-height: 1.5; }
-    .ec-console { background: #2b2b2b; border-top: 1px solid #1e1e1e; }
+    .ec-console { background: #2b2b2b; border-top: 1px solid #1e1e1e; border-radius: 0 0 6px 6px; }
     .ec-console-tab { background: #3c3f41; padding: 4px 12px; font-size: 12px; border-bottom: 1px solid #232323; color: #fff; }
     #java-output { padding: 12px; margin: 0; font-family: 'Consolas', monospace; font-size: 13px; min-height: 90px; white-space: pre-wrap; color: #4ade80; }
   </style>
 
   <div class="eclipse-box">
-    <div class="eclipse-menu">
-      <span>File</span><span>Edit</span><span>Source</span><span>Refactor</span><span>Run</span><span>Window</span>
+    <!-- የሚሰራ Eclipse Menu Bar -->
+    <div class="eclipse-menu" id="eclipseMenuBar">
+      <div class="ec-menu-item" onclick="toggleEcMenu(this)">File
+        <div class="ec-dropdown">
+          <button class="ec-drop-btn" onclick="document.getElementById('new-class-input').focus()">📄 New Java Class...</button>
+          <button class="ec-drop-btn" onclick="resetJavaProject()">📦 Load Sample Project</button>
+          <button class="ec-drop-btn" onclick="clearJavaEditor()">🗑️ Clear Editor</button>
+        </div>
+      </div>
+      <div class="ec-menu-item" onclick="toggleEcMenu(this)">Edit
+        <div class="ec-dropdown">
+          <button class="ec-drop-btn" onclick="copyEditorCode()">📋 Copy All Code</button>
+          <button class="ec-drop-btn" onclick="document.getElementById('java-editor').select()">🔲 Select All</button>
+        </div>
+      </div>
+      <div class="ec-menu-item" onclick="toggleEcMenu(this)">Source
+        <div class="ec-dropdown">
+          <button class="ec-drop-btn" onclick="insertMainMethod()">⚡ Generate main() Method</button>
+          <button class="ec-drop-btn" onclick="insertSysout()">🖨️ Insert System.out.println()</button>
+        </div>
+      </div>
+      <div class="ec-menu-item" onclick="toggleEcMenu(this)">Refactor
+        <div class="ec-dropdown">
+          <button class="ec-drop-btn" onclick="renameCurrentClass()">✏️ Rename Active Class...</button>
+        </div>
+      </div>
+      <div class="ec-menu-item" onclick="toggleEcMenu(this)">Run
+        <div class="ec-dropdown">
+          <button class="ec-drop-btn" onclick="runJavaCode()">▶ Run Java Application</button>
+          <button class="ec-drop-btn" onclick="document.getElementById('java-output').textContent=''">🧹 Clear Console</button>
+        </div>
+      </div>
+      <div class="ec-menu-item" onclick="toggleEcMenu(this)">Window
+        <div class="ec-dropdown">
+          <button class="ec-drop-btn" onclick="toggleDarkEditor()">🌓 Toggle Editor Dark/Light Theme</button>
+        </div>
+      </div>
     </div>
+
+    <!-- Toolbar -->
     <div class="eclipse-bar">
       <input type="text" id="new-class-input" class="ec-input" placeholder="New Class (e.g. BankAccount)">
       <button class="ec-btn" onclick="createClassFromInput()">📄+ Create Class</button>
-      <button id="run-java-btn" class="ec-btn ec-run" onclick="runJavaCode()">▶️ Run</button>
+      <button id="run-java-btn" class="ec-btn ec-run" onclick="runJavaCode()">▶ Run</button>
       <button class="ec-btn" onclick="resetJavaProject()">📦 Sample Project</button>
       <button class="ec-btn" onclick="clearJavaEditor()">🧹 Clear</button>
     </div>
 
+    <!-- Main Split -->
     <div class="eclipse-grid">
+      <!-- Package Explorer (Expand/Collapse የሚሰራ) -->
       <div class="ec-explorer">
         <div class="ec-header">Package Explorer</div>
         <ul class="ec-tree">
-          <li style="padding: 3px 4px;">📁 FasikawTech_Java</li>
-          <li style="padding: 3px 4px 3px 14px;">📦 src (com.fasikawtech)</li>
-          <div id="eclipse-tree-files"></div>
+          <li class="ec-folder" onclick="toggleFolder('src-folder', 'proj-arrow')">
+            <span id="proj-arrow">▼</span> 📁 FasikawTech_Java
+          </li>
+          <div id="src-folder">
+            <li class="ec-folder" style="padding-left: 16px;" onclick="toggleFolder('eclipse-tree-files', 'src-arrow')">
+              <span id="src-arrow">▼</span> 📦 src (com.fasikawtech)
+            </li>
+            <div id="eclipse-tree-files"></div>
+          </div>
         </ul>
       </div>
-<div class="ec-editor-wrap">
+
+      <!-- Editor -->
+      <div class="ec-editor-wrap" id="editorWrap">
         <div id="java-class-tabs" class="ec-tabs"></div>
         <textarea id="java-editor" spellcheck="false" oninput="saveCurrentTabCode()" placeholder="Write your Java class code here..."></textarea>
       </div>
     </div>
 
+    <!-- Console -->
     <div class="ec-console">
       <div class="ec-console-tab">Console — &lt;terminated&gt; Main [Java Application]</div>
-      <pre id="java-output">Click "▶️ Run" to execute your Java code...</pre>
+      <pre id="java-output">Click "▶ Run" to execute your Java code...</pre>
     </div>
   </div>
 </section>
+
 <section id="cpp">
   <h2>C++ Programming Tutorials</h2>
   <div class="grid">
@@ -255,6 +312,63 @@ function drawTabs() {
       }
     });
   }
+    // የEclipse Menu ክፈት/ዝጋ
+  function toggleEcMenu(el) {
+    var isOpen = el.classList.contains("open");
+    document.querySelectorAll(".ec-menu-item").forEach(function(m) { m.classList.remove("open"); });
+    if (!isOpen) el.classList.add("open");
+  }
+  window.addEventListener("click", function(e) {
+    if (!e.target.closest(".ec-menu-item")) {
+      document.querySelectorAll(".ec-menu-item").forEach(function(m) { m.classList.remove("open"); });
+    }
+  });
+
+  // Package Explorer ፎልደር መክፈትና መዝጋት
+  function toggleFolder(targetId, arrowId) {
+    var box = document.getElementById(targetId);
+    var arrow = document.getElementById(arrowId);
+    if (box.style.display === "none") {
+      box.style.display = "block";
+      arrow.textContent = "▼";
+    } else {
+      box.style.display = "none";
+      arrow.textContent = "▶";
+    }
+  }
+
+  // Source & Refactor & Window ሜኑ ተግባራት
+  function copyEditorCode() {
+    navigator.clipboard.writeText(ed.value);
+    out.style.color = "#4ade80";
+    out.textContent = "Code copied to clipboard!";
+  }
+  function insertMainMethod() {
+    ed.value += "\n    public static void main(String[] args) {\n        \n    }\n";
+    files[current] = ed.value;
+  }
+  function insertSysout() {
+    ed.value += '\n        System.out.println("");';
+    files[current] = ed.value;
+  }
+  function renameCurrentClass() {
+    var newName = prompt("Enter new class name:", current.replace(".java", ""));
+    if (!newName) return;
+    newName = newName.trim().replace(/\.java$/i, "");
+    var newFile = newName + ".java";
+    files[newFile] = ed.value.replace(new RegExp("\\bclass\\s+" + current.replace(".java", "") + "\\b"), "class " + newName);
+    delete files[current];
+    current = newFile;
+    ed.value = files[current];
+    drawTabs();
+  }
+  var isDarkEd = false;
+  function toggleDarkEditor() {
+    isDarkEd = !isDarkEd;
+    ed.style.background = isDarkEd ? "#1e1e1e" : "#ffffff";
+    ed.style.color = isDarkEd ? "#d4d4d4" : "#1e1e1e";
+  }
+
   function createClassFromInput() {
     var inp = document.getElementById("new-class-input");
     var name = inp.value.trim().replace(/\.java$/i, "");
@@ -283,91 +397,76 @@ function drawTabs() {
     drawTabs();
   }
 
-  function runJavaCode() {
+   function runJavaCode() {
     files[current] = ed.value;
-    var activeCode = files[current].trim();
-    if (!activeCode) {
+
+    // ሁሉንም የተፈጠሩ ክላሶች አንድ ላይ ማሰባሰብ (main() ያለበት መጨረሻ ላይ እንዲሆን)
+    var allFiles = Object.keys(files);
+    var mainFile = allFiles.find(function(f) { return /\bpublic\s+static\s+void\s+main\s*\(/.test(files[f]); }) || current;
+    var orderedFiles = allFiles.filter(function(f) { return f !== mainFile; }).concat(mainFile);
+    var allCode = orderedFiles.map(function(f) { return files[f]; }).join("\n\n");
+
+    if (!allCode.trim()) {
       out.style.color = "#f87171";
-      out.textContent = "Error: Editor is empty.";
+      out.textContent = "Error: Editor is empty. Please write Java code first.";
       return;
     }
 
-    // 1. Check syntax errors (semicolons and braces)
-    var lines = activeCode.split("\n");
-    var braces = 0;
-    for (var i = 0; i < lines.length; i++) {
-      var clean = lines[i].replace(/\/\/.*$/, "").replace(/"[^"]*"/g, '""').trim();
-      for (var c = 0; c < clean.length; c++) {
-        if (clean[c] === "{") braces++;
-        if (clean[c] === "}") braces--;
-      }
-      if (clean && !clean.startsWith("@") && !clean.endsWith("{") && !clean.endsWith("}") && !clean.endsWith(";") && !/^(if|else|for|while|switch|try|catch|finally|class|public|private|protected)\b/.test(clean)) {
-        out.style.color = "#f87171";
-        out.textContent = "Compilation Error in " + current + " (Line " + (i + 1) + "): ';' expected -> " + lines[i].trim();
-        return;
-      }
-    }
-    if (braces !== 0) {
+    if (!/\bstatic\s+void\s+main\s*\(/.test(allCode)) {
       out.style.color = "#f87171";
-      out.textContent = "Compilation Error in " + current + ": Missing '{' or '}'";
-      return;
-    }
-
-    // Combine all tabs (put active tab last so its main() runs)
-    var allCode = Object.keys(files).filter(function(k) { return k !== current; }).map(function(k) { return files[k]; }).concat(files[current]).join("\n\n");
-
-    if (!/public\s+static\s+void\s+main\s*\(/.test(allCode)) {
-      out.style.color = "#f87171";
-      out.textContent = "Runtime Error: public static void main(String[] args) not found.";
+      out.textContent = "Runtime Error: public static void main(String[] args) not found in any class.";
       return;
     }
 
     try {
       var js = allCode;
+
+      // 1. package, import, @Override እና access modifiers ማጽዳት
       js = js.replace(/^\s*package\s+[\w.]+\s*;/gm, "");
       js = js.replace(/^\s*import\s+[\w.*]+\s*;/gm, "");
       js = js.replace(/@Override\s*/g, "");
       js = js.replace(/\b(public|private|protected|final)\s+/g, "");
 
+      // 2. ሁሉንም Class ስሞች ማግኘት (ተጠቃሚው የፈጠራቸውን አዲስ ክላሶች ጨምሮ)
       var classNames = [];
       var rx = /\bclass\s+([A-Za-z_]\w*)/g;
       var match;
       while ((match = rx.exec(js)) !== null) {
-        var [, cname] = match;
-        classNames.push(cname);
+        classNames.push(match[1]);
       }
 
-      // Collect class field names & remove field declarations
+      // 3. የClass fields መለየት
       var fields = [];
-      js = js.replace(/^\s*(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*(?:=[^;]*)?;/gm, function(_, fname) {
+      js = js.replace(/^(\s*)(?:static\s+)?(?:int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*(?:=[^;]+)?;/gm, function(_, sp, fname) {
         fields.push(fname);
         return "";
       });
 
-      // Convert constructors ONLY when NOT preceded by 'new '
+      // 4. Constructors (ለማንኛውም አዲስ Class) ወደ JS constructor() መቀየር
       classNames.forEach(function(cn) {
         var ctorRx = new RegExp("(^|\\n|\\s)" + cn + "\\s*\\(([^)]*)\\)\\s*\\{", "g");
         js = js.replace(ctorRx, function(full, prefix, params) {
           var args = params.split(",").map(function(p) { return p.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
           return prefix + "constructor(" + args + ") {";
         });
+
+        // Object creation (e.g., BankAccount acc = new BankAccount();)
         var objRx = new RegExp("\\b" + cn + "\\s+([a-zA-Z_]\\w*\\s*=)", "g");
         js = js.replace(objRx, "let $1");
       });
 
-      // Convert main and other methods
-      js = js.replace(/\bstatic\s+void\s+main\s*\([^)]*\)\s*\{/g, "static main(args) {");
-      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, ret, fn, p) {
-
+      // 5. main() እና ሌሎች Methods መቀየር (params ስህተት ተስተካክሏል)
+      js = js.replace(/\bstatic\s+void\s+main\s*\(([^)]*)\)\s*\{/g, "static main(args) {");
+      js = js.replace(/\b(static\s+)?(void|int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*)\s*\(([^)]*)\)\s*\{/g, function(_, st, ret, fn, params) {
         if (fn === "main") return "static main(args) {";
         var args = params.split(",").map(function(p) { return p.trim().split(/\s+/).pop(); }).filter(Boolean).join(", ");
         return (st ? "static " : "") + fn + "(" + args + ") {";
       });
 
-      // Convert local variables
-      js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "let $1");
+      // 6. Local variables (int, double, String...) መቀየር
+      js = js.replace(/\b(int|double|float|String|boolean|char|long|byte|short)\s+([a-zA-Z_]\w*\s*=)/g, "let $2");
 
-      // Automatically resolve class fields (like 'name' or 'age') inside methods
+      // 7. Class fields ውስጥ ያሉ ተለዋዋጮችን this. እንዲጨምርባቸው ማድረግ
       fields.forEach(function(f) {
         var fRx = new RegExp("([^.\\w\"'])" + f + "\\b", "g");
         js = js.replace(fRx, function(m, pre, offset, str) {
@@ -378,17 +477,17 @@ function drawTabs() {
         });
       });
 
+      // 8. System.out.println መቀየር
       js = js.replace(/System\.out\.println/g, "printLine");
       js = js.replace(/System\.out\.print/g, "printLine");
 
-      // Find the class that owns main()
-      var targetClass = classNames.at(-1);
+      // 9. main() ያለበትን Class አግኝቶ ማስኬድ
+      var targetClass = classNames[classNames.length - 1];
       var blocks = js.split(/(?=\bclass\s+)/);
       blocks.forEach(function(b) {
         var m = b.match(/\bclass\s+([A-Za-z_]\w*)/);
         if (m && /\bstatic\s+main\s*\(/.test(b)) {
-          var [, found] = m;
-          targetClass = found;
+          targetClass = m[1];
         }
       });
 
@@ -403,6 +502,7 @@ function drawTabs() {
       out.textContent = "Error: " + e.message;
     }
   }
+
 
   ed.value = files[current];
   drawTabs();
